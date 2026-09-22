@@ -1,0 +1,12 @@
+{
+  "files": {
+    "assets/hr.sqlite": "8eb091d7076eb94249c16ee3f1f4ee9a690e5a7f491cea4e5f1aba565a5c8878",
+    "assets/retail.sqlite": "776efbeeb69b9d6815a0c505fbee27cde619a4ea1aa4bffc639debfeb0910bc0",
+    "cases.jsonl": "d337d8dd3aa741d7ce8552df1581fe54ce39066fc99bcfe494f7f7e25f5983ab"
+  },
+  "generator": "gen_home_20.py",
+  "n_cases": 20,
+  "seed": 1420,
+  "test_id": "HOME-20",
+  "version": "n1"
+}

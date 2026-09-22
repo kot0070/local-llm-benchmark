@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html><head><title>Helios API Quickstart</title></head>
+<body>
+<nav class="topnav"><a href="/">Home</a> | <a href="/docs">Docs</a> | <a href="/blog">Blog</a></nav>
+<header><div class="menu">Products Solutions Pricing Contact Login</div></header>
+<div class="cookie-banner">We value your privacy. Accept all cookies? <button>Accept</button></div>
+<style>.main{max-width:800px;margin:auto}table{border-collapse:collapse}</style>
+<script>window.__analytics={id:"UA-0000"};</script>
+<main>
+<h1>Helios API Quickstart</h1>
+<p>This guide explains <code>client.orders()</code> with a <strong>rate limit</strong> setup and an <em>retry policy</em>. See the <a href="https://docs.example.com/helios/api">API reference</a> for background.</p>
+<h2>Authentication</h2>
+<ul>
+      <li>Create a token in settings</li>
+      <li>Install the SDK with pip</li>
+      <li>Run the snippet below</li>
+</ul>
+<h2>First request</h2>
+<ol>
+<li>Follow the steps in order
+  <ul>
+    <li>Nested check for helios-api</li>
+  </ul>
+</li>
+<li>Confirm with a colleague</li>
+</ol>
+<h3>Handling errors</h3>
+<table>
+<thead><tr><th>Endpoint</th><th>Method</th><th>Purpose</th></tr></thead>
+<tbody>
+      <tr><td>/v1/orders</td><td>GET</td><td>List orders</td></tr>
+      <tr><td>/v1/refunds</td><td>POST</td><td>Create refund</td></tr>
+</tbody>
+</table>
+<pre><code class="language-python">import helios
+client = helios.Client(token=&quot;TK-123&quot;)
+print(client.orders())</code></pre>
+<img src="https://cdn.example.com/img/api.png" alt="API sequence diagram" />
+</main>
+<footer>Helios Docs, 2026. All rights reserved.</footer>
+</body></html>

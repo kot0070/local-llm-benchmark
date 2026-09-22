@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><title>Deploying the Atlas Scheduler</title></head>
+<body>
+<nav class="topnav"><a href="/">Home</a> | <a href="/docs">Docs</a> | <a href="/blog">Blog</a></nav>
+<header><div class="menu">Products Solutions Pricing Contact Login</div></header>
+<div class="cookie-banner">We value your privacy. Accept all cookies? <button>Accept</button></div>
+<style>.main{max-width:800px;margin:auto}table{border-collapse:collapse}</style>
+<script>window.__analytics={id:"UA-0000"};</script>
+<main>
+<h1>Deploying the Atlas Scheduler</h1>
+<p>This guide explains <code>atlas.yaml</code> with a <strong>zero-downtime</strong> setup and an <em>canary phase</em>. See the <a href="https://docs.example.com/atlas/ops">operations guide</a> for background.</p>
+<h2>Prerequisites</h2>
+<ul>
+      <li>Install the agent on each node</li>
+      <li>Copy the token from the dashboard</li>
+      <li>Start the service and check logs</li>
+</ul>
+<h2>Configuration</h2>
+<ol>
+<li>Follow the steps in order
+  <ul>
+    <li>Nested check for atlas-scheduler</li>
+  </ul>
+</li>
+<li>Confirm with a colleague</li>
+</ol>
+<h3>Verifying the rollout</h3>
+<table>
+<thead><tr><th>Flag</th><th>Default</th><th>Meaning</th></tr></thead>
+<tbody>
+      <tr><td>workers</td><td>4</td><td>Pool size</td></tr>
+      <tr><td>timeout</td><td>30s</td><td>Task limit</td></tr>
+</tbody>
+</table>
+<pre><code class="language-bash">atlas deploy --workers 4
+atlas status --watch</code></pre>
+<img src="https://cdn.example.com/img/atlas.png" alt="Scheduler overview diagram" />
+</main>
+<footer>Helios Docs, 2026. All rights reserved.</footer>
+</body></html>

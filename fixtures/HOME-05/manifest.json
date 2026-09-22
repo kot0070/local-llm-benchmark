@@ -1,0 +1,26 @@
+{
+  "files": {
+    "assets/chart_00_bar_sum2.png": "73375917d8774c032f148697a774ac46d40c5a621bfc4dbf668540992520c90e",
+    "assets/chart_01_bar_diff.png": "48e7287acb390e99bd0677d1f86aed78f7c98550e34d001fb6400d107870d08d",
+    "assets/chart_02_grouped_increase.png": "2420eb5a6c98a53844cbaa8adda23dc39fb28040a7449a363d972f7d100f033b",
+    "assets/chart_03_line_max.png": "f36ceeb6d85700cd33e057049c39021701786a27662df3b2941b9a5520026f12",
+    "assets/chart_04_line_second.png": "e63a072eabf8a6bedd8b1168ad1b818d2b17c48152d6ec372dae955896182bde",
+    "assets/chart_05_twoline_series_total.png": "f3477239f3f3e376c9dbf2711efcf50b0b22b8824721eed05769224452c849f6",
+    "assets/chart_06_pie_max.png": "fb4d78c99c51a92607ac004dd90b1c9f2488bea2c41904f76595f0cd801ff63d",
+    "assets/chart_07_bar_ratio.png": "c627d76adab0422670c14d58dba944637b90dfae906c8bbb48c8b81fadaa5b65",
+    "assets/chart_08_grouped_avg.png": "971eeb623fb9e597fff510d8e81d2abf1a983a048e7b46691302def859d7bad7",
+    "assets/chart_09_bar_total.png": "60f15a27b8530d7d977d37b380ca2a1f4431e8d02366eedb8d306c41a9b38aee",
+    "assets/chart_10_line_value.png": "4e70fe05129318f9f5a9d53547e0d3b9b2dcfa088ce58b685999484dc66a318f",
+    "assets/chart_11_twoline_increase.png": "d70876e6957ca4921a2ad791d989650630a795f4f9b68d5b5d26a08781011e6c",
+    "cases.jsonl": "e2399c265395d6dbeed00f8988ee1712acb19e2880f6f3edb0ab9400e9e0e277"
+  },
+  "fonts": {
+    "arial.ttf": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+    "arialbd.ttf": "e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5",
+    "consola.ttf": "cf00b507b3286870cc5064ebd0633c303f70b491a4af25eec2d32df413db0179"
+  },
+  "generator": "gen_home_05.py",
+  "n_cases": 12,
+  "seed": 505,
+  "test_id": "HOME-05"
+}

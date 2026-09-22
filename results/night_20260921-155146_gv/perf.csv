@@ -1,0 +1,2 @@
+tag,cold_load_s,ttft_s,prompt_tok_s,gen_tok_s,vram_peak_mb,offload_ratio,throttle
+granite3.2-vision:2b,2.55191171169281,0.13105762004852295,6598.841967033338,175.6126712599742,,1.0,

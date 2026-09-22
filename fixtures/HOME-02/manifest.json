@@ -1,0 +1,9 @@
+{
+  "files": {
+    "cases.jsonl": "56ca4a1f6b6d8a37e2eac4164011696ad3b2651e484cdb96f89271e429af92be",
+    "corpus.jsonl": "7a8e4cdcdeb9c6693200042b562dc16b0cf77c5db5dfb5ddb512e0a921d6e539"
+  },
+  "n_cases": 40,
+  "seed": 207,
+  "test_id": "HOME-02"
+}

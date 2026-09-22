@@ -1,0 +1,31 @@
+{
+  "files": {
+    "assets/table_10.png": "9c96a200488fd0c3d6d39472d8aa7d34640c91ead4dc69d805fb14f6bd475ba8",
+    "assets/table_11.png": "f2a954d603761fb6ec82ab42997c3b5c15e9933a65e29f2a76e6070a518a1f22",
+    "assets/table_12.png": "a8ccbd6d501239f9679594cccfaff7e83c870dc324ee7b1a8b3ab110d3009fba",
+    "assets/table_13.png": "eb5915298778fcbef0bedc2cf4ad2ddf3446a95497838002e326b30a36e93f84",
+    "assets/table_14.png": "5e3caccc71b76af1f8ed29f10a0272852276059a789f715d8041e69b5ada0993",
+    "assets/table_15.png": "d285ae8e7d134707e82d69529bf1ae70a67384f7e0f2c2ffbdccb5aa01ceb3bf",
+    "assets/text_00_en.png": "ececa50479fe62fecd0dcca112c673bc507f84d1505c0b548e0713a07501b440",
+    "assets/text_01_en.png": "437948874235029923328c53ae0e196020646a9af6a9e5c9d949b018d783ccff",
+    "assets/text_02_uk.png": "dfb776017f7b445a3210b0027c8c45862eb3b80902dbf9feb04aa1fafec1de14",
+    "assets/text_03_uk.png": "4ad4685688daafd2400a8ce13b31fd97d3082e3256a5fb14ac6311f3402e1606",
+    "assets/text_04_de.png": "f58707483932e7cf7d9494ae06318cd02eba3dd9d81e6cd6bd1e05b4feead910",
+    "assets/text_05_de.png": "ea28adc5671d3327105b47a4f0d8d82acfa6a8817851ee452fa3dbd4c478df33",
+    "assets/text_06_es.png": "84c0a81563b53efad1f8ccba79145d7bf09002502cd87874153c2eb2c1d97045",
+    "assets/text_07_en.png": "8591f1096cb25a71eb9ee094f4e39f7aa54fe8ceff15c5dc69bd6f542c7b2f2f",
+    "assets/text_08_uk.png": "aab804ecf50be79decbf2371054951a963970d16ef98cb5b57a94e1455b5813b",
+    "assets/text_09_zh.png": "060dcc4bd5396cdb1a13d687b711b7b15bc698f99a2630ad2be832c06308ecfc",
+    "cases.jsonl": "872905a64bb032773e02586806832523acee4ec2eba67253f93cd1ec5afd5c48"
+  },
+  "fonts": {
+    "arial.ttf": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+    "arialbd.ttf": "e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5",
+    "consola.ttf": "cf00b507b3286870cc5064ebd0633c303f70b491a4af25eec2d32df413db0179",
+    "msyh.ttc": "d79c55e68b1131eea0cc1c47be4f572d964f28c682e143db2ad09c1e4cb07a3f"
+  },
+  "generator": "gen_home_23.py",
+  "n_cases": 16,
+  "seed": 2323,
+  "test_id": "HOME-23"
+}

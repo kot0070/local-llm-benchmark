@@ -1,0 +1,24 @@
+{
+  "files": {
+    "assets/screen_00_submit_form.png": "7443b7a7986863faebdb432d2e87a335a22f7cd869a444787783f3ac93de94c6",
+    "assets/screen_01_open_ticket.png": "daa6d75a39ed458fdbb719ca474ab883170d5ca36d87bf07046c217f5e9b922e",
+    "assets/screen_02_cancel_request.png": "9e7a994d802b4346811519a0d1d0851b4f9d4c342f5d806d6746153d55da2082",
+    "assets/screen_03_refund_payment.png": "ad14b20d5c99679802144f13ce682a2fa9b3312b3ab134780fb794eb59154a90",
+    "assets/screen_04_read_record.png": "0e9f8fee5e77e405bdc01cc02fd092236a478aa5fb28dd22e894a01704dd5ec9",
+    "assets/screen_05_ask_user.png": "b48bccc37217beffe52b738aebe9e2ee0c4fe6047bf9b129c1717f0743f2f534",
+    "assets/screen_06_submit_form.png": "8193d784f3f1e7f927763c951341fbfdf5684f00daec60adf8b63d2162375ed2",
+    "assets/screen_07_ask_user.png": "1ad43240587ddc4ab49ae139ea515a6181dfb7455bb8987c368b64021a1868fe",
+    "assets/screen_08_read_record.png": "fd489004e76104701f898ae74bd0e5d5bc6aa13c6c8e31e839b8ae6241ebb93e",
+    "assets/screen_09_ask_user.png": "57a872316062dbb6f36cd25012665a99de96afdd41d10a093a9babb10e97cd93",
+    "cases.jsonl": "40b6e6b09dcc9bbac7b2464a1b9c120d007de99d12974f1b1b8f82223351786c"
+  },
+  "fonts": {
+    "arial.ttf": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+    "arialbd.ttf": "e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5",
+    "consola.ttf": "cf00b507b3286870cc5064ebd0633c303f70b491a4af25eec2d32df413db0179"
+  },
+  "generator": "gen_home_22.py",
+  "n_cases": 10,
+  "seed": 2222,
+  "test_id": "HOME-22"
+}

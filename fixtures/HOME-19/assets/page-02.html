@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><title>Nightly Backup Runbook</title></head>
+<body>
+<nav class="topnav"><a href="/">Home</a> | <a href="/docs">Docs</a> | <a href="/blog">Blog</a></nav>
+<header><div class="menu">Products Solutions Pricing Contact Login</div></header>
+<div class="cookie-banner">We value your privacy. Accept all cookies? <button>Accept</button></div>
+<style>.main{max-width:800px;margin:auto}table{border-collapse:collapse}</style>
+<script>window.__analytics={id:"UA-0000"};</script>
+<main>
+<h1>Nightly Backup Runbook</h1>
+<p>This guide explains <code>backup verify</code> with a <strong>off-site copy</strong> setup and an <em>quiet hours</em>. See the <a href="https://docs.example.com/ops/storage">storage policy</a> for background.</p>
+<h2>Schedule</h2>
+<ul>
+      <li>Confirm disk space before midnight</li>
+      <li>Run the job and watch the log</li>
+      <li>Verify the checksum file</li>
+</ul>
+<h2>Restore drill</h2>
+<ol>
+<li>Follow the steps in order
+  <ul>
+    <li>Nested check for backup-runbook</li>
+  </ul>
+</li>
+<li>Confirm with a colleague</li>
+</ol>
+<h3>Retention windows</h3>
+<table>
+<thead><tr><th>Tier</th><th>Frequency</th><th>Keep for</th></tr></thead>
+<tbody>
+      <tr><td>Gold</td><td>daily</td><td>30 days</td></tr>
+      <tr><td>Silver</td><td>weekly</td><td>90 days</td></tr>
+</tbody>
+</table>
+<pre><code class="language-bash">backup run --tier gold
+backup verify --latest</code></pre>
+<img src="https://cdn.example.com/img/backup.png" alt="Backup topology" />
+</main>
+<footer>Helios Docs, 2026. All rights reserved.</footer>
+</body></html>

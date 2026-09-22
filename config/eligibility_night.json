@@ -1,0 +1,2416 @@
+{
+ "HOME-01": {
+  "aya-expanse:8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-02": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "bge-m3:latest": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "gemma3:12b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "glm-ocr:latest": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "granite3.2-vision:2b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "nomic-embed-text:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen2.5vl:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3.5:4b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  }
+ },
+ "HOME-03": {
+  "aya-expanse:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-04": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 13500, runtime 8192"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 13500, runtime 8192"
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "O",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-05": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "glm-ocr:latest": {
+   "code": "O",
+   "reason": ""
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "granite3.2-vision:2b": {
+   "code": "E",
+   "reason": ""
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5vl:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-06": {
+  "aya-expanse:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-07": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "O",
+   "reason": "QA не є документованим сценарієм GLM-OCR (лише parsing/IE)"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "granite3.2-vision:2b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5vl:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-08": {
+  "aya-expanse:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-09": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 36000, runtime 8192"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 36000, runtime 8192"
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 36000, runtime 32768"
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-10": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 28000, runtime 8192"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 28000, runtime 8192"
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-11": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "bge-m3:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "gemma3:12b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "glm-ocr:latest": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "granite3.2-vision:2b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "nomic-embed-text:latest": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen2.5vl:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "qwen3.5:4b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  }
+ },
+ "HOME-12": {
+  "aya-expanse:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "O",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-13": {
+  "aya-expanse:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "O",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-14": {
+  "aya-expanse:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "E",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-15": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "gemma3:12b": {
+   "code": "O",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "granite3.2-vision:2b": {
+   "code": "O",
+   "reason": ""
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5vl:7b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3.5:4b": {
+   "code": "O",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-16": {
+  "aya-expanse:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-17": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 14000, runtime 8192"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 14000, runtime 8192"
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "O",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-18": {
+  "aya-expanse:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "O",
+   "reason": "багатоходовий діалог не задокументовано"
+  },
+  "gemma3:12b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  }
+ },
+ "HOME-19": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 16000, runtime 8192"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CONTEXT_WINDOW: потрібно 16000, runtime 8192"
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "O",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "sqlcoder:7b": {
+   "code": "S",
+   "reason": "поза scope"
+  }
+ },
+ "HOME-20": {
+  "aya-expanse:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "E",
+   "reason": ""
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "nuextract:3.8b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "sqlcoder:7b": {
+   "code": "E",
+   "reason": "HOME"
+  }
+ },
+ "HOME-21": {
+  "aya-expanse:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "O",
+   "reason": "багатоходовий діалог не задокументовано"
+  },
+  "gemma3:12b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  }
+ },
+ "HOME-22": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "gemma3:12b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "granite3.2-vision:2b": {
+   "code": "O",
+   "reason": ""
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5vl:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  }
+ },
+ "HOME-23": {
+  "aya-expanse:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "command-r7b:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "deepseek-r1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "functiongemma:270m": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "gemma3:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "glm-ocr:latest": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "granite3.2-vision:2b": {
+   "code": "E",
+   "reason": ""
+  },
+  "lfm2.5:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "llama3.1:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "mistral-nemo:12b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "phi4-mini:latest": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5-coder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen2.5vl:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:1.7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:14b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3:8b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-24": {
+  "aya-expanse:8b": {
+   "code": "O",
+   "reason": ""
+  },
+  "bge-m3:latest": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "command-r7b:7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "deepseek-r1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "functiongemma:270m": {
+   "code": "E",
+   "reason": "HOME"
+  },
+  "gemma3:12b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "glm-ocr:latest": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "granite-code:8b-instruct": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "granite3.2-vision:2b": {
+   "code": "S",
+   "reason": "поза scope"
+  },
+  "lfm2.5:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "llama-guard3:8b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "llama3.1:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "mistral-nemo:12b": {
+   "code": "E",
+   "reason": ""
+  },
+  "nomic-embed-text:latest": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "nuextract:3.8b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "phi4-mini:latest": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen2.5-coder:7b": {
+   "code": "O",
+   "reason": ""
+  },
+  "qwen2.5vl:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "qwen3:1.7b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:14b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3:8b": {
+   "code": "E",
+   "reason": ""
+  },
+  "qwen3.5:4b": {
+   "code": "E",
+   "reason": ""
+  },
+  "reader-lm:1.5b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  },
+  "sqlcoder:7b": {
+   "code": "U",
+   "reason": "CAP: немає tools"
+  }
+ },
+ "_deferred": {
+  "Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf": {
+   "key": "devstral-small-2-24b",
+   "runtime": "LM_STUDIO",
+   "reason": "LM Studio runtime not initialized (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "gpt-oss-20b-MXFP4.gguf": {
+   "key": "gpt-oss-20b",
+   "runtime": "LM_STUDIO",
+   "reason": "LM Studio runtime not initialized (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf (+ mmproj F16)": {
+   "key": "ministral-3-8b",
+   "runtime": "LM_STUDIO",
+   "reason": "LM Studio runtime not initialized (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Qwen3-VL-8B-Instruct-Q4_K_M.gguf (+ mmproj F16)": {
+   "key": "qwen3-vl-8b",
+   "runtime": "LM_STUDIO",
+   "reason": "LM Studio runtime not initialized (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Qwen3.5-9B-Q4_K_M.gguf": {
+   "key": "qwen3.5-9b",
+   "runtime": "LM_STUDIO",
+   "reason": "LM Studio runtime not initialized (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Qwen3.5-35B-A3B-Q3_K_M.gguf": {
+   "key": "qwen3.5-35b-a3b",
+   "runtime": "LM_STUDIO",
+   "reason": "LM Studio runtime not initialized (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "BGE-Reranker-v2-m3": {
+   "key": "bge-reranker-v2-m3",
+   "runtime": "SPECIALISTS",
+   "reason": "Specialist not installed (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "DeepSeek-OCR": {
+   "key": "deepseek-ocr",
+   "runtime": "SPECIALISTS",
+   "reason": "Specialist not installed (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Kokoro-TTS": {
+   "key": "kokoro-82m",
+   "runtime": "SPECIALISTS",
+   "reason": "Specialist not installed (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Nomic-Embed-Code": {
+   "key": "nomic-embed-code",
+   "runtime": "SPECIALISTS",
+   "reason": "Specialist not installed (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Phi-4-Multimodal": {
+   "key": "phi-4-multimodal",
+   "runtime": "SPECIALISTS",
+   "reason": "Specialist not installed (NIGHT-1 Ollama only; reported as DEFERRED)"
+  },
+  "Qwen3-ASR-1.7B": {
+   "key": "qwen3-asr-1.7b",
+   "runtime": "SPECIALISTS",
+   "reason": "Specialist not installed (NIGHT-1 Ollama only; reported as DEFERRED)"
+  }
+ }
+}

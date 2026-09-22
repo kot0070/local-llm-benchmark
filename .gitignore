@@ -1,0 +1,35 @@
+# Internal working notes (per-task agent contracts, audit logs; not written for public use)
+tasks/
+
+# Raw internal operations log (hour-by-hour PIDs, informal working notes); the polished
+# narrative from it lives in README.md's "Engineering process" section instead
+MASTER_PLAN.md
+
+# Raw execution transcripts
+logs/
+
+# Python / pytest noise
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Earlier, narrower staging folder for a different publish plan; kept locally, not tracked
+publish/
+
+# Intermediate development smoke runs, not the deliverable
+results/SMOKE*/
+
+# Bulk raw data and per-block detail (the scored tables below carry the publishable data)
+results/*/results.jsonl
+results/*/telemetry.csv
+results/*/errors.csv
+results/*/preflight.json
+results/*/models/
+
+# Duplicate spreadsheet export; the CSV tables and NIGHT1_REPORT.xlsx carry the same data
+results/*/owner_summary.xlsx
+
+# Guard: the consolidated workbook is the one spreadsheet this repo ships.
+# (No broad *.xlsx ignore exists above; this negation documents the intent
+# and protects the file if one is ever added.)
+!results/night_20260921-155146/NIGHT1_REPORT.xlsx

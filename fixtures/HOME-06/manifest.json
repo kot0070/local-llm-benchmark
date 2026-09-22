@@ -1,0 +1,10 @@
+{
+  "files": {
+    "cases.jsonl": "0b01dc7f25426bfcffff1bdf3db5a23e074353d58220181c4665cea866681541"
+  },
+  "generator": "gen_home_06.py",
+  "n_cases": 12,
+  "seed": 1406,
+  "test_id": "HOME-06",
+  "version": "n1"
+}
