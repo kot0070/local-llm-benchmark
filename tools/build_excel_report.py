@@ -23,7 +23,6 @@ import json
 import os
 import sys
 import zipfile
-from collections import Counter
 from datetime import datetime
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -36,11 +35,15 @@ XLSX_NAME = "NIGHT1_REPORT.xlsx"
 FIXED_DT = (2020, 1, 1, 0, 0, 0)
 
 SHEET_NAMES = [
+    "Стислий підсумок",
     "Огляд",
+    "Оцінка моделей",
+    "Рекомендації",
+    "Сильні та слабкі сторони",
+    "Деталі по тестах",
+    "Аналіз помилок",
     "HOME-вердикти",
     "Рейтинг по тестах",
-    "Профілі моделей",
-    "Сильні та слабкі сторони",
     "Швидкість",
     "Відомі особливості",
     "HOME-07 (окремий прогін)",
@@ -166,11 +169,6 @@ def _num_or_none(v):
         return None
 
 
-def _verdict_sub_reason(v: dict) -> str:
-    det = v.get("details") or {}
-    return str(v.get("sub_reason") or det.get("sub_reason") or "-")
-
-
 # ---------------------------------------------------------------- formatting
 
 def _style_table(ws, widths: list[float], numfmt: dict[int, str] | None = None):
@@ -229,8 +227,7 @@ def _save_deterministic(wb, path: str) -> None:
 
 def _sheet_overview(wb, run_id: str, manifest: dict, records: list[dict],
                     gv_records: list[dict]) -> None:
-    ws = wb.active
-    ws.title = SHEET_NAMES[0]
+    ws = wb.create_sheet(SHEET_NAMES[1])
     ov = _report.run_overview(records)
     start, end = _run_times(manifest, records)
     fp = manifest.get("fingerprint") or {}
@@ -246,7 +243,11 @@ def _sheet_overview(wb, run_id: str, manifest: dict, records: list[dict],
          if (start is not None and end is not None and end >= start) else ""],
         ["бюджет, год", manifest.get("budget_hours", "")],
         ["Ollama", manifest.get("ollama_version", "")],
-        ["GPU", fp.get("gpu", "") or ""],
+        # Rendered as a fixed string, never from manifest fingerprint: the
+        # raw fingerprint is an nvidia-smi dump containing the card's unique
+        # hardware UUID plus driver/wattage fragments that must not ship in
+        # a public artifact (mirrors build_excel_report_en.py).
+        ["GPU", "NVIDIA GeForce RTX 3070 (8 \u0413\u0411 VRAM)"],
         ["моделей запущено", ov["n_models"]],
         ["моделі", ", ".join(ov["models"])],
         ["тестів запущено", ov["n_tests"]],
@@ -288,7 +289,7 @@ def _sheet_overview(wb, run_id: str, manifest: dict, records: list[dict],
 
 
 def _sheet_verdicts(wb, records: list[dict], per_test: dict) -> None:
-    ws = wb.create_sheet(SHEET_NAMES[1])
+    ws = wb.create_sheet(SHEET_NAMES[7])
     titles, home_of_test = _test_meta()
     hv = _report.home_verdicts(per_test, records)
     ws.append(["Тест", "Назва", "HOME-модель", "HOME Q_sem", "HOME n",
@@ -349,7 +350,7 @@ def _sheet_verdicts(wb, records: list[dict], per_test: dict) -> None:
 
 
 def _sheet_rating(wb, per_test: dict) -> None:
-    ws = wb.create_sheet(SHEET_NAMES[2])
+    ws = wb.create_sheet(SHEET_NAMES[8])
     ws.append(["Тест", "Модель", "Q_sem", "Q_strict", "n_scored", "n_total",
                "coverage", "CI low", "CI high", "Покриття < 0.9",
                "Статус рейтингу"])
@@ -371,263 +372,8 @@ def _sheet_rating(wb, per_test: dict) -> None:
                  {2: "0.000", 3: "0.000", 6: "0.0%", 7: "0.000", 8: "0.000"})
 
 
-def _sheet_profiles(wb, records: list[dict], per_model: dict,
-                    perf_csv_rows: list[dict]) -> None:
-    ws = wb.create_sheet(SHEET_NAMES[3])
-    ws.append(["Модель", "HOME-тест", "HOME Q_sem", "HOME n",
-               "Тестів (без PERF)", "Середній Q_sem", "Топ-невдачі (2)",
-               "gen tok/s"])
-    try:
-        from bench import registry as _reg
-        mods = _reg.discover(os.path.join(ROOT, "bench", "tests"))
-        home_of_model = _reg.home_model_map(mods)
-    except Exception:
-        home_of_model = {}
-    fail_reasons: dict[str, Counter] = {}
-    for r in records:
-        v = _report.verdict_of(r)
-        if v.get("status") not in ("OK",):
-            tag = _report.model_of(r)
-            key = "%s[%s]" % (v.get("status", "?"), _verdict_sub_reason(v))
-            fail_reasons.setdefault(tag, Counter())[key] += 1
-    perf_by_tag = {str(row.get("tag", "")): row for row in perf_csv_rows}
-    for tag in sorted(per_model):
-        tests = {t: s for t, s in per_model[tag]["tests"].items() if t != "PERF"}
-        n_tests = len(tests)
-        scored = [s for s in tests.values() if (s.get("n_scored") or 0) > 0]
-        mean: object = (round(sum(s["q_sem"] for s in scored) / len(scored), 3)
-                        if scored else "")
-        home_tid = home_of_model.get(tag, "")
-        home_s = tests.get(home_tid)
-        if home_s is None:
-            home_q: object = ""
-            home_n = ""
-        elif (home_s.get("n_scored") or 0) == 0:
-            home_q = ""
-            home_n = "%d/%d" % (home_s["n_scored"], home_s["n_total"])
-        else:
-            home_q = round(home_s["q_sem"], 3)
-            home_n = "%d/%d" % (home_s["n_scored"], home_s["n_total"])
-        top = fail_reasons.get(tag, Counter()).most_common(2)
-        fail_txt = "; ".join("%s (x%d)" % (k, n) for k, n in top) if top else "немає"
-        gen: object = NO_GEN_DATA
-        prow = perf_by_tag.get(tag)
-        if prow is not None:
-            g = _num_or_none(prow.get("gen_tok_s"))
-            gen = round(g, 1) if g is not None else NO_GEN_DATA
-        ws.append([tag, home_tid, home_q, home_n, n_tests, mean, fail_txt, gen])
-    _style_table(ws, [24, 12, 12, 10, 14, 13, 44, 11],
-                 {2: "0.000", 5: "0.000", 7: "0.0"})
-
-
-STRONG_HEADER = ["Модель", "Сильні сторони", "Слабкі сторони",
-                   "Рекомендація для цього заліза (RTX 3070 8 ГБ)", "Джерело"]
-STRONG_NONE = "немає вираженних сильних сторін у цьому прогоні"
-WEAK_NONE = "суттєвих слабких сторін у цьому прогоні не виявлено"
-
-
-def _fmt_q(q: float) -> str:
-    return "%.3f" % q
-
-
-def _sheet_strengths(wb, records: list[dict], per_model: dict,
-                     perf_csv_rows: list[dict]) -> None:
-    """Per-model strengths/weaknesses + RTX 3070 8GB recommendation.
-
-    Every bullet is derived from this run's own records (via bench.report
-    summaries), perf.csv numbers, or MASTER_PLAN section 5 context already
-    surfaced in ANALYSIS_UK.md. No general priors about model families.
-    Cells in one column are joined with "; " consistently.
-    """
-    from openpyxl.styles import Alignment
-    ws = wb.create_sheet(SHEET_NAMES[4])
-    ws.append(STRONG_HEADER)
-    try:
-        from bench import registry as _reg
-        mods = _reg.discover(os.path.join(ROOT, "bench", "tests"))
-        home_of_model = _reg.home_model_map(mods)
-    except Exception:
-        home_of_model = {}
-    scored_fails: dict[str, Counter] = {}
-    ok_count: dict[str, int] = {}
-    scored_count: dict[str, int] = {}
-    notrun_count: dict[str, int] = {}
-    for r in records:
-        tag = _report.model_of(r)
-        st = _report.verdict_of(r).get("status", "?")
-        if st in _report.SCORED:
-            scored_count[tag] = scored_count.get(tag, 0) + 1
-            if st == "OK":
-                ok_count[tag] = ok_count.get(tag, 0) + 1
-            else:
-                key = "%s[%s]" % (st, _verdict_sub_reason(
-                    _report.verdict_of(r)))
-                scored_fails.setdefault(tag, Counter())[key] += 1
-        elif st == "NOT_RUN_BUDGET":
-            notrun_count[tag] = notrun_count.get(tag, 0) + 1
-    perf_by_tag = {str(row.get("tag", "")): row for row in perf_csv_rows}
-    for tag in sorted(per_model):
-        tests = {t: s for t, s in per_model[tag]["tests"].items()
-                 if t != "PERF"}
-        scored = {t: s for t, s in tests.items()
-                  if (s.get("n_scored") or 0) > 0}
-        n_sc = scored_count.get(tag, 0)
-        n_ok = ok_count.get(tag, 0)
-        ok_rate = (n_ok / n_sc) if n_sc else 0.0
-        mean: float | None = (sum(s["q_sem"] for s in scored.values())
-                              / len(scored)) if scored else None
-        home_tid = home_of_model.get(tag, "")
-        home_s = tests.get(home_tid) if home_tid else None
-        home_q: float | None = None
-        home_n = ""
-        if home_s is not None and (home_s.get("n_scored") or 0) > 0:
-            home_q = float(home_s["q_sem"])
-            home_n = "%d/%d" % (home_s["n_scored"], home_s["n_total"])
-        best_tid, best_q, best_n = "", None, ""
-        worst_tid, worst_q = "", None
-        if scored:
-            ordered = sorted(scored.items(),
-                             key=lambda kv: (-kv[1]["q_sem"],
-                                             -(kv[1].get("n_scored") or 0),
-                                             kv[0]))
-            best_tid = ordered[0][0]
-            best_q = float(ordered[0][1]["q_sem"])
-            best_n = "%d/%d" % (ordered[0][1]["n_scored"],
-                                ordered[0][1]["n_total"])
-            ordered_w = sorted(scored.items(),
-                               key=lambda kv: (kv[1]["q_sem"],
-                                               -(kv[1].get("n_scored") or 0),
-                                               kv[0]))
-            worst_tid = ordered_w[0][0]
-            worst_q = float(ordered_w[0][1]["q_sem"])
-        prow = perf_by_tag.get(tag, {})
-        gen = _num_or_none(prow.get("gen_tok_s"))
-        cold = _num_or_none(prow.get("cold_load_s"))
-        off = _num_or_none(prow.get("offload_ratio"))
-        # ---- strengths (fixed priority order, max 4)
-        s: list[str] = []
-        if home_q is not None and home_q >= 0.7:
-            s.append("Власний тест %s: Q_sem %s (n=%s)" % (
-                home_tid, _fmt_q(home_q), home_n))
-        if best_q is not None and best_q >= 0.8 and best_tid != home_tid:
-            s.append("Найкращий результат %s: Q_sem %s (n=%s)" % (
-                best_tid, _fmt_q(best_q), best_n))
-        if mean is not None and mean >= 0.8 and len(scored) >= 3:
-            s.append("Середній Q_sem %s по %d оцінених тестах" % (
-                _fmt_q(mean), len(scored)))
-        if n_sc and ok_rate >= 0.8 and n_sc >= 20:
-            s.append("Висока частка OK: %d з %d (%.1f%%)" % (
-                n_ok, n_sc, 100.0 * ok_rate))
-        if gen is not None and gen >= 100.0:
-            s.append("Швидка генерація %.1f ток/с (perf.csv)" % gen)
-        if off is not None and off >= 1.0 and gen is not None:
-            s.append("Повний GPU offload (1.0) — вміщується у 8 ГБ VRAM")
-        if n_sc >= 10 and not scored_fails.get(tag):
-            s.append("Чиста відповідність формату: 0 FORMAT_ERROR на %d "
-                     "оцінених записах" % n_sc)
-        elif (n_sc >= 10 and scored_fails.get(tag)
-                and not any(k.startswith("FORMAT_ERROR")
-                            for k in scored_fails[tag])):
-            s.append("Чиста відповідність формату: 0 FORMAT_ERROR на %d "
-                     "оцінених записах" % n_sc)
-        strengths = "; ".join(s[:4]) if s else STRONG_NONE
-        # ---- weaknesses (fixed priority order, max 4)
-        w: list[str] = []
-        if home_q is not None and home_q <= 0.0:
-            s_home_n = home_n
-            w.append("Власний тест %s: Q_sem 0.000 (n=%s)" % (
-                home_tid, s_home_n))
-        elif home_q is not None and home_q < 0.5:
-            w.append("Власний тест %s слабкий: Q_sem %s (n=%s)" % (
-                home_tid, _fmt_q(home_q), home_n))
-        if worst_q is not None and worst_q <= 0.5 and worst_tid != home_tid:
-            w.append("Найгірший результат %s: Q_sem %s" % (
-                worst_tid, _fmt_q(worst_q)))
-        top = scored_fails.get(tag, Counter()).most_common(2)
-        hw_issue = ""
-        if off is not None and off < 1.0 and gen is not None and gen < 25.0:
-            hw_issue = ("Частковий CPU offload (%.3f); повільна генерація "
-                        "%.1f ток/с (perf.csv) — не вміщується у 8 ГБ VRAM"
-                        % (off, gen))
-        elif off is not None and off < 1.0:
-            hw_issue = ("Частковий CPU offload (%.3f) — не вміщується у "
-                        "8 ГБ VRAM" % off)
-        elif gen is not None and gen < 25.0:
-            hw_issue = "Повільна генерація %.1f ток/с (perf.csv)" % gen
-        if top:
-            w.append("%s (x%d)" % (top[0][0], top[0][1]))
-        if hw_issue:
-            w.append(hw_issue)
-        if len(top) > 1:
-            w.append("%s (x%d)" % (top[1][0], top[1][1]))
-        nr = notrun_count.get(tag, 0)
-        if nr >= 10:
-            w.append("Покриття неповне: NOT_RUN_BUDGET x%d" % nr)
-        weaknesses = "; ".join(w[:4]) if w else WEAK_NONE
-        # ---- hardware recommendation (1-2 sentences, always with numbers)
-        if gen is not None and cold is not None:
-            hw = "cold load %.1f c, %.1f ток/с" % (cold, gen)
-        elif cold is not None:
-            hw = "cold load %.1f c, швидкості генерації в perf.csv немає" % (
-                cold,)
-        else:
-            hw = "вимірів швидкості в perf.csv немає"
-        off_txt = ("offload %.3f (частковий CPU offload)" % off
-                   if (off is not None and off < 1.0)
-                   else "повний offload (1.0)"
-                   if off is not None else "offload не виміряно")
-        if len(scored) == 1:
-            only_tid = next(iter(scored))
-            only_q = float(scored[only_tid]["q_sem"])
-            fit = "Єдиний оцінений тест %s (Q_sem %s). " % (
-                only_tid, _fmt_q(only_q))
-        elif best_q is not None:
-            fit = "Найкраще: %s (Q_sem %s); власний %s: %s. " % (
-                best_tid, _fmt_q(best_q),
-                home_tid if home_tid else "-",
-                _fmt_q(home_q) if home_q is not None else "немає оцінки")
-        else:
-            fit = "Оцінених тестів немає. "
-        if off is not None and off < 1.0:
-            verdict = ("На RTX 3070 8 ГБ (%s; %s): практичний вибір лише "
-                       "коли якість на конкретній задачі виправдовує "
-                       "очікування, інакше краще швидша модель з повним "
-                       "offload." % (hw, off_txt))
-        elif best_q is not None and best_q >= 0.9 and gen is not None \
-                and gen >= 70.0:
-            verdict = ("На RTX 3070 8 ГБ (%s; %s): розумний вибір для "
-                       "%s-подібних задач." % (hw, off_txt, best_tid))
-        elif home_q is not None and home_q >= 0.8:
-            verdict = ("На RTX 3070 8 ГБ (%s; %s): розумний вибір для "
-                       "%s." % (hw, off_txt, home_tid))
-        elif home_q is not None and home_q <= 0.0 and home_tid:
-            verdict = ("На RTX 3070 8 ГБ (%s; %s): для %s не рекомендується; "
-                       "розглядати лише під задачі з високим Q_sem вище." % (
-                           hw, off_txt, home_tid))
-        else:
-            verdict = ("На RTX 3070 8 ГБ (%s; %s): обирати під задачі з "
-                       "високим Q_sem вище; для слабких тестів краще "
-                       "щось інше." % (hw, off_txt))
-        reco = fit + verdict
-        # ---- source pointer
-        tids = [t for t in (home_tid, best_tid, worst_tid) if t]
-        seen: list[str] = []
-        for t in tids:
-            if t not in seen:
-                seen.append(t)
-        src = "ANALYSIS_UK.md (%s)%s; perf.csv" % (
-            tag, ("; " + ", ".join(seen)) if seen else "")
-        ws.append([tag, strengths, weaknesses, reco, src])
-    _style_table(ws, [24, 60, 60, 70, 34])
-    wrap = Alignment(wrap_text=True, vertical="top")
-    for row in ws.iter_rows(min_row=2, max_col=5):
-        for cell in row[1:]:
-            cell.alignment = wrap
-        ws.row_dimensions[row[0].row].height = 75
-
-
 def _sheet_speed(wb, perf_csv_rows: list[dict]) -> None:
-    ws = wb.create_sheet(SHEET_NAMES[5])
+    ws = wb.create_sheet(SHEET_NAMES[9])
     ws.append(["Модель", "cold load, s", "TTFT, s", "prompt tok/s",
                "gen tok/s", "offload ratio"])
     rows = sorted(perf_csv_rows,
@@ -659,7 +405,7 @@ def _sheet_speed(wb, perf_csv_rows: list[dict]) -> None:
 
 
 def _sheet_behaviours(wb) -> None:
-    ws = wb.create_sheet(SHEET_NAMES[6])
+    ws = wb.create_sheet(SHEET_NAMES[10])
     ws.append(["Модель", "Особливість"])
     for bullet in _known_behaviours():
         text = bullet[2:] if bullet.startswith("- ") else bullet
@@ -684,7 +430,7 @@ def _supplementary_note_text(run_dir: str) -> str | None:
 
 def _sheet_home07(wb, run_dir: str, records: list[dict],
                   gv_records: list[dict]) -> None:
-    ws = wb.create_sheet(SHEET_NAMES[7])
+    ws = wb.create_sheet(SHEET_NAMES[11])
     ws.append(["Показник", "Уніфікований JSON-контракт (основний прогін)",
                "Plain-answer адаптер (прогін _gv)"])
     main_recs = [r for r in records if _report.test_of(r) == "HOME-07"
@@ -718,6 +464,390 @@ def _sheet_home07(wb, run_dir: str, records: list[dict],
     _style_table(ws, [18, 40, 40], {1: "0.000", 2: "0.000"})
 
 
+# --- Deep-integration additions (12-sheet workbook) -----------------------
+# The per-model Ukrainian deep analysis lives in repo-root
+# analysis_uk/group_{a,b,c,d}.json (written by four sibling agents; this
+# module only renders it through tools/uk_sheets_deep.py).
+ANALYSIS_DIRNAME_UK = "analysis_uk"
+ELIGIBILITY_RELPATH = os.path.join("config", "eligibility_night.json")
+
+# Reuse the English builder's record-grounded quote helper: it derives
+# truth from the records rather than trusting the stored marker. One
+# implementation, so the two workbooks can never normalize differently.
+from tools.build_excel_report_en import (  # noqa: E402
+    normalize_evidence_quote,
+)
+
+
+def _load_eligibility() -> dict:
+    try:
+        with open(os.path.join(ROOT, ELIGIBILITY_RELPATH),
+                  encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _fmt_q3(q: float) -> str:
+    return "%.3f" % q
+
+
+def _uk_executive(run_id: str, manifest: dict, records: list[dict],
+                  per_test: dict, per_model: dict,
+                  perf_csv_rows: list[dict],
+                  gv_records: list[dict]) -> list[tuple[str, str]]:
+    """Data-grounded summary; every number matches the English summary.
+
+    Ukrainian prose written fresh from the Ukrainian material (not
+    translated cell by cell); every number comes from the same
+    bench.report helpers as the English workbook, section for section.
+    """
+    ov = _report.run_overview(records)
+    total = len(records)
+    nbr = ov.get("not_run_budget", 0)
+    pct = (100.0 * nbr / total) if total else 0.0
+    hv = _report.home_verdicts(per_test, records)
+    wins = sum(1 for v in hv.values() if v.get("verdict") == "HOME_WIN")
+    ties = sum(1 for v in hv.values() if v.get("verdict") == "HOME_TIE")
+    losses = sum(1 for v in hv.values() if v.get("verdict") == "HOME_LOSS")
+    fmt_err = ov["counts"].get("FORMAT_ERROR", 0)
+    ok_n = ov["counts"].get("OK", 0)
+    _, home_of_test = _test_meta()
+    home_best: list[tuple[str, str, float, str]] = []
+    for tid, rows in per_test.items():
+        if tid == "PERF":
+            continue
+        home_tag = home_of_test.get(tid, "")
+        home_row = next((r for r in rows if r["model"] == home_tag), None)
+        if home_row is not None and (home_row.get("n_scored") or 0) > 0:
+            home_best.append((tid, home_tag, float(home_row["q_sem"]),
+                              "%d/%d" % (home_row["n_scored"],
+                                         home_row["n_total"])))
+    home_best.sort(key=lambda t: (-t[2], t[0]))
+    if home_best:
+        top3 = "; ".join("%s на %s (Q_sem %s, n=%s)" % (tag, tid, _fmt_q3(q),
+                                                       n)
+                         for tid, tag, q, n in home_best[:3])
+        top3_txt = ("Найсильніші власні результати: %s. "
+                    "Повні числа по тестах — на аркуші "
+                    "«HOME-вердикти»." % top3)
+    else:
+        top3_txt = ("Жоден власний тест не дав оціненого результату "
+                    "в цьому прогоні. Розбивку по тестах дивіться на аркуші "
+                    "«HOME-вердикти».")
+    partial = sorted(str(r.get("tag", "")) for r in perf_csv_rows
+                     if _num_or_none(r.get("offload_ratio")) is not None
+                     and _num_or_none(r.get("offload_ratio")) < 1.0)
+    if len(partial) == 3:
+        hw_txt = ("На цій 8-гігабайтній карті три моделі не вмістилися "
+                  "повністю на GPU і працювали з частковим CPU-offload "
+                  "(%s), що різко знижує швидкість генерації. "
+                  "Деталі — на аркуші «Швидкість»." % ", ".join(partial))
+    elif partial:
+        hw_txt = ("На цій 8-гігабайтній карті %d моделі не вмістилися "
+                  "повністю на GPU і працювали з частковим CPU-offload "
+                  "(%s), що різко знижує швидкість генерації. "
+                  "Деталі — на аркуші «Швидкість»."
+                  % (len(partial), ", ".join(partial)))
+    else:
+        hw_txt = ("Кожна модель із виміряним offload ratio працювала "
+                  "повністю на GPU (offload ratio 1.0). Деталі — на аркуші "
+                  "«Швидкість».")
+    if gv_records:
+        gv_home = _report.summarize_group(
+            [r for r in gv_records if _report.test_of(r) == "HOME-07"
+             and _report.model_of(r) == "granite3.2-vision:2b"])
+        main_recs = [r for r in records if _report.test_of(r) == "HOME-07"
+                     and _report.model_of(r) == "granite3.2-vision:2b"]
+        main_s = _report.summarize_group(main_recs)
+        gv_txt = ("Випадок витягу з документів granite3.2-vision перевірено "
+                  "двічі: Q_sem %s за уніфікованим JSON-контрактом і Q_sem "
+                  "%s з plain-answer адаптером. Обидва кола дали нуль, що "
+                  "вказує на справжнє обмеження здатності моделі, а не на "
+                  "артефакт формату запиту. Повне порівняння — на аркуші "
+                  "«HOME-07 (окремий прогін)»."
+                  % (_fmt_q3(main_s["q_sem"]) if main_s["n_scored"] else "н/д",
+                     _fmt_q3(gv_home["q_sem"]) if gv_home["n_scored"]
+                     else "н/д"))
+    else:
+        gv_txt = ("Випадок витягу з документів granite3.2-vision дав Q_sem "
+                  "0.000 за уніфікованим JSON-контрактом. Подальше "
+                  "порівняння — на аркуші «HOME-07 (окремий прогін)».")
+    return [
+        ("Що це",
+         "Ця книга — звіт NIGHT-1, незалежного бенчмарку локальних великих "
+         "мовних моделей на тестовому harness, зібраному з нуля. Проєкт "
+         "показує проєктування бенчмарків та системну інженерію: прогін із "
+         "жорстким лімітом часу й можливістю продовження, суворий контракт "
+         "оцінювання, пер-модельні виміри швидкості та повністю "
+         "відтворюваний конвеєр звітності."),
+        ("Масштаб прогону",
+         "Один завершений прогін (%s) охопив %d моделі та %d груп тестів із "
+         "%s записами в одній 8-годинній сесії на споживчому залізі (NVIDIA "
+         "GeForce RTX 3070, 8 ГБ VRAM). Аркуш «Огляд» перелічує кожну "
+         "модель, групу тестів і кількість за статусами."
+         % (manifest.get("run_id", run_id), ov["n_models"], ov["n_tests"],
+            "{:,}".format(total))),
+        ("Найкращі власні результати", top3_txt),
+        ("Вердикти власних моделей",
+         "В %d очному порівнянні власних моделей домашня модель записала %d "
+         "перемог, %d нічиїх і %d поразок проти найкращого конкурента на "
+         "спільному наборі кейсів. Кожен вердикт наведено на аркуші "
+         "«HOME-вердикти»." % (wins + ties + losses, wins, ties, losses)),
+        ("Покриття часу",
+         "Із %s записів %d (%0.1f%%) не запущено, бо вони не вмістилися в "
+         "8-годинний ліміт (статус NOT_RUN_BUDGET), і їх виключено з оцінок "
+         "якості, а не пораховано нулями. Середні оцінки якості описують "
+         "лише виконану роботу. Аркуш «Рейтинг по тестах» позначає кожен "
+         "такий рядок явно." % ("{:,}".format(total), nbr, pct)),
+        ("Форма проти змісту",
+         "Моделі дали %s чистих проходжень (статус OK) і %d помилок формату: "
+         "виводи, що порушили контракт відповіді, але все ж отримали "
+         "частковий семантичний бал. Шкала окремо оцінює зміст і формат, "
+         "тож проблеми оформлення ніколи не плутаються з неправильними "
+         "відповідями. Кількість статусів — на аркуші «Огляд»."
+         % ("{:,}".format(ok_n), fmt_err)),
+        ("Відповідність залізу", hw_txt),
+        ("Інженерна знахідка", gv_txt),
+        ("Глибина по моделях",
+         "Оцінки по моделях, рекомендації щодо застосування, сильні та "
+         "слабкі сторони, деталі по тестах і шаблони помилок — на аркушах "
+         "«Оцінка моделей», «Рекомендації», «Сильні та слабкі сторони», "
+         "«Деталі по тестах» та «Аналіз помилок»."),
+    ]
+
+
+def _sheet_summary(wb, run_id: str, manifest: dict, records: list[dict],
+                   per_test: dict, per_model: dict,
+                   perf_csv_rows: list[dict], gv_records: list[dict]) -> None:
+    from openpyxl.styles import Alignment
+    ws = wb.active
+    ws.title = SHEET_NAMES[0]
+    ws.append(["Розділ", "Текст"])
+    for section, text in _uk_executive(run_id, manifest, records, per_test,
+                                       per_model, perf_csv_rows, gv_records):
+        ws.append([section, text])
+    _style_table(ws, [22, 130])
+    wrap = Alignment(wrap_text=True, vertical="top")
+    for row in ws.iter_rows(min_row=2, max_col=2):
+        row[1].alignment = wrap
+        ws.row_dimensions[row[0].row].height = 60
+
+
+# --- Task 2: canonical "Не виконувався" vocabulary -----------------------
+# The four Ukrainian analysis groups each invented their own wording for
+# the same closed set of eligibility reasons, so the Notes column drifted
+# across ~40 phrasings. Every not-attempted note is re-rendered here at
+# render time from config/eligibility_night.json, with one consistent
+# prefix. Model-specific detail beyond the eligibility reason is appended,
+# never discarded. Mirrors the English canonical_not_attempted/normalize
+# machinery; only the fixed strings are Ukrainian.
+
+_NOT_ATTEMPTED_PREFIX_UK = "Не виконувався \u2014 "
+
+# Canonical clause per raw eligibility reason (already Ukrainian in the
+# config; the map only normalizes, never invents a new cause).
+_REASON_GLOSS_UK = {
+    "поза scope": "поза запланованим обсягом цього прогону для цієї моделі",
+    "QA не є документованим сценарієм GLM-OCR (лише parsing/IE)":
+        "QA не є задокументованим сценарієм GLM-OCR (лише parsing/IE)",
+    "багатоходовий діалог не задокументовано":
+        "багатоходовий діалог не задокументований для цієї моделі",
+    "CAP: немає embed":
+        "у моделі немає задокументованої embed-здатності для цього тесту",
+    "CAP: немає text":
+        "у моделі немає задокументованої текстової здатності для цього тесту",
+    "CAP: немає text,tools":
+        "у моделі немає задокументованої текстової та інструментальної "
+        "здатності для цього тесту",
+    "CAP: немає tools":
+        "у моделі немає задокументованої інструментальної здатності для "
+        "цього тесту",
+    "CAP: немає tools,vision":
+        "у моделі немає задокументованої інструментальної та зорової "
+        "здатності для цього тесту",
+    "CAP: немає vision":
+        "у моделі немає задокументованої зорової здатності для цього тесту",
+}
+
+
+def _strip_note_prefix_uk(note: str) -> str:
+    import re as _re
+    s = str(note or "").strip()
+    s = _re.sub(r"^(не виконувався|не оцінювався|ніколи не виконувався)"
+                r"\s*[:\u2014\u2013\-]\s*", "", s,
+                flags=_re.IGNORECASE)
+    return s.strip()
+
+
+# Generic paraphrase words: notes built only from these (plus the
+# canonical clause's own words) are retired as drift. Anything with novel
+# numbers or run-specific facts survives via _SPECIFIC_WORDS_UK.
+_GENERIC_WORDS_UK = frozenset(
+    ("не виконувався оцінювався модель моделі тест тесту прогін прогону "
+     "прогоні запланованим обсягом обсягу поза план обмежив цей іншими "
+     "моделями тож зафіксував блок непідтримуваної здатності здатностей "
+     "задокументованої задокументована задокументоване задокументованим "
+     "задокументований задокументований можливість немає підтримки бачення "
+     "бачити має ані чи до для вводу використання виклику генерації чату "
+     "тексту текстового текстових текстової візуальної візуальна зору "
+     "зорової зорових зорового ембедінгів ембеддингів ембедінгова "
+     "ембеддингова ембедінгової ембеддингової спроможності спроможностей "
+     "інструментів інструментальних інструментальної інструментального "
+     "недокументована недокументовані недокументований багатоходові діалоги "
+     "недокументовані сценарії сценарієм відповіді питання документами є "
+     "чиє застосування лише розбір та витягування інформації потребує "
+     "близько токенів контексту середовище дозволяє потрібний контекст "
+     "перевищує ліміт виконання токенів пару було заплановано цьому і "
+     "причини записано ця була зоною допустимим набором призначав цю на "
+     "запис блока містить подальших причин була запланована пару відхилили "
+     "запуску усі бо задокументована ці інші вікно так третій випадки "
+     "випадків як через до була в а за").split())
+
+# Words marking genuinely run-specific detail worth keeping after the
+# canonical clause (digits handled separately: only digits not already in
+# the canonical clause count).
+_SPECIFIC_WORDS_UK = frozenset(
+    ("бюджет вичерпався незапущені переповнили спробовані запустився "
+     "запитів пропущено англійської мови націлені годинний").split())
+
+
+def _extra_detail_uk(stripped: str, canonical: str) -> str:
+    """Return run-specific detail from a note, or "" when generic.
+
+    Generic paraphrases of the eligibility reason are retired, not kept:
+    they are the drift this normalization removes. Only detail with novel
+    numbers or run-specific facts (budget exhaustion, overflow counts,
+    language scope) survives, appended as its own sentence.
+    """
+    import re as _re
+    if not stripped:
+        return ""
+    words = _re.findall(r"[^\W_]+", stripped.lower(), flags=_re.UNICODE)
+    canon_words = set(_re.findall(r"[^\W_]+", canonical.lower(),
+                                  flags=_re.UNICODE))
+    allowed = set(_GENERIC_WORDS_UK) | canon_words
+    if all(w in allowed for w in words):
+        return ""
+    canon_digits = set(_re.findall(r"\d+", canonical))
+    strip_digits = set(_re.findall(r"\d+", stripped))
+    flat_words = set(words)
+    if (strip_digits - canon_digits) or (flat_words & _SPECIFIC_WORDS_UK):
+        detail = stripped.strip()
+        if detail and detail[-1] not in ".!?":
+            detail += "."
+        return detail[0].upper() + detail[1:] if detail else ""
+    return ""
+
+
+def canonical_not_attempted_uk(test_id: str, model_tag: str,
+                               original_note: str,
+                               eligibility: dict) -> str:
+    """Render one canonical Ukrainian not-attempted note."""
+    import re as _re
+    entry = eligibility.get(test_id, {}).get(model_tag, {})
+    if not isinstance(entry, dict):
+        entry = {}
+    code = str(entry.get("code", "") or "").strip().upper()
+    reason = str(entry.get("reason", "") or "")
+    if code == "S" or reason.strip() == "поза scope":
+        base = (_NOT_ATTEMPTED_PREFIX_UK
+                + "поза запланованим обсягом цього прогону для цієї моделі.")
+    elif code == "O":
+        gloss = _REASON_GLOSS_UK.get(reason.strip(), "")
+        if gloss:
+            base = "%s%s." % (_NOT_ATTEMPTED_PREFIX_UK, gloss)
+        else:
+            base = (_NOT_ATTEMPTED_PREFIX_UK
+                    + "пару не заплановано в цьому прогоні.")
+    elif code == "U":
+        gloss = _REASON_GLOSS_UK.get(reason.strip(), "")
+        if not gloss:
+            m = _re.fullmatch(
+                r"CONTEXT_WINDOW:\s*потрібно\s*(\d+),\s*runtime\s*(\d+)",
+                reason.strip())
+            if m:
+                gloss = ("тесту потрібно %s токенів контексту, середовище "
+                         "виконання має %s" % (m.group(1), m.group(2)))
+        if gloss:
+            base = "%s%s." % (_NOT_ATTEMPTED_PREFIX_UK, gloss)
+        else:
+            base = (_NOT_ATTEMPTED_PREFIX_UK
+                    + "у моделі немає задокументованої здатності для "
+                    "цього тесту.")
+    else:
+        base = (_NOT_ATTEMPTED_PREFIX_UK
+                + "у цьому прогоні немає оцінених кейсів.")
+    extra = _extra_detail_uk(_strip_note_prefix_uk(original_note), base)
+    return base + (" " + extra if extra else "")
+
+
+def normalize_analysis_notes_uk(analysis: list[dict],
+                                eligibility: dict) -> dict[str, int]:
+    """Rewrite every not-attempted per_test note in place; return counts."""
+    from collections import Counter
+    counts: Counter = Counter()
+    for model in analysis:
+        tag = str(model.get("model", "") or "")
+        for entry in model.get("per_test") or []:
+            if not isinstance(entry, dict):
+                continue
+            if str(entry.get("outcome", "") or "").strip().lower() != \
+                    "не виконувався":
+                continue
+            entry["note"] = canonical_not_attempted_uk(
+                str(entry.get("test_id", "") or ""), tag,
+                str(entry.get("note", "") or ""), eligibility)
+            counts[entry["note"]] += 1
+    return dict(counts)
+
+
+def _records_by_case_uk(records: list[dict]) -> dict[tuple[str, str], str]:
+    """Index response.content by (model tag, case id) for quote checks."""
+    index: dict[tuple[str, str], str] = {}
+    for r in records:
+        try:
+            tag = _report.model_of(r)
+            case = str(r.get("key", "")).split("|")[4]
+            content = (r.get("response") or {}).get("content", "")
+        except (IndexError, AttributeError):
+            continue
+        if isinstance(content, str):
+            index.setdefault((str(tag), str(case)), content)
+    return index
+
+
+def normalize_failure_quotes_uk(analysis: list[dict],
+                                records: list[dict]) -> dict[str, int]:
+    """Normalize every failure_analysis quote against the records.
+
+    Derivation reuses the shared English-builder helper, so both
+    workbooks normalize identically; only the trailing marker may change,
+    never the quote text. Returns {"complete": n, "truncated": n,
+    "unverifiable": n}.
+    """
+    from collections import Counter
+    index = _records_by_case_uk(records)
+    counts: Counter = Counter()
+    for model in analysis:
+        tag = str(model.get("model", "") or "")
+        for entry in model.get("failure_analysis") or []:
+            if not isinstance(entry, dict):
+                continue
+            quote = entry.get("example_quote")
+            if not isinstance(quote, str) or not quote.strip():
+                continue
+            full = index.get((tag, str(entry.get("example_case_id", "")
+                                       or "")))
+            rendered, status = normalize_evidence_quote(quote, full)
+            entry["example_quote"] = rendered
+            counts[status] += 1
+    return {"complete": counts.get("complete", 0),
+            "truncated": counts.get("truncated", 0),
+            "unverifiable": counts.get("unverifiable", 0)}
+
+
 def build_workbook(run_dir: str, out_path: str) -> str:
     import openpyxl
     manifest = _load_manifest(run_dir)
@@ -733,11 +863,20 @@ def build_workbook(run_dir: str, out_path: str) -> str:
     run_id = manifest.get("run_id", os.path.basename(run_dir))
     per_test, per_model, _ = _report.compute_tables(records)
     wb = openpyxl.Workbook()
+    _sheet_summary(wb, run_id, manifest, records, per_test, per_model,
+                   perf_csv_rows, gv_records)
     _sheet_overview(wb, run_id, manifest, records, gv_records)
+    # Deep per-model sheets (sibling module owns the builders; this
+    # function only loads, normalizes, and orders them).
+    from tools import uk_sheets_deep as _uk_deep
+    analysis = _uk_deep.load_analysis_uk(
+        os.path.join(ROOT, ANALYSIS_DIRNAME_UK))
+    eligibility = _load_eligibility()
+    normalize_analysis_notes_uk(analysis, eligibility)
+    normalize_failure_quotes_uk(analysis, records)
+    _uk_deep.build_all_uk(wb, analysis)
     _sheet_verdicts(wb, records, per_test)
     _sheet_rating(wb, per_test)
-    _sheet_profiles(wb, records, per_model, perf_csv_rows)
-    _sheet_strengths(wb, records, per_model, perf_csv_rows)
     _sheet_speed(wb, perf_csv_rows)
     _sheet_behaviours(wb)
     _sheet_home07(wb, run_dir, records, gv_records)
