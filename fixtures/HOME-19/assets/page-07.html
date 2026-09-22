@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><title>Corporate VPN Setup</title></head>
+<body>
+<nav class="topnav"><a href="/">Home</a> | <a href="/docs">Docs</a> | <a href="/blog">Blog</a></nav>
+<header><div class="menu">Products Solutions Pricing Contact Login</div></header>
+<div class="cookie-banner">We value your privacy. Accept all cookies? <button>Accept</button></div>
+<style>.main{max-width:800px;margin:auto}table{border-collapse:collapse}</style>
+<script>window.__analytics={id:"UA-0000"};</script>
+<main>
+<h1>Corporate VPN Setup</h1>
+<p>This guide explains <code>wg status</code> with a <strong>device certificate</strong> setup and an <em>split tunnel</em>. See the <a href="https://docs.example.com/sec/baseline">security baseline</a> for background.</p>
+<h2>Enrollment</h2>
+<ul>
+      <li>Enroll the device with IT</li>
+      <li>Import the profile file</li>
+      <li>Test access to git</li>
+</ul>
+<h2>Daily use</h2>
+<ol>
+<li>Follow the steps in order
+  <ul>
+    <li>Nested check for vpn-setup</li>
+  </ul>
+</li>
+<li>Confirm with a colleague</li>
+</ol>
+<h3>Troubleshooting</h3>
+<table>
+<thead><tr><th>OS</th><th>Client</th><th>Version</th></tr></thead>
+<tbody>
+      <tr><td>Linux</td><td>wg-client</td><td>1.4</td></tr>
+      <tr><td>Windows</td><td>wg-client</td><td>1.4</td></tr>
+</tbody>
+</table>
+<pre><code class="language-bash">wg enroll --user $USER
+wg status</code></pre>
+<img src="https://cdn.example.com/img/vpn.png" alt="VPN diagram" />
+</main>
+<footer>Helios Docs, 2026. All rights reserved.</footer>
+</body></html>

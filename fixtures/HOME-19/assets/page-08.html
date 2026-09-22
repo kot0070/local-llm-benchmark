@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html><head><title>Cache Tuning Guide</title></head>
+<body>
+<nav class="topnav"><a href="/">Home</a> | <a href="/docs">Docs</a> | <a href="/blog">Blog</a></nav>
+<header><div class="menu">Products Solutions Pricing Contact Login</div></header>
+<div class="cookie-banner">We value your privacy. Accept all cookies? <button>Accept</button></div>
+<style>.main{max-width:800px;margin:auto}table{border-collapse:collapse}</style>
+<script>window.__analytics={id:"UA-0000"};</script>
+<main>
+<h1>Cache Tuning Guide</h1>
+<p>This guide explains <code>max_mb</code> with a <strong>thundering herd</strong> setup and an <em>warm-up pass</em>. See the <a href="https://docs.example.com/perf/cache">performance notes</a> for background.</p>
+<h2>Measuring hits</h2>
+<ul>
+      <li>Record the baseline hit ratio</li>
+      <li>Apply one change at a time</li>
+      <li>Roll back on regressions</li>
+</ul>
+<h2>Eviction rules</h2>
+<ol>
+<li>Follow the steps in order
+  <ul>
+    <li>Nested check for cache-tuning</li>
+  </ul>
+</li>
+<li>Confirm with a colleague</li>
+</ol>
+<h3>Recommended defaults</h3>
+<table>
+<thead><tr><th>Key prefix</th><th>TTL</th><th>Notes</th></tr></thead>
+<tbody>
+      <tr><td>sess:</td><td>15m</td><td>Volatile</td></tr>
+      <tr><td>cfg:</td><td>24h</td><td>Rarely changes</td></tr>
+</tbody>
+</table>
+<pre><code class="language-yaml">cache:
+  max_mb: 512
+  policy: lru</code></pre>
+<img src="https://cdn.example.com/img/cache.png" alt="Hit-ratio chart" />
+</main>
+<footer>Helios Docs, 2026. All rights reserved.</footer>
+</body></html>

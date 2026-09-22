@@ -1,0 +1,22 @@
+{
+  "files": {
+    "assets/doc_00.png": "b40be9d1ad4d09a81062c62fc1686f561d0ed3b5c1fac8a937e402e069ae99e3",
+    "assets/doc_01.png": "2388e0165670f51bbae87e38fd99ef6d06f8b870c97f0dee28e024a9f8acaf71",
+    "assets/doc_02.png": "3fd41e3da8bed80ee94bcd4d8e59ba8b1e8dea988bbd62f6093ad295aeb054aa",
+    "assets/doc_03.png": "2ed51009aa6c64040ddd76fa56024dad95f4e99013ac728b857844d77aee896b",
+    "assets/doc_04.png": "2eb24e8ea230d3a6de5caf32d0b476f4a82d997dd7b0c6054fe8ccedc7e237ec",
+    "assets/doc_05.png": "6f61dd04c97ed9d7d41ca81c216cde0d04529937aebb0acf2643f0202b1adf91",
+    "assets/doc_06.png": "e51dc87456f0f075f46536e38ed5e6c0272893d56600e7e8e5e5dbb4e7221cb0",
+    "assets/doc_07.png": "7b7d948e5a5787f3f8701e991209dad219a3d341d08f7354c8920999ba7cf84a",
+    "cases.jsonl": "6854ce5b4ce15bf925eea2846043c01431257f1ae90eaa0b2e9de39a122c1d75"
+  },
+  "fonts": {
+    "arial.ttf": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+    "arialbd.ttf": "e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5",
+    "consola.ttf": "cf00b507b3286870cc5064ebd0633c303f70b491a4af25eec2d32df413db0179"
+  },
+  "generator": "gen_home_07.py",
+  "n_cases": 16,
+  "seed": 707,
+  "test_id": "HOME-07"
+}
