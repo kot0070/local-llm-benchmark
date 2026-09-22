@@ -19,8 +19,16 @@ the workbook.
   the file to use for any re-plotting.
 - `perf.csv` — per-model timing probes: cold load seconds, time to first
   token, prompt and generation throughput, offload share.
-- `NIGHT1_REPORT.xlsx` — consolidated 8-sheet workbook built from this run
+- `NIGHT1_REPORT.xlsx` — consolidated 12-sheet workbook (Ukrainian) built from this run
   (plus the gv follow-up): the same scored data in spreadsheet form.
+- `NIGHT1_REPORT_EN.xlsx` — the same 12-sheet analysis in English, the primary
+  artifact for US readers: every (model, test) pair and all 24 model ratings agree
+  with the Ukrainian edition. Per-model depth lives in five sheets — the model
+  scorecard with ratings (`Model Scorecard` / `Оцінка моделей`), recommendations
+  (`Recommendations` / `Рекомендації`), strengths and weaknesses
+  (`Strengths & Weaknesses` / `Сильні та слабкі сторони`), per-model test detail
+  covering all 576 model-test pairs (`Per-Model Test Detail` / `Деталі по тестах`),
+  and failure analysis (`Failure Analysis` / `Аналіз помилок`).
 - `manifest.json` — run identity: run id, budget, sha256 of every file under
   `bench/` `gen/` `config/`, fixture manifests, model digests, fingerprint,
   model order.

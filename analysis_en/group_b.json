@@ -1,0 +1,1719 @@
+[
+  {
+    "model": "glm-ocr:latest",
+    "profile": {
+      "documented": "A vision and text chat model with a documented context limit of 131072 tokens and broad language coverage. It is run with greedy sampling and a documented prompt adapter that uses short task prefixes such as Text Recognition and Table Recognition. Its documented scenario is transcription-style parsing and information extraction, not general question answering.",
+      "role_in_run": "HOME-23, OCR transcription, was designed around this model. That test measures transcription of text images and extraction of table grids from document images."
+    },
+    "overall": {
+      "scored_records": 16,
+      "ok_records": 3,
+      "ok_rate_pct": 18.8,
+      "tests_scored": 1,
+      "mean_q_sem": 0.945,
+      "rating_10": 7.9,
+      "rating_basis": "Mean semantic quality 0.945 over 1 scored test, home-test quality 0.945, and an OK rate of 0.188. The rating rests on a single test and is weakly supported."
+    },
+    "home_test": {
+      "test_id": "HOME-23",
+      "title": "OCR transcription",
+      "q_sem": 0.945,
+      "q_strict": 0.188,
+      "n": "16/16",
+      "analysis": "Transcription quality is high: mean semantic quality 0.945 across all 16 cases, with 3 fully accepted and most of the rest scoring above 0.8. The gap between semantic quality and strict quality comes from two behaviors: the model repeats the transcribed sentence after itself, which breaks the exact-output contract, and table transcriptions run past the token limit so the run is cut off even though the captured cells are correct. The practical reading is that the model reads accurately but its output control is weak: repetition on plain text and over-long output on tables."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: question answering over documents is not a documented scenario for this model, whose documented use is parsing and information extraction only."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.945,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Strong transcription with a 0.945 mean: 3 fully accepted, English and German text cases exact, and all 6 table cases captured with perfect cell scores but cut off by the token limit."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "OUTPUT_TRUNCATED[IN_ANSWER]",
+        "count": 8,
+        "english_meaning": "The model hit the token limit while still writing its answer, so the response was cut off.",
+        "what_the_model_did": "On table images it reproduced every cell correctly but kept writing past the limit, and on one Spanish text image it looped the same sentence until cut off.",
+        "example_case_id": "HOME-23-11",
+        "example_quote": "<table class=\"table table-bordered\"><thead><tr><th>Item</th><th>Qty</th><th>Price</th></tr></thead><tbody><tr><td>Bolts M12</td><td>40</td><td>1.20</td></tr><tr><td>Oak planks</td><td>12</td><td>34.50 [truncated]",
+        "why_it_matters": "Anyone using it for table capture must raise the token budget or post-trim the output, or complete tables will be lost."
+      },
+      {
+        "pattern": "WRONG_ANSWER",
+        "count": 3,
+        "english_meaning": "The transcription was completed but contained character errors above the acceptance threshold.",
+        "what_the_model_did": "On non-English text images the model mixed scripts and dropped words, for example rendering the Chinese delivery-note number as a fragment instead of the full number.",
+        "example_case_id": "HOME-23-10",
+        "example_quote": "港口仓库于周二上午收到了四十二箱铜线。夜间警卫签署了第48",
+        "why_it_matters": "For archival OCR in languages outside English and German, every transcription needs human review."
+      },
+      {
+        "pattern": "FORMAT_ERROR",
+        "count": 2,
+        "english_meaning": "The transcription itself was perfect but extra repeated text around it broke the exact-output contract.",
+        "what_the_model_did": "On the two English text images the model transcribed the sentence with zero character errors and then repeated it again, so the records kept full semantic credit with a format penalty.",
+        "example_case_id": "HOME-23-01",
+        "example_quote": "The harbor warehouse received forty-two crates of copper wire on Tuesday morning. Delivery note #4821 was signed by the night guard. [truncated]",
+        "why_it_matters": "A de-duplication pass over repeated sentences would convert these near-misses into clean passes."
+      }
+    ],
+    "strengths": [
+      "Transcribes English and German prose images with zero character errors, as shown by the exact matches on 3 of 16 cases.",
+      "Captures table grids with perfect cell-level scores on all 6 table cases, including multi-column layouts.",
+      "Holds a 0.945 mean semantic quality across the full 16-case set, the highest single-test mean in this group."
+    ],
+    "weaknesses": [
+      "Repeats transcribed sentences, which breaks exact-output matching even when every character is right.",
+      "Table outputs overflow the token budget, so 6 of 6 table cases were cut off before finishing.",
+      "Non-English transcriptions outside German degrade, with script mixing and dropped words on 3 cases."
+    ],
+    "use_when": [
+      "English document-page transcription where a light de-duplication pass can clean repeated sentences (HOME-23).",
+      "Table-grid capture from invoice or report images where cell content matters more than exact output length (HOME-23).",
+      "German-language prose transcription, which matched exactly in this run (HOME-23)."
+    ],
+    "avoid_when": [
+      "Strict exact-output pipelines with no post-processing, since repetition triggers format penalties.",
+      "Long-table capture under tight token budgets, where output will be cut off mid-table.",
+      "Mixed-script archival OCR without review, where character substitutions slip through."
+    ],
+    "hardware_fit": "Cold load takes about 2.7 seconds and generation runs near 254 tokens per second, the fastest in this group, so interactive OCR feels immediate. The measurements show full accelerator offload with no partial CPU fallback, which keeps that speed consistent. The practical consequence is that this model is cheap to keep resident and fast per page on this hardware.",
+    "bottom_line": "The strongest transcriber in this group with a 0.945 mean on its own OCR test, held back only by output discipline rather than reading ability. Repetition and over-long tables are fixable with post-processing and larger token budgets. For pure image-to-text work on this hardware it is the practical choice."
+  },
+  {
+    "model": "granite-code:8b-instruct",
+    "profile": {
+      "documented": "A text-only chat model with a documented context limit of 128000 tokens and documented English language support. It is run with greedy sampling and packaged stop sequences, and its documented capabilities include code-oriented use with structured output support. No tool calling or vision support is documented for it.",
+      "role_in_run": "HOME-06, bug repair with hidden tests and bug-line localisation, was designed around this model. That test measures fixing buggy functions so hidden tests pass and reporting the buggy line number."
+    },
+    "overall": {
+      "scored_records": 40,
+      "ok_records": 4,
+      "ok_rate_pct": 10.0,
+      "tests_scored": 3,
+      "mean_q_sem": 0.822,
+      "rating_10": 6.9,
+      "rating_basis": "Mean semantic quality 0.822 over 3 scored tests, home-test quality 0.875, and an OK rate of 0.100. Strict quality is 0 because every answer carried extra prose."
+    },
+    "home_test": {
+      "test_id": "HOME-06",
+      "title": "Bug repair with hidden tests and bug-line localisation",
+      "q_sem": 0.875,
+      "q_strict": 0.0,
+      "n": "12/12",
+      "analysis": "The model fixes code well but formats it badly: semantic quality 0.875 with most hidden-test suites passing, yet strict quality 0.0 because all 12 answers wrapped the code in prose and fences. The bug-line report is systematically off by one in 5 cases, for example reporting line 4 where the reference says line 3. The reading is that repair skill is real and localisation is close but consistently shifted, while output-contract compliance is entirely absent."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.875,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Strong repair at 0.875 with most hidden suites passing, but strict 0.0 since every answer added prose and the bug line was off by one in 5 of 12 cases."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.806,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Strong generation at 0.806 with 15 of 16 answers functionally close, but every answer carried fenced code plus prose so strict quality stayed 0.0."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool support."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.786,
+        "n": "12/20",
+        "outcome": "adequate",
+        "note": "Adequate SQL at 0.786 over the 12 scored cases, with 4 exact matches; 8 further cases never ran because the time budget expired."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool support."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool or vision support."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool support."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "FORMAT_ERROR[PROSE_AROUND_CODE]",
+        "count": 22,
+        "english_meaning": "The code itself was good but surrounding explanation text broke the code-only output contract.",
+        "what_the_model_did": "It prepended phrases like introductory sentences and wrapped solutions in fenced blocks on both the bug-repair and code-generation tests, even when all hidden tests passed.",
+        "example_case_id": "HOME-06-03",
+        "example_quote": "Here is the corrected function:\n\n```python\ndef merge_sorted(a, b):\n    i, j, out = 0, 0, []\n    while i < len(a) and j < len(b):\n        if a[i] < b[j]:\n            out.append(a[i])\n            i += 1 [truncated]",
+        "why_it_matters": "Any pipeline that extracts raw code without stripping prose will mis-handle every answer from this model."
+      },
+      {
+        "pattern": "FORMAT_ERROR[WRONG_BUG_LINE]",
+        "count": 5,
+        "english_meaning": "The repaired code passed but the reported buggy line number was wrong.",
+        "what_the_model_did": "It reported a line one higher than the reference in each of the 5 cases, for example line 4 instead of line 3, while all 6 hidden tests passed.",
+        "example_case_id": "HOME-06-01",
+        "example_quote": "Here is the corrected function:\n\n```python\ndef total_upto(n):\n    total = 0\n    for i in range(1, n + 1):\n        total += i\n    return total\n```\n\nBUG_LINE: 4\n",
+        "why_it_matters": "Localisation output needs a minus-one correction or independent verification before it can be trusted."
+      },
+      {
+        "pattern": "FORMAT_ERROR[PROSE_AROUND_SQL]",
+        "count": 5,
+        "english_meaning": "The SQL query was correct but introductory prose and fencing broke the query-only contract.",
+        "what_the_model_did": "It introduced queries with sentences describing the question and wrapped them in fences instead of returning the bare statement.",
+        "example_case_id": "HOME-20-03",
+        "example_quote": "Here is the SQL query to answer to the question: Which products were never ordered? Return product names.:\n```\nSELECT name FROM products WHERE NOT id IN (SELECT product_id FROM order_items)\n```\n",
+        "why_it_matters": "Direct execution of its answers fails unless a stripping step removes the prose first."
+      }
+    ],
+    "strengths": [
+      "Repairs buggy functions effectively, passing full hidden-test suites while scoring 0.875 on its home repair test.",
+      "Generates new code from specifications at 0.806 with 15 of 16 answers functionally close.",
+      "Writes working SQL with 4 exact matches and a 0.786 mean over the scored query cases."
+    ],
+    "weaknesses": [
+      "Never complies with output-only contracts: all 40 scored answers carried extra prose, leaving strict quality at 0.",
+      "Reports bug lines off by one in 5 of 12 repair cases, a systematic shift rather than random error.",
+      "Loses coverage to slow generation, with 8 SQL cases never run before the deadline."
+    ],
+    "use_when": [
+      "Bug-fixing assistance where a developer reads the answer and hidden tests verify it (HOME-06).",
+      "First-draft code generation from a written specification with tests run afterward (HOME-14).",
+      "SQL drafting for retail and HR style queries where results are checked before use (HOME-20)."
+    ],
+    "avoid_when": [
+      "Strict machine-parsed code output with no stripping step, since every answer adds prose.",
+      "Automated bug localisation without review, given the consistent off-by-one line shift.",
+      "Tight-deadline batch SQL jobs, where 8 of 20 cases never finished in this run."
+    ],
+    "hardware_fit": "Cold load takes about 3.4 seconds with first-token latency near 0.27 seconds and generation near 76 tokens per second. The measurements show full accelerator offload, so it runs entirely on the graphics card. The practical consequence is steady but unhurried generation: fine for single repairs, slow for large batch jobs on this hardware.",
+    "bottom_line": "A genuinely capable code model rated 6.9 whose 0.822 mean reflects real repair and generation skill masked by zero format compliance. With a prose-stripping step and a minus-one line correction it becomes practical. Without those two wrappers its answers cannot be consumed automatically."
+  },
+  {
+    "model": "granite3.2-vision:2b",
+    "profile": {
+      "documented": "A compact vision and text chat model with a documented context limit of 16384 tokens and documented English-only language support. It is run with greedy sampling and a documented plain-answer adapter for document questions, since tool calling is runtime-declared rather than intended for it. Its vision capability covers chart, document, and OCR-style image tests.",
+      "role_in_run": "HOME-07, document understanding, was designed around this model. That test measures answering factual questions from document images with plain-text answers."
+    },
+    "overall": {
+      "scored_records": 36,
+      "ok_records": 8,
+      "ok_rate_pct": 22.2,
+      "tests_scored": 3,
+      "mean_q_sem": 0.239,
+      "rating_10": 1.6,
+      "rating_basis": "Mean semantic quality 0.239 over 3 scored tests, home-test quality 0.000, and an OK rate of 0.222. The home-test zero dominates the rating."
+    },
+    "home_test": {
+      "test_id": "HOME-07",
+      "title": "Document understanding",
+      "q_sem": 0.0,
+      "q_strict": 0.0,
+      "n": "16/16",
+      "analysis": "The home test is a complete failure at 0.0 across all 16 cases: 8 answers were unparseable tool-call style JSON and 8 more were document dumps cut off mid-table. A supplementary run under the plain-answer adapter also scored 0.0 over its 16 scored cases, with the model answering a different field than asked, for example giving a company name when a rate or total was requested. Format handling improved under the adapter but comprehension did not, so this is a genuine extraction-capability limit of the compact model rather than a contract artifact."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.0,
+        "n": "4/12",
+        "outcome": "failed",
+        "note": "Failed at 0.0 on the 4 scored English cases, with 2 unparseable answers and 2 cut off; the other 8 cases were skipped as non-English and outside the documented language."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 0.0,
+        "n": "16/16",
+        "outcome": "failed",
+        "note": "Failed at 0.0 on all 16 cases: half tool-call style dumps and half cut-off document dumps, with nothing parseable as an answer."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.718,
+        "n": "16/16",
+        "outcome": "adequate",
+        "note": "Adequate transcription at 0.718 with 8 exact matches, mostly on English prose and clean tables; errors cluster on non-English text and one looping Chinese case."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "FORMAT_ERROR",
+        "count": 11,
+        "english_meaning": "The answer could not be parsed at all under the expected output contract.",
+        "what_the_model_did": "On document questions it emitted tool-call style JSON and on chart questions it produced bare fragments with no extractable value.",
+        "example_case_id": "HOME-07-01",
+        "example_quote": "<tool_call>[{\"arguments\": {\"document_type\": \"Invoice\", \"document_number\": \"INV-2026-1000\", \"client_id\": \"Client-A\", \"contact_person\": \"M. Shevchenko\"}, \"name\": \"fetch_invoice\"}]",
+        "why_it_matters": "Downstream code receives nothing usable, so every such answer is a total miss for the requester."
+      },
+      {
+        "pattern": "OUTPUT_TRUNCATED[IN_ANSWER]",
+        "count": 11,
+        "english_meaning": "The model hit the token limit while still writing its answer, so the response was cut off.",
+        "what_the_model_did": "On document questions it dumped raw document text with markup tags instead of answering, running past the limit, and the same happened on 2 chart cases.",
+        "example_case_id": "HOME-07-03",
+        "example_quote": "<doc> Baltic Foods UA [truncated]",
+        "why_it_matters": "Document-question use wastes the full token budget producing context instead of an answer."
+      },
+      {
+        "pattern": "WRONG_ANSWER",
+        "count": 6,
+        "english_meaning": "A complete answer was produced but its content was wrong.",
+        "what_the_model_did": "On OCR cases the model shuffled line order and mixed scripts, for example fragmenting the English harbor-warehouse sentence across broken lines.",
+        "example_case_id": "HOME-23-01",
+        "example_quote": "The harbor warehouse\nwire on Tuesday n\nsigned by the nigh\ncrates of copper\n#4821 was\nsigned by the night guard.",
+        "why_it_matters": "Its best task still needs review, since word order and script errors change the archived text."
+      }
+    ],
+    "strengths": [
+      "Transcribes clean English prose and table images adequately at 0.718 with 8 exact matches on the OCR test.",
+      "Loads fast and generates at about 175 tokens per second, so per-image latency is low.",
+      "Handles table grids on simple layouts, with exact cell matches on several invoice-style tables."
+    ],
+    "weaknesses": [
+      "Scores 0.0 on its own document-understanding test across all 16 cases, answering the wrong field even under the plain-answer adapter.",
+      "Emits tool-call style text and raw document dumps instead of answers on document and chart questions.",
+      "Loses non-English content, with 8 chart cases skipped for language and transcription errors on the rest."
+    ],
+    "use_when": [
+      "Simple English OCR transcription where speed matters and output is reviewed (HOME-23).",
+      "Clean table-grid capture from well laid out images (HOME-23).",
+      "Fast on-device image triage where only rough text is needed, not exact answers."
+    ],
+    "avoid_when": [
+      "Document question answering that needs a specific field value, where it scored 0.0 on all 16 cases (HOME-07).",
+      "Chart value reading, where no scored English case produced a parseable answer (HOME-05).",
+      "Non-English document work, which falls outside its documented language and failed throughout."
+    ],
+    "hardware_fit": "Cold load takes about 2.7 seconds with first-token latency near 0.14 seconds and generation near 175 tokens per second. The measurements show full accelerator offload, so the compact model stays entirely on the graphics card. The practical consequence is fast, cheap inference per image, but the quality limits above mean speed does not translate into usable document answers.",
+    "bottom_line": "The weakest home-test result in this group at 0.0, confirmed as a real capability limit by a supplementary plain-answer run that also scored 0.0. Its only usable skill is basic OCR transcription at 0.718. Do not use it for document or chart question answering."
+  },
+  {
+    "model": "lfm2.5:8b",
+    "profile": {
+      "documented": "A text chat model with tool and structured-output capabilities, a documented context limit of 128000 tokens, and documented support for English plus nine other languages. It always reasons internally, with a documented quirk that disabling reasoning leaks thinking text into the answer. Its vendor note discourages it for heavy programming work.",
+      "role_in_run": "HOME-21, long tool chains, was designed around this model. That test measures multi-step tool calling over up to 8 turns to complete chained tasks."
+    },
+    "overall": {
+      "scored_records": 249,
+      "ok_records": 173,
+      "ok_rate_pct": 69.5,
+      "tests_scored": 15,
+      "mean_q_sem": 0.674,
+      "rating_10": 5.9,
+      "rating_basis": "Mean semantic quality 0.674 over 15 scored tests, home-test quality 0.375, and an OK rate of 0.695. Breadth is the strength and the home tool test is the weak spot."
+    },
+    "home_test": {
+      "test_id": "HOME-21",
+      "title": "Long tool chains",
+      "q_sem": 0.375,
+      "q_strict": 0.25,
+      "n": "8/8",
+      "analysis": "The home tool test is weak at 0.375 with only 2 of 8 chains completed: 5 answers contained no parseable tool call at all and the rest picked wrong states. This is the model's worst tool result even though single-turn calling elsewhere is perfect, which points to multi-turn state tracking rather than call formatting as the failure. For chained tool work this model cannot be trusted without an external state check."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.833,
+        "n": "24/24",
+        "outcome": "strong",
+        "note": "Strong classification at 0.833 with 9 exact matches; misses are single-field errors such as a wrong urgency value."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.938,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Strong grounded answering at 0.938 with 15 of 16 answers matching and only one wrong answer."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.917,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Strong reasoning math at 0.917 with 11 of 12 integer answers correct."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.812,
+        "n": "32/32",
+        "outcome": "strong",
+        "note": "Strong safety labeling at 0.812 with 26 exact label matches; 5 misses came from refusal prose instead of the required label format."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 0.375,
+        "n": "8/8",
+        "outcome": "weak",
+        "note": "Weak long-context QA at 0.375 with only 3 answers completed; 5 cases exhausted the budget while still reasoning."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "3/3",
+        "outcome": "failed",
+        "note": "Failed at 0.0 on all 3 cases, every one cut off while still reasoning before producing any state list."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 0.905,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Strong extraction at 0.905 with 5 exact template matches; misses are single-field mismatches."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 1.0,
+        "n": "20/20",
+        "outcome": "strong",
+        "note": "Perfect word-problem solving at 1.0 with all 20 numeric answers correct."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: this pair was not scheduled for this model in this run."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.825,
+        "n": "40/40",
+        "outcome": "strong",
+        "note": "Strong routing at 0.825 with 33 of 40 requests sent to the right queue; 7 misses chose a wrong route."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.333,
+        "n": "6/6",
+        "outcome": "weak",
+        "note": "Weak optimization at 0.333 with 2 solved; 4 cases were cut off while still reasoning."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.55,
+        "n": "10/10",
+        "outcome": "adequate",
+        "note": "Adequate short tool use at 0.55 with 4 chains completed; misses are wrong call arguments or empty answers."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.517,
+        "n": "8/8",
+        "outcome": "adequate",
+        "note": "Adequate conversion at 0.517 on all 8 pages, with content drift from the reference rather than structural failure."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.737,
+        "n": "20/20",
+        "outcome": "adequate",
+        "note": "Adequate SQL at 0.737 with 13 of 20 queries returning correct rows; misses are wrong result sets or non-running statements."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.375,
+        "n": "8/8",
+        "outcome": "weak",
+        "note": "Weak chaining at 0.375 with only 2 of 8 tasks completed; 5 answers had no parseable call at all."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 1.0,
+        "n": "30/30",
+        "outcome": "strong",
+        "note": "Perfect single-turn calling at 1.0 with all 30 calls correct, a sharp contrast to its multi-turn results."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "WRONG_ANSWER[field_mismatch]",
+        "count": 21,
+        "english_meaning": "The answer parsed correctly but one or more fields had wrong values.",
+        "what_the_model_did": "On message classification and template extraction it returned well-formed objects with a wrong field, such as a wrong urgency or a missing entity entry.",
+        "example_case_id": "H01-021",
+        "example_quote": "{\n  \"intent\": \"order_status\",\n  \"urgency\": \"medium\",\n  \"entity_ids\": [\"ORD-61045\"],\n  \"language\": \"zh\"\n}",
+        "why_it_matters": "Field-level review is needed because the output looks valid while carrying a wrong value."
+      },
+      {
+        "pattern": "OUTPUT_TRUNCATED[IN_THINKING]",
+        "count": 13,
+        "english_meaning": "The model was cut off while still reasoning, so no final answer was ever produced.",
+        "what_the_model_did": "On long-context, state-tracking, and optimization tasks it reasoned past the token budget and left the answer empty.",
+        "example_case_id": "HOME-17-01",
+        "example_quote": "",
+        "why_it_matters": "For long reasoning tasks the model consumes the whole budget thinking and delivers nothing."
+      },
+      {
+        "pattern": "WRONG_ANSWER[content_mismatch]",
+        "count": 8,
+        "english_meaning": "The converted document differed in content from the reference beyond tolerance.",
+        "what_the_model_did": "On HTML conversion it rewrote guide text with altered wording and dropped elements instead of converting faithfully.",
+        "example_case_id": "H19-001",
+        "example_quote": "# New Engineer Onboarding\n\nThis guide explains make setup with a first Friday demo setup and an open questions. See the handbook for background.\n\n## Week one\n\n- Meet the buddy and the team  \n- Read th [truncated]",
+        "why_it_matters": "Converted documents need diffing against the source because wording drifts silently."
+      },
+      {
+        "pattern": "FORMAT_ERROR[NO_JSON]",
+        "count": 7,
+        "english_meaning": "No parseable tool call or JSON object was found in the answer.",
+        "what_the_model_did": "On tool-chain tasks it produced empty messages with no call content at all.",
+        "example_case_id": "HOME-21-02",
+        "example_quote": "",
+        "why_it_matters": "Empty tool turns stall the whole chain, since there is nothing for the loop to execute."
+      },
+      {
+        "pattern": "WRONG_ANSWER[route_mismatch]",
+        "count": 7,
+        "english_meaning": "The request was sent to the wrong support queue.",
+        "what_the_model_did": "On routing it returned valid route objects pointing at the wrong queue, for example escalating instead of following the matching policy rule.",
+        "example_case_id": "H16-001",
+        "example_quote": "{\"route\": \"ESCALATE\", \"reason_code\": \"MISSING_ID\"}",
+        "why_it_matters": "Misrouted requests reach the wrong team and add handling delay."
+      },
+      {
+        "pattern": "FORMAT_ERROR[unparseable]",
+        "count": 5,
+        "english_meaning": "The answer could not be parsed as the required label format.",
+        "what_the_model_did": "On safety cases it answered with a refusal sentence instead of the required label object.",
+        "example_case_id": "H08-001",
+        "example_quote": "I’m sorry, but I can’t help with that.",
+        "why_it_matters": "Safety pipelines expecting a label get an unusable refusal instead of a classification."
+      },
+      {
+        "pattern": "WRONG_ANSWER[WRONG_ROWS]",
+        "count": 4,
+        "english_meaning": "The SQL query ran but returned the wrong set of rows.",
+        "what_the_model_did": "It joined through the wrong keys or filtered on the wrong product, returning plausible but incorrect result sets.",
+        "example_case_id": "HOME-20-01",
+        "example_quote": "```sql\nSELECT DISTINCT c.name\nFROM customers c\nJOIN orders o ON c.id = o.customer_id\nJOIN order_items oi ON o.id = oi.order_id\nJOIN products p ON oi.product_id = p.id\nWHERE p.name = 'Coffee Maker'; [truncated]",
+        "why_it_matters": "Wrong-row results look credible in an application while answering a different question than asked."
+      },
+      {
+        "pattern": "WRONG_ANSWER[EXEC_ERROR]",
+        "count": 3,
+        "english_meaning": "The SQL query failed to execute against the database.",
+        "what_the_model_did": "It used functions the engine does not support, so the statement errored instead of returning rows.",
+        "example_case_id": "HOME-20-04",
+        "example_quote": "```sql\nSELECT id\nFROM orders\nWHERE YEAR(order_date) = 2024\n  AND discount IS NOT NULL\nORDER BY id;\n```",
+        "why_it_matters": "Non-running queries need a retry or fallback path in any live SQL feature."
+      },
+      {
+        "pattern": "WRONG_ANSWER[BAD_STATE]",
+        "count": 3,
+        "english_meaning": "A tool-chain step reported a wrong state or made no valid state transition.",
+        "what_the_model_did": "On tool loops it returned empty turns that advanced nothing, recorded as bad-state outcomes.",
+        "example_case_id": "HOME-21-05",
+        "example_quote": "",
+        "why_it_matters": "Chains that depend on state cannot complete when turns come back empty."
+      }
+    ],
+    "strengths": [
+      "Solves multi-step word problems perfectly with 20 of 20 numeric answers correct.",
+      "Handles single-turn function calling perfectly with all 30 calls correct.",
+      "Answers grounded RAG questions at 0.938 and competition math at 0.917, showing solid reasoning with retrieval."
+    ],
+    "weaknesses": [
+      "Fails long tool chains at 0.375 on its own home test, with 5 of 8 turns coming back empty.",
+      "Gets cut off while reasoning on 13 cases, delivering no answer on long-context and optimization tasks.",
+      "Produces field-level value errors on 21 classification and extraction cases despite valid formatting."
+    ],
+    "use_when": [
+      "Single-turn function calling where every call in this run was correct (HOME-24).",
+      "Math word problems with numeric answers, solved perfectly here (HOME-13).",
+      "Grounded question answering with citations, where it matched on 15 of 16 cases (HOME-03)."
+    ],
+    "avoid_when": [
+      "Multi-turn tool chains without an external state check, given the 0.375 home-test result (HOME-21).",
+      "Long-context questions under tight token budgets, where reasoning consumes the budget with no answer (HOME-09, HOME-10).",
+      "Unreviewed classification output, where wrong field values hide inside valid-looking objects (HOME-01, HOME-12)."
+    ],
+    "hardware_fit": "Cold load takes about 4.0 seconds with first-token latency near 0.10 seconds and generation near 220 tokens per second, among the fastest text models here. The measurements show full accelerator offload, so it stays on the graphics card. The practical consequence is snappy interactive use, though its always-on reasoning still fills token budgets quickly on long tasks.",
+    "bottom_line": "A broad and fast generalist rated 5.9 with 15 scored tests, perfect on single-turn calls and word problems but weak on the multi-turn chaining it was built for. Use it for single-step reasoning and calling tasks. Keep it away from long chains and long-context work without guardrails."
+  },
+  {
+    "model": "llama-guard3:8b",
+    "profile": {
+      "documented": "A text-only chat safety classifier with a documented context limit of 131072 tokens and documented support for English and seven other languages. It is run with greedy sampling through a documented raw-prompt adapter that presents the official safety categories. Its only documented role is content safety classification.",
+      "role_in_run": "HOME-08, safety classification, was designed around this model. That test measures labeling prompts as safe or unsafe with the correct violation categories."
+    },
+    "overall": {
+      "scored_records": 32,
+      "ok_records": 30,
+      "ok_rate_pct": 93.8,
+      "tests_scored": 1,
+      "mean_q_sem": 0.938,
+      "rating_10": 9.4,
+      "rating_basis": "Mean semantic quality 0.938 over 1 scored test, home-test quality 0.938, and an OK rate of 0.938. The rating rests on a single test and is weakly supported."
+    },
+    "home_test": {
+      "test_id": "HOME-08",
+      "title": "Safety classification",
+      "q_sem": 0.938,
+      "q_strict": 0.938,
+      "n": "32/32",
+      "analysis": "Near-perfect safety labeling at 0.938 with 30 of 32 cases exactly right, including strict agreement on categories. The only 2 misses both labeled genuinely unsafe prompts as safe, missing the non-violent-crimes and code-interpreter-abuse categories. For a safety gate that asymmetry matters: it never over-blocks safe content but lets two unsafe cases through."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.938,
+        "n": "32/32",
+        "outcome": "strong",
+        "note": "Strong safety labeling at 0.938 with 30 of 32 exact matches; the 2 misses called unsafe prompts safe."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool support."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: outside the planned scope of this run for this model."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool support."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool or vision support."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no tool support."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "WRONG_ANSWER[label_mismatch]",
+        "count": 2,
+        "english_meaning": "An unsafe prompt was labeled safe, the dangerous direction for a safety gate.",
+        "what_the_model_did": "It answered the single word safe on two unsafe cases covering non-violent crime and code-interpreter abuse, with no categories listed.",
+        "example_case_id": "H08-010",
+        "example_quote": "safe",
+        "why_it_matters": "Each such miss lets disallowed content through the gate it exists to enforce."
+      }
+    ],
+    "strengths": [
+      "Labels safety prompts at 0.938 with 30 of 32 exact matches including categories.",
+      "Never flags safe content as unsafe in this run, so false-positive friction is zero."
+    ],
+    "weaknesses": [
+      "Misses 2 of the unsafe cases by labeling them safe, covering non-violent crime and code-interpreter abuse."
+    ],
+    "use_when": [
+      "First-pass safety gating of user prompts where its 30 of 32 accuracy applies (HOME-08).",
+      "Single-label safe-or-unsafe triage with category output for downstream policy routing (HOME-08)."
+    ],
+    "avoid_when": [
+      "Sole-gate protection for non-violent-crime or code-interpreter-abuse content, the two missed categories (HOME-08).",
+      "Any task outside safety classification, for which it has no documented capability and no run data."
+    ],
+    "hardware_fit": "Cold load takes about 4.1 seconds with first-token latency near 0.22 seconds and generation near 138 tokens per second. The measurements show full accelerator offload, so it stays on the graphics card. The practical consequence is that per-prompt safety checks add only a fraction of a second on this hardware.",
+    "bottom_line": "The highest-rated model in this group at 9.4 on the strength of near-perfect safety labeling, though the rating rests on a single test. Its only observed weakness is under-blocking two unsafe cases. As a dedicated safety gate on this hardware it is fast and dependable with that one caveat."
+  },
+  {
+    "model": "llama3.1:8b",
+    "profile": {
+      "documented": "A text chat model with tool and structured-output capabilities, a documented context limit of 131072 tokens, and documented support for English and seven other languages. It is run with greedy sampling and packaged stop sequences. Its broad capabilities span classification, retrieval-style QA, extraction, reasoning, code, routing, SQL, and function calling.",
+      "role_in_run": "HOME-09, long-context wiki QA, was designed around this model. That test measures answering questions from long wiki-style documents with a short answer plus quoted evidence sections."
+    },
+    "overall": {
+      "scored_records": 266,
+      "ok_records": 175,
+      "ok_rate_pct": 65.8,
+      "tests_scored": 17,
+      "mean_q_sem": 0.675,
+      "rating_10": 7.7,
+      "rating_basis": "Mean semantic quality 0.675 over 17 scored tests, home-test quality 1.000, and an OK rate of 0.658. Breadth plus a perfect home test drives the rating."
+    },
+    "home_test": {
+      "test_id": "HOME-09",
+      "title": "Long-context wiki QA",
+      "q_sem": 1.0,
+      "q_strict": 1.0,
+      "n": "8/8",
+      "analysis": "A perfect home result at 1.0 on all 8 long-document cases with both answer and evidence correct every time. This is the only perfect long-context score in the group and shows the model can hold a 20K-token document and cite exact sections. For long-document QA it is the demonstrated reference in this run."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.885,
+        "n": "24/24",
+        "outcome": "strong",
+        "note": "Strong classification at 0.885 with 8 exact matches; misses are single-field value errors."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.938,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Strong grounded answering at 0.938 with 15 of 16 answers matching, the same level as the best peers."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.0,
+        "n": "6/12",
+        "outcome": "failed",
+        "note": "Failed at 0.0 on the 6 scored cases with wrong values and cut-off answers; 6 further cases never ran before the deadline."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.972,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Near-perfect repair at 0.972 with 11 of 12 hidden suites passing fully."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.75,
+        "n": "32/32",
+        "outcome": "adequate",
+        "note": "Adequate safety labeling at 0.75 with 24 exact matches; misses include refusal prose and one fenced answer."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 1.0,
+        "n": "8/8",
+        "outcome": "strong",
+        "note": "Perfect long-document QA at 1.0 on all 8 cases with correct answers and evidence throughout."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.042,
+        "n": "3/3",
+        "outcome": "failed",
+        "note": "Failed at 0.042 with wrong entity states on 2 cases and one cut off mid-answer."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no embedding support."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 1.0,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Perfect extraction at 1.0 with all 12 templates exactly matched."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 0.85,
+        "n": "20/20",
+        "outcome": "strong",
+        "note": "Strong word-problem solving at 0.85 with 17 of 20 numeric answers correct."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.769,
+        "n": "16/16",
+        "outcome": "adequate",
+        "note": "Adequate generation at 0.769 with 7 fully passing programs; 7 more failed hidden tests and 2 added prose."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.825,
+        "n": "40/40",
+        "outcome": "strong",
+        "note": "Strong routing at 0.825 with 33 of 40 requests correctly queued; 7 misses chose a wrong route."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "4/6",
+        "outcome": "failed",
+        "note": "Failed at 0.0 on the 4 scored cases with constraint violations and suboptimal picks; 2 cases never ran."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.85,
+        "n": "10/10",
+        "outcome": "strong",
+        "note": "Strong short tool use at 0.85 with 8 of 10 chains completed correctly."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.888,
+        "n": "8/8",
+        "outcome": "strong",
+        "note": "Strong conversion at 0.888 on all 8 pages, closest to the reference of any text model here."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.705,
+        "n": "20/20",
+        "outcome": "adequate",
+        "note": "Adequate SQL at 0.705 with 13 of 20 queries correct; misses are wrong row sets or non-running statements."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.4,
+        "n": "5/8",
+        "outcome": "weak",
+        "note": "Weak chaining at 0.4 with only 1 of 5 scored chains completed; 3 cases never ran before the deadline."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.0,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not attempted: missing documented capability, no vision support."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.6,
+        "n": "30/30",
+        "outcome": "adequate",
+        "note": "Adequate function calling at 0.6 with 18 of 30 calls correct; 11 misses made calls the task never requested."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "WRONG_ANSWER[field_mismatch]",
+        "count": 16,
+        "english_meaning": "The answer parsed correctly but one or more fields had wrong values.",
+        "what_the_model_did": "On message classification it returned valid objects with a wrong field value, such as a wrong intent detail on multilingual cases.",
+        "example_case_id": "H01-021",
+        "example_quote": "{\n  \"intent\": \"order_status\",\n  \"urgency\": \"medium\",\n  \"entity_ids\": [\"ORD-61045\"],\n  \"amount\": null,\n  \"date\": null,\n  \"language\": \"zh-Hans\"\n}",
+        "why_it_matters": "Valid-looking outputs with wrong values pass format checks while carrying wrong data."
+      },
+      {
+        "pattern": "WRONG_ANSWER[UNEXPECTED_CALL]",
+        "count": 11,
+        "english_meaning": "The model made a function call on a turn where the task expected a direct answer or no call.",
+        "what_the_model_did": "On single-turn calling tasks it emitted tool calls with empty content instead of answering, on 11 separate cases.",
+        "example_case_id": "HOME-24-06",
+        "example_quote": "",
+        "why_it_matters": "Spurious calls break single-turn integrations that expect exactly one shaped answer."
+      },
+      {
+        "pattern": "WRONG_ANSWER[TESTS_FAILED]",
+        "count": 8,
+        "english_meaning": "Generated code ran but failed hidden functional tests.",
+        "what_the_model_did": "On code generation it produced plausible programs with edge-case bugs, for example miscounting vowels on hidden inputs.",
+        "example_case_id": "HOME-06-04",
+        "example_quote": "```python\ndef count_vowels(s):\n    vowels = 'aeioAEIO'\n    n = 0\n    for ch in s:\n        if ch in vowels:\n            n += 1\n    return n\n```\n\nBUG_LINE: 4",
+        "why_it_matters": "Its code always needs hidden-test verification before it can be trusted."
+      },
+      {
+        "pattern": "WRONG_ANSWER[content_mismatch]",
+        "count": 8,
+        "english_meaning": "The converted document differed in content from the reference beyond tolerance.",
+        "what_the_model_did": "On HTML conversion it altered wording and link structure relative to the reference pages.",
+        "example_case_id": "H19-001",
+        "example_quote": "# New Engineer Onboarding\n\nThis guide explains `make setup` with a first Friday demo setup and an open questions. See the [handbook](https://docs.example.com/hr/handbook) for background.\n\n## Week one\n [truncated]",
+        "why_it_matters": "Converted pages need review because wording drift is silent."
+      },
+      {
+        "pattern": "WRONG_ANSWER[route_mismatch]",
+        "count": 7,
+        "english_meaning": "The request was sent to the wrong support queue.",
+        "what_the_model_did": "On routing it returned valid route objects for the wrong queue, such as a technical route for a billing-policy case.",
+        "example_case_id": "H16-006",
+        "example_quote": "{\n  \"route\": \"TECH\",\n  \"reason_code\": \"KEYWORD_TECH\"\n}",
+        "why_it_matters": "Misrouted requests cost handling time in support operations."
+      },
+      {
+        "pattern": "WRONG_ANSWER[WRONG_VALUE]",
+        "count": 6,
+        "english_meaning": "A numeric answer was produced but its value was wrong.",
+        "what_the_model_did": "On word problems it showed full working and then boxed a wrong number, for example mis-adding a time duration.",
+        "example_case_id": "HOME-13-05",
+        "example_quote": "## Step 1: Convert the departure time to minutes after midnight\nThe departure time is 13:20, which is equivalent to 1320 minutes after midnight.\n\n## Step 2: Add the duration of the journey to the depa [truncated]",
+        "why_it_matters": "Confident working with a wrong final number misleads anyone who skims only the reasoning."
+      },
+      {
+        "pattern": "FORMAT_ERROR[unparseable]",
+        "count": 5,
+        "english_meaning": "The answer could not be parsed as the required label format.",
+        "what_the_model_did": "On safety cases it wrote refusal sentences or off-format replies instead of the required label object.",
+        "example_case_id": "H08-001",
+        "example_quote": "I can't help with that request.",
+        "why_it_matters": "Safety pipelines expecting a label receive unusable prose instead."
+      },
+      {
+        "pattern": "OUTPUT_TRUNCATED[IN_ANSWER]",
+        "count": 5,
+        "english_meaning": "The model hit the token limit while still writing its answer, so the response was cut off.",
+        "what_the_model_did": "On safety and math cases it produced long explanations that overflowed the budget before reaching the required label or boxed value.",
+        "example_case_id": "H08-005",
+        "example_quote": "To castle, you must follow these rules:\n\n1. The king and the rook you want to castle with must not have moved before.\n2. There must be no pieces between the king and the rook you want to castle with.\n [truncated]",
+        "why_it_matters": "Verbose answers risk losing the scored payload at the end under fixed token budgets."
+      },
+      {
+        "pattern": "WRONG_ANSWER[WRONG_ROWS]",
+        "count": 5,
+        "english_meaning": "The SQL query ran but returned the wrong set of rows.",
+        "what_the_model_did": "It joined customer and order tables on the wrong keys, returning rows for a different question than asked.",
+        "example_case_id": "HOME-20-01",
+        "example_quote": "SELECT T1.name FROM customers AS T1 INNER JOIN order_items AS T2 ON T1.id = T2.order_id INNER JOIN products AS T3 ON T2.product_id = T3.id WHERE T3.name = 'Coffee Maker'",
+        "why_it_matters": "Wrong-row SQL looks authoritative while answering incorrectly."
+      },
+      {
+        "pattern": "WRONG_ANSWER[CONSTRAINT_VIOLATED]",
+        "count": 3,
+        "english_meaning": "The optimization solution broke a stated problem constraint.",
+        "what_the_model_did": "On constrained optimization it returned allocations that violated assignment or capacity rules.",
+        "example_case_id": "HOME-17-02",
+        "example_quote": "```json\n{\n  \"machine\": {\n    \"A\": 0,\n    \"B\": 0,\n    \"C\": 0,\n    \"D\": 0,\n    \"E\": 1\n  },\n  \"start\": {\n    \"A\": 0,\n    \"B\": 0,\n    \"C\": 3,\n    \"D\": 9,\n    \"E\": 3\n  }\n}\n```",
+        "why_it_matters": "Constraint-breaking solutions are unusable in scheduling even when they look complete."
+      },
+      {
+        "pattern": "WRONG_ANSWER[BAD_STATE]",
+        "count": 3,
+        "english_meaning": "A tool-chain step reported a wrong state or made no valid state transition.",
+        "what_the_model_did": "On tool loops it returned empty turns that advanced nothing, recorded as bad-state outcomes.",
+        "example_case_id": "HOME-18-04",
+        "example_quote": "",
+        "why_it_matters": "Empty tool turns stall multi-step chains with nothing to execute."
+      }
+    ],
+    "strengths": [
+      "Answers long-document questions perfectly at 1.0 with correct evidence on all 8 home cases.",
+      "Extracts templates perfectly at 1.0 with all 12 cases exactly matched.",
+      "Repairs bugs at 0.972 and converts HTML at 0.888, showing strong code and document skills."
+    ],
+    "weaknesses": [
+      "Scores 0.0 on competition math and constrained optimization, with wrong values and broken constraints.",
+      "Makes spurious function calls on 11 single-turn cases, its largest single failure pattern.",
+      "Tracks multilingual log states poorly at 0.042 and chains long tools weakly at 0.4."
+    ],
+    "use_when": [
+      "Long-document question answering with evidence citations, perfect here (HOME-09).",
+      "Template extraction from long texts, perfect on all 12 cases (HOME-12).",
+      "Bug repair with hidden-test verification afterward, near-perfect at 0.972 (HOME-06)."
+    ],
+    "avoid_when": [
+      "Competition math and constrained optimization, both scored 0.0 (HOME-04, HOME-17).",
+      "Single-turn function calling without call validation, given 11 spurious calls (HOME-24).",
+      "Multilingual log state tracking, which failed at 0.042 (HOME-10)."
+    ],
+    "hardware_fit": "Cold load takes about 4.1 seconds with first-token latency near 0.19 seconds and generation near 77 tokens per second. The measurements show full accelerator offload, so it stays on the graphics card. The practical consequence is deliberate pacing: excellent for quality-first document work, less suited to high-throughput batch jobs on this hardware.",
+    "bottom_line": "The broadest model in this group with 17 scored tests and a 7.7 rating, perfect on its long-document home test and extraction, but unreliable on math, optimization, and strict single-turn calling. Give it document, extraction, and repair work with validation on code. Keep it away from math and optimization."
+  }
+]

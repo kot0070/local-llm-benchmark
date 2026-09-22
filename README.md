@@ -84,7 +84,13 @@ run with no repeats.
   `owner_summary.py` (owner-facing summary plus score tables),
   `analysis_report.py` (per-model/per-test behaviour analysis with verbatim
   failure examples), `build_excel_report.py` (consolidated `NIGHT1_REPORT.xlsx`
-  workbook), `gen_all.py` (run all fixture generators, `--missing-only`
+  workbook), `build_excel_report_en.py` (consolidated `NIGHT1_REPORT_EN.xlsx`
+  workbook, the same analysis in English), `en_sheets_narrative.py` (per-model
+  narrative sheets for the English workbook: scorecard, recommendations,
+  strengths and weaknesses), `en_sheets_detail.py` (per-model detail sheets for
+  the English workbook: test detail and failure analysis), `uk_sheets_deep.py`
+  (the five deep per-model sheets for the Ukrainian workbook, mirroring the
+  English ones), `gen_all.py` (run all fixture generators, `--missing-only`
   supported), `make_eligibility.py` (build the eligibility matrix from design
   sources).
 - `results/` — run outputs. The deliverable run is
