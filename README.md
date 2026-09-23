@@ -1,5 +1,25 @@
 # NIGHT-1 local-LLM benchmark (Ollama, 24 models, one 8-hour run)
 
+## Portfolio snapshot
+
+**Automated local-LLM evaluation framework built to run reproducible, machine-checkable tests under a fixed hardware and time budget.**
+
+- **24 local models** evaluated across **24 HOME test families** plus performance probes.
+- **4,190 result records** produced in one unattended 8-hour run.
+- Deterministic fixture generation with self-verifying ground truth.
+- Per-test validators for structured output, code, SQL, retrieval, tool calls, vision/document tasks, and text metrics.
+- GPU/thermal monitoring, contention checks, model unload verification, resumable execution, and explicit failure taxonomy.
+- Automated Markdown, CSV, JSON, and Excel reporting with paired-bootstrap confidence intervals.
+- Engineering workflow used AI coding agents under task contracts, executable tests, raw-record review, and independent audit passes.
+
+**Core stack:** Python · Ollama · pytest · JSONL · PowerShell · GPU telemetry · automated reporting
+
+**What this demonstrates:** benchmark design, automation, LLM evaluation, reproducibility, error handling, statistical reporting, and agent-assisted engineering with verification rather than blind code generation.
+
+Start with the completed run: [`results/night_20260921-155146/README.md`](results/night_20260921-155146/README.md).
+
+---
+
 An independent benchmark harness for local language models, built from scratch:
 deterministic fixture generation, one validator module per test, a time-boxed
 unattended runner with GPU handling, paired-bootstrap scoring, and generated
