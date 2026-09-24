@@ -1,0 +1,4 @@
+# Runtime imports in this tree. pytest is the dev extra in pyproject.toml
+# (pip install -e ".[dev]"), not a runtime dependency.
+Pillow
+openpyxl
