@@ -12,6 +12,7 @@ logs/
 __pycache__/
 *.pyc
 .pytest_cache/
+*.egg-info/
 
 # Earlier, narrower staging folder for a different publish plan; kept locally, not tracked
 publish/
