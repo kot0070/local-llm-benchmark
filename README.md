@@ -75,12 +75,16 @@ run with no repeats.
 - `config/eligibility_night.json` — which `(model, test)` pairs run. Only code
   `E` pairs execute; the rest are recorded once as `UNSUPPORTED_CAPABILITY`
   with the design reason, never attempted.
-- `tests/` — pytest suite, 26 files, 251 tests green: validator unit tests
+- `tests/` — pytest suite, 30 `test_*.py` files (331 `def test_` at
+  `9c3ffa05fd0162b79c0b86cf18ea4679eb4868eb`). On that commit
+  (2026-09-22T23:26:58Z), `python -m pytest -q tests` reported 375 passed,
+  7 failed, 3 skipped, and 0 errors (exit code 1; CPython 3.12.3,
+  2026-09-24T00:31:39Z; see `docs/TEST_EVIDENCE.md`): validator unit tests
   (gold answer scores 1.0; empty, prose-wrapped, wrong, and truncated inputs
   map to their expected verdicts), core client/env/store/runner/report tests
   against a mock server, and per-family HOME validator tests. Run with the
   project interpreter: `python -m pytest -q tests`.
-- `tools/` — reporting and export scripts, standard library only:
+- `tools/` — reporting and export scripts (stdlib, plus openpyxl in the Excel builders):
   `owner_summary.py` (owner-facing summary plus score tables),
   `analysis_report.py` (per-model/per-test behaviour analysis with verbatim
   failure examples), `build_excel_report.py` (consolidated `NIGHT1_REPORT.xlsx`
@@ -194,15 +198,21 @@ compared as one series.
   Resume with `run_night.ps1 -BudgetHours <h> -Resume <run_id>`.
 - Quick check: `run_smoke.ps1` runs 2 cases per test on 6 models under a
   0.4-hour budget.
-- Self-test: `python -m pytest -q tests` (251 tests, must stay green). The
-  night launcher runs fixture generation (missing only) and this self-test
-  before the timed run.
-- Requirements: Windows, Ollama with the model set pulled locally, Python 3.13
-  with the standard library plus Pillow, jsonschema, and pytest, and a GPU
-  with enough VRAM for at least the smaller models. Timings are
-  hardware-specific: expect different absolute throughput on different cards
-  even when the relative findings hold, and keep the GPU otherwise idle during
-  a run since contention invalidates measurements.
+- Self-test: `python -m pytest -q tests`. On commit
+  `9c3ffa05fd0162b79c0b86cf18ea4679eb4868eb` (2026-09-22T23:26:58Z) that
+  command reported 375 passed, 7 failed, 3 skipped, and 0 errors (exit code 1;
+  see `docs/TEST_EVIDENCE.md`). The night launcher runs fixture generation
+  (missing only) and this self-test before the timed run.
+- Install, from the repository root: `pip install -e ".[dev]"` (Pillow,
+  openpyxl, and pytest) or `pip install -r requirements.txt` and
+  `pip install pytest`. Then `python -m pytest -q tests`.
+- Requirements: Windows, Ollama with the model set pulled locally, Python 3.12
+  or newer (`SPEC_NIGHT.md` records the original interpreter as Python 3.13;
+  the evidence run used CPython 3.12.3), Pillow and openpyxl, pytest for the
+  self-test, and a GPU with enough VRAM for at least the smaller models.
+  Timings are hardware-specific: expect different absolute throughput on
+  different cards even when the relative findings hold, and keep the GPU
+  otherwise idle during a run since contention invalidates measurements.
 
 ## Limits
 
