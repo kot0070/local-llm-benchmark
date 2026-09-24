@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-llm-benchmark"
+version = "0.0.0"
+description = "Independent benchmark harness for local language models (NIGHT-1)."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "Pillow",
+    "openpyxl",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+# Namespace packages: this tree has no __init__.py files.
+# tests/ stays on the repository root and is not installed as a distribution package.
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bench*", "gen*", "tools*"]
+namespaces = true
