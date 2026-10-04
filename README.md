@@ -213,7 +213,7 @@ compared as one series.
 
 ## Downstream use: local vs cloud routing test
 
-These scores (RTX 3070 8 GB, Ollama) were later turned into a small capability and routing knowledge base: for each task type, which local model (if any) is reliable enough to use, with local use allowed only where a model scored 100% strict. The knowledge-base file itself is not published.
+These scores (RTX 3070 8 GB, Ollama) were later turned into a small capability and routing knowledge base: for each task type, which local model (if any) is reliable enough to use. The knowledge-base file itself is not published.
 
 That knowledge base was then tested in practice in a private local-vs-cloud routing test. The hypothesis was that a manager/router which splits work between local models and cloud models can save cloud tokens. The test ran in a private n8n AI Workflow Router and its private PWA chat client (those repositories are not linked here). A Director → Manager → agents chain used local models as supervised helpers, chosen through the knowledge-base rules. The chain was driven by a prompt plus a master plan, not by a specialized agent framework.
 
