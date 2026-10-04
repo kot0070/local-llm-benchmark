@@ -61,8 +61,8 @@ From the `pytest -q` short summary and assertion lines:
 - `tests/test_build_excel_report.py::test_failure_quotes_verified_real_run` — `AssertionError: ('aya-expanse:8b', 'H03-007')` / `assert None is not None`
 - `tests/test_build_excel_report_en.py::test_failure_quotes_verified_real_run` — same assertion as the Ukrainian workbook test above
 - `tests/test_build_excel_report_en.py::test_no_ranked_with_zero_scored` — `assert 0 == 215`
-- `tests/test_core_fix_a.py::test_langs_reach_profile` — `FileNotFoundError` for `D:\LOCAL_AI\BENCH_V5_NIGHT\config\profiles.json`
-- `tests/test_core_report.py::test_eligibility_file_structure` — `os.path.exists` was false for `D:\LOCAL_AI\BENCH_V5_NIGHT\config\eligibility_night.json`
+- `tests/test_core_fix_a.py::test_langs_reach_profile` — `FileNotFoundError` for `<LOCAL_AI_ROOT>\BENCH_V5_NIGHT\config\profiles.json` (the recorded exception used a machine-local prefix; it is written here as `<LOCAL_AI_ROOT>`)
+- `tests/test_core_report.py::test_eligibility_file_structure` — `os.path.exists` was false for `<LOCAL_AI_ROOT>\BENCH_V5_NIGHT\config\eligibility_night.json` (same placeholder for the machine-local prefix)
 - `tests/test_owner_summary.py::test_language_note_above_english_bullets` — `assert (-1 != -1)` on `first_bullet`
 
 ## Worktree side effect
