@@ -213,13 +213,15 @@ compared as one series.
 
 ## Downstream use: local vs cloud routing test
 
-The scores in this repository (RTX 3070 8 GB, Ollama) were later converted into a small capability and routing knowledge base. That base has 19 models, 14 routing rules, and 155 capability rows: 40 measured and 111 no-data, which leaves 4 rows in neither label (40 + 111 = 151). A task is sent LOCAL only where the model scored 100% strict. The routed counts are 20 LOCAL, 15 SPLIT, and 118 CLOUD; those three counts sum to 153, not to 155. The knowledge-base file itself is not published.
+These scores (RTX 3070 8 GB, Ollama) were later turned into a small capability and routing knowledge base: for each task type, which local model (if any) is reliable enough to use, with local use allowed only where a model scored 100% strict. The knowledge-base file itself is not published.
 
-The hypothesis was that a manager/router which splits work between local models and cloud models can save cloud tokens. The practical test was a private n8n AI Workflow Router and its private PWA chat client (those repositories are not linked here). A Director → Manager → agents chain used local models (`qwen3:8b`) through the knowledge-base rules as supervised helpers. The chain was driven by a prompt plus a master plan, not by a specialized agent framework. Local-model calls: 21 in total. Phase 2: 4 calls (3 edited, 1 accepted). Phase 3: 7 calls (all edited). Those two phases are 11 of the 21 calls; the other 10 are not broken out here.
+That knowledge base was then tested in practice in a private local-vs-cloud routing test. The hypothesis was that a manager/router which splits work between local models and cloud models can save cloud tokens. The test ran in a private n8n AI Workflow Router and its private PWA chat client (those repositories are not linked here). A Director → Manager → agents chain used local models as supervised helpers, chosen through the knowledge-base rules. The chain was driven by a prompt plus a master plan, not by a specialized agent framework.
 
-Phase 3 also ran an A/B on one task class of 24 test cases, N=2 per arm. Cloud-only arm (no local helper) vs local-helper arm: billable tokens 57.9k vs 47.3k, cost $0.0079 vs $0.0077 (−2.53%, (0.0077 − 0.0079) / 0.0079), wall time 98.6 s vs 180.3 s (+82.9%, (180.3 − 98.6) / 98.6). Run-to-run noise was larger than the A/B gap.
+Local-model calls: 21 in total, 20 of them agent-initiated. Phase 2: 4 calls on `qwen3:8b` (3 edited, 1 accepted). Phase 3: 7 calls (all edited).
 
-On this hardware (8 GB GPU) and this task class, local AI did not produce reliable cloud-token savings, and it made the runs much slower. This must not be presented as a proven token-cost reduction. The sample is N=2 per arm and is indicative only.
+Phase 3 also ran an A/B on one task class, N=2 per arm. The run labels the arms A and B. On the owner's account, A is the cloud-only arm (no local helper) and B is the local-helper arm, which is the slower one: billable tokens 57.9k vs 47.3k, cost $0.0079 vs $0.0077, wall time 98.6 s vs 180.3 s. Run-to-run noise was larger than the A/B gap.
+
+On this hardware (8 GB GPU) and this task class, local AI did not produce reliable cloud-token savings, and arm B was slower. This must not be presented as a proven token-cost reduction. The sample is N=2 per arm and is indicative only.
 
 ## Running it yourself
 

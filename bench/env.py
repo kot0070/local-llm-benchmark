@@ -41,7 +41,7 @@ def nvidia_snapshot() -> dict | None:
 
 
 # False-positive background GPU helpers (2026-09-21, revised same night after a manager
-# audit caught an overclaim in FIX_ENV's own DONE report -- see MASTER_PLAN.md log):
+# audit caught an overclaim in FIX_ENV's own DONE report -- an external run log, not included):
 # tonight's preflight on this Windows PC waited the full 600 s contention window even
 # though the GPU was idle (med_u=0.0, vram ~1022 vs baseline ~1009 MB) because
 # foreign_gpu_processes() listed ~23 ordinary desktop processes holding a GPU context.
