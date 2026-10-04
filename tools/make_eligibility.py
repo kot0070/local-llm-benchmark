@@ -1,8 +1,9 @@
 """Build config/eligibility_night.json from V5_DESIGN sources.
 
-Reads D:\\LOCAL_AI\\V5_DESIGN\\test_matrix_v5.json (key "eligibility":
+Reads <LOCAL_AI_ROOT>/V5_DESIGN/test_matrix_v5.json (key "eligibility":
 {test_id: {model_key: {code, reason}}}) and
-D:\\LOCAL_AI\\V5_DESIGN\\inventory_v5.json (models[].key / .local / .runtime).
+<LOCAL_AI_ROOT>/V5_DESIGN/inventory_v5.json (models[].key / .local / .runtime).
+Set the LOCAL_AI_ROOT environment variable to that directory before running.
 
 Writes config/eligibility_night.json =
   {test_id: {ollama_tag: {"code": "E"|"O"|"U"|"S", "reason": str}}}
@@ -13,19 +14,34 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
-MATRIX = r"D:\LOCAL_AI\V5_DESIGN\test_matrix_v5.json"
-INVENTORY = r"D:\LOCAL_AI\V5_DESIGN\inventory_v5.json"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..",
                    "config", "eligibility_night.json")
 
 HOME_IDS = [f"HOME-{i:02d}" for i in range(1, 25)]
 
 
+def _design_path(name: str) -> str:
+    root = os.environ.get("LOCAL_AI_ROOT", "").strip()
+    if not root:
+        print("LOCAL_AI_ROOT is not set. Point it at the directory that "
+              "contains V5_DESIGN/test_matrix_v5.json and "
+              "V5_DESIGN/inventory_v5.json.", file=sys.stderr)
+        raise SystemExit(2)
+    path = os.path.join(root, "V5_DESIGN", name)
+    if not os.path.isfile(path):
+        print(f"missing design file: {path}", file=sys.stderr)
+        raise SystemExit(2)
+    return path
+
+
 def main() -> str:
-    with open(MATRIX, encoding="utf-8") as f:
+    matrix_path = _design_path("test_matrix_v5.json")
+    inventory_path = _design_path("inventory_v5.json")
+    with open(matrix_path, encoding="utf-8") as f:
         matrix = json.load(f)
-    with open(INVENTORY, encoding="utf-8") as f:
+    with open(inventory_path, encoding="utf-8") as f:
         inv = json.load(f)
     elig = matrix["eligibility"]
     key_to_local: dict[str, str] = {}

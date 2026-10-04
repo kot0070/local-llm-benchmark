@@ -1,6 +1,9 @@
 """Report + eligibility + gen_all tests (no network)."""
 import json
 import os
+from pathlib import Path
+
+_REPO = Path(__file__).resolve().parents[1]
 
 
 def _rec(model, test, case, status, sem, strict=None, wall=1.0):
@@ -61,8 +64,8 @@ def test_bootstrap_ci_deterministic():
 
 
 def test_eligibility_file_structure():
-    path = r"D:\LOCAL_AI\BENCH_V5_NIGHT\config\eligibility_night.json"
-    assert os.path.exists(path)
+    path = _REPO / "config" / "eligibility_night.json"
+    assert path.is_file()
     with open(path, encoding="utf-8") as f:
         elig = json.load(f)
     for i in range(1, 25):
@@ -74,7 +77,7 @@ def test_eligibility_file_structure():
             assert isinstance(info["reason"], str)
     assert len(elig["_deferred"]) == 12
     # every profile tag present
-    with open(r"D:\LOCAL_AI\BENCH_V5_NIGHT\config\profiles.json",
+    with open(_REPO / "config" / "profiles.json",
               encoding="utf-8") as f:
         tags = set(json.load(f)["profiles"])
     assert set(elig["HOME-01"]) == tags

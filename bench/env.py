@@ -41,7 +41,7 @@ def nvidia_snapshot() -> dict | None:
 
 
 # False-positive background GPU helpers (2026-09-21, revised same night after a manager
-# audit caught an overclaim in FIX_ENV's own DONE report -- see MASTER_PLAN.md log):
+# audit caught an overclaim in FIX_ENV's own DONE report -- an external run log, not included):
 # tonight's preflight on this Windows PC waited the full 600 s contention window even
 # though the GPU was idle (med_u=0.0, vram ~1022 vs baseline ~1009 MB) because
 # foreign_gpu_processes() listed ~23 ordinary desktop processes holding a GPU context.
@@ -51,9 +51,9 @@ def nvidia_snapshot() -> dict | None:
 #  2. This harness's OWN control-plane processes: the Claude Desktop app running the
 #     manager session (claude.exe) and the OpenCode agent launcher (opencode.exe) are
 #     present on THIS machine during every single run this harness will ever do (the
-#     manager and its agents ARE the thing running the benchmark) -- exact behaviour
-#     confirmed against the real, unmodified 23-line sample recorded tonight, which
-#     contains both (see tests/test_env_fix.py). Excluding them is the same principle
+#     manager and its agents ARE the thing running the benchmark). The basename
+#     filter is checked in tests/test_env_fix.py with a synthetic 23-line sample
+#     (fake paths and PIDs), not an unmodified machine capture. Excluding them is the same principle
 #     as excluding ollama/llama-server: it is the harness's own tooling, not a
 #     competing GPU workload.
 # Genuine third-party browsers/Electron apps (chrome.exe, msedge.exe,
