@@ -51,9 +51,9 @@ def nvidia_snapshot() -> dict | None:
 #  2. This harness's OWN control-plane processes: the Claude Desktop app running the
 #     manager session (claude.exe) and the OpenCode agent launcher (opencode.exe) are
 #     present on THIS machine during every single run this harness will ever do (the
-#     manager and its agents ARE the thing running the benchmark) -- exact behaviour
-#     confirmed against the real, unmodified 23-line sample recorded tonight, which
-#     contains both (see tests/test_env_fix.py). Excluding them is the same principle
+#     manager and its agents ARE the thing running the benchmark). The basename
+#     filter is checked in tests/test_env_fix.py with a synthetic 23-line sample
+#     (fake paths and PIDs), not an unmodified machine capture. Excluding them is the same principle
 #     as excluding ollama/llama-server: it is the harness's own tooling, not a
 #     competing GPU workload.
 # Genuine third-party browsers/Electron apps (chrome.exe, msedge.exe,

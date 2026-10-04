@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import time
+from pathlib import Path
 
 from bench import env as envmod
 from bench import runner
@@ -20,8 +21,8 @@ def _prof(**kw):
 
 
 def test_langs_reach_profile():
-    profiles = runner.load_profiles(
-        r"D:\LOCAL_AI\BENCH_V5_NIGHT\config\profiles.json")
+    profiles_path = Path(__file__).resolve().parents[1] / "config" / "profiles.json"
+    profiles = runner.load_profiles(str(profiles_path))
     assert profiles["nomic-embed-text:latest"].langs == ["en"]
     assert profiles["bge-m3:latest"].langs == ["multi"]
 

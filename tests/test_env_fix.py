@@ -8,30 +8,31 @@ from bench import env as envmod
 CPU_SAMPLE = "Intel(R) Core(TM) i9-10900KF CPU @ 3.70GHz"
 RAM_BYTES_SAMPLE = "34226864128"
 
-# Exact 23-line compute-apps sample from the night_20260921-155146 preflight.
-FOREIGN_SAMPLE = """5984, C:\\Windows\\System32\\ShellHost.exe
-4996, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe
-5932, C:\\Windows\\explorer.exe
-10796, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe
-10788, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe
-11132, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe
-9440, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe
-12680, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\153.0.4234.48\\msedgewebview2.exe
-8644, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe
-18340, D:\\Steam\\bin\\cef\\cef.win64\\steamwebhelper.exe
-16408, C:\\Program Files\\WindowsApps\\Claude_2.2553.1.0_x64__pzs8sxrjxfjjc\\app\\claude.exe
-21180, C:\\Program Files\\WindowsApps\\Claude_2.2553.1.0_x64__pzs8sxrjxfjjc\\app\\claude.exe
-20508, C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftOfficeHub_19.2609.44031.0_x64__8wekyb3d8bbwe\\M365Copilot.exe
-21860, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\153.0.4234.48\\msedgewebview2.exe
-11888, C:\\Windows\\System32\\ApplicationFrameHost.exe
-11864, C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe
-7420, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe
-9432, C:\\Program Files\\WindowsApps\\Microsoft.ScreenSketch_11.2607.23.0_x64__8wekyb3d8bbwe\\SnippingTool\\SnippingTool.exe
-23364, C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11911.0_x64__8wekyb3d8bbwe\\WindowsTerminal.exe
-16744, C:\\Users\\DevUser\\AppData\\Local\\Programs\\@opencodedesktop\\OpenCode.exe
-19992, C:\\Program Files\\WindowsApps\\Microsoft.WindowsNotepad_11.2607.14.0_x64__8wekyb3d8bbwe\\Notepad\\Notepad.exe
-6164, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe
-13080, C:\\Users\\DevUser\\AppData\\Local\\Programs\\Ollama\\lib\\ollama\\llama-server.exe"""
+# Synthetic 23-line compute-apps sample. Basenames are the ones the filter
+# classifies; PIDs and paths are fake, not a machine capture.
+FOREIGN_SAMPLE = """1101, C:\\Windows\\Example\\ShellHost.exe
+1102, C:\\Windows\\Example\\CrossDeviceResume.exe
+1103, C:\\Windows\\Example\\explorer.exe
+1104, C:\\Windows\\Example\\StartMenuExperienceHost.exe
+1105, C:\\Windows\\Example\\SearchHost.exe
+1106, C:\\Program Files\\Example\\NVIDIA Overlay.exe
+1107, C:\\Program Files\\Example\\NVIDIA Overlay.exe
+1108, C:\\Program Files\\Example\\msedgewebview2.exe
+1109, C:\\Program Files\\Example\\chrome.exe
+1110, C:\\Program Files\\Example\\steamwebhelper.exe
+1111, C:\\Program Files\\Example\\claude.exe
+1112, C:\\Program Files\\Example\\claude.exe
+1113, C:\\Program Files\\Example\\M365Copilot.exe
+1114, C:\\Program Files\\Example\\msedgewebview2.exe
+1115, C:\\Windows\\Example\\ApplicationFrameHost.exe
+1116, C:\\Windows\\Example\\SystemSettings.exe
+1117, C:\\Windows\\Example\\ShellExperienceHost.exe
+1118, C:\\Program Files\\Example\\SnippingTool.exe
+1119, C:\\Program Files\\Example\\WindowsTerminal.exe
+1120, C:\\Program Files\\Example\\OpenCode.exe
+1121, C:\\Program Files\\Example\\Notepad.exe
+1122, C:\\Program Files\\Example\\msedge.exe
+1123, C:\\Program Files\\Example\\llama-server.exe"""
 
 
 def _run_router(monkeypatch, mapping, call_log=None):
@@ -98,27 +99,27 @@ def test_foreign_filter_drops_shell_and_harness_processes(monkeypatch):
     # (claude.exe, opencode.exe) are excluded; genuine third-party
     # browsers/Electron apps stay, so the remainder is exactly that set.
     assert set(got) == {
-        "8644, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-        "18340, D:\\Steam\\bin\\cef\\cef.win64\\steamwebhelper.exe",
-        "20508, C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftOfficeHub_19.2609.44031.0_x64__8wekyb3d8bbwe\\M365Copilot.exe",
-        "6164, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+        "1109, C:\\Program Files\\Example\\chrome.exe",
+        "1110, C:\\Program Files\\Example\\steamwebhelper.exe",
+        "1113, C:\\Program Files\\Example\\M365Copilot.exe",
+        "1122, C:\\Program Files\\Example\\msedge.exe",
     }
 
 
 def test_foreign_filter_keeps_real_heavy_process(monkeypatch):
-    mixed = FOREIGN_SAMPLE + "\n45678, D:\\Games\\SomeGame\\SomeGame.exe"
+    mixed = FOREIGN_SAMPLE + "\n45678, C:\\Program Files\\Example\\SomeGame\\SomeGame.exe"
     monkeypatch.setattr(
         envmod, "_run",
         lambda cmd, timeout=30.0: (True, mixed)
         if "query-compute-apps" in " ".join(cmd) else (False, "x"))
     got = envmod.foreign_gpu_processes()
-    assert "45678, D:\\Games\\SomeGame\\SomeGame.exe" in got
+    assert "45678, C:\\Program Files\\Example\\SomeGame\\SomeGame.exe" in got
 
 
 def test_contention_check_real_sample_still_waits_on_third_party_apps(monkeypatch):
-    """The literal unmodified sample still has chrome/msedge/steamwebhelper/M365Copilot
-    in it (genuine third-party apps, deliberately not excluded) -> contention_check
-    must NOT report uncontended on this exact sample; it should time out and return
+    """The synthetic sample still has chrome/msedge/steamwebhelper/M365Copilot
+    in it (third-party basenames, deliberately not excluded) -> contention_check
+    must NOT report uncontended on this sample; it should time out and return
     False once wait_s elapses (fail-safe: an idle browser costs one wait, never a
     missed real contender)."""
     monkeypatch.setattr(
@@ -138,7 +139,7 @@ def test_contention_check_real_sample_still_waits_on_third_party_apps(monkeypatc
 
 
 def test_contention_check_real_sample_passes_once_third_party_apps_close(monkeypatch):
-    """Same literal sample with only the shell-helper + harness-control-plane lines
+    """Same synthetic sample with only the shell-helper + harness-control-plane lines
     (explorer/ShellHost/.../claude.exe/opencode.exe) -> those are always-on/self noise,
     so this must pass immediately, no waiting."""
     idle_only = "\n".join(
