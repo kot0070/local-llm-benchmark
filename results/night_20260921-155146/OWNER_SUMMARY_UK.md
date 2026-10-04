@@ -7,7 +7,7 @@
 - тривалість: 461.5 хв
 - бюджет: 8.0 год
 - Ollama: 0.34.2
-- GPU: NVIDIA GeForce RTX 3070, GPU-897afb79-eeae-e49b-f373-0b5b356225b1, 616.92, 8192 MiB, 220.00 W
+- GPU: NVIDIA GeForce RTX 3070, redacted, 616.92, 8192 MiB, 220.00 W
 - CPU: Intel(R) Core(TM) i9-10900KF CPU @ 3.70GHz (зчитано з поточної системи); RAM: 31.9 GB (зчитано з поточної системи); OS: 10.0.26200
 - моделей запущено: 24 (aya-expanse:8b, bge-m3:latest, command-r7b:7b, deepseek-r1:8b, functiongemma:270m, gemma3:12b, glm-ocr:latest, granite-code:8b-instruct, granite3.2-vision:2b, lfm2.5:8b, llama-guard3:8b, llama3.1:8b, mistral-nemo:12b, nomic-embed-text:latest, nuextract:3.8b, phi4-mini:latest, qwen2.5-coder:7b, qwen2.5vl:7b, qwen3.5:4b, qwen3:1.7b, qwen3:14b, qwen3:8b, reader-lm:1.5b, sqlcoder:7b)
 - тестів запущено: 25 (HOME-01, HOME-02, HOME-03, HOME-04, HOME-05, HOME-06, HOME-07, HOME-08, HOME-09, HOME-10, HOME-11, HOME-12, HOME-13, HOME-14, HOME-15, HOME-16, HOME-17, HOME-18, HOME-19, HOME-20, HOME-21, HOME-22, HOME-23, HOME-24, PERF)

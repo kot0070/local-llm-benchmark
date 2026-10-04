@@ -211,6 +211,16 @@ one vision model on its HOME document test under a plain-answer variant; the
 folder README states the numbers and why the two conditions must not be
 compared as one series.
 
+## Downstream use: local vs cloud routing test
+
+The scores in this repository (RTX 3070 8 GB, Ollama) were later converted into a small capability and routing knowledge base. That base has 19 models, 155 capability rows (40 measured, 111 no-data), and 14 routing rules. A task is sent LOCAL only where the model scored 100% strict. The routed counts are 20 LOCAL, 15 SPLIT, and 118 CLOUD. The knowledge-base file itself is not published.
+
+The hypothesis was that a manager/router which splits work between local models and cloud models can save cloud tokens. The practical test was a private n8n AI Workflow Router and its private PWA chat client (those repositories are not linked here). A Director → Manager → agents chain used local models (`qwen3:8b`) through the knowledge-base rules as supervised helpers. The chain was driven by a prompt plus a master plan, not by a specialized agent framework. Local-model calls: 21 in total. Phase 2: 4 calls (3 edited, 1 accepted). Phase 3: 7 calls (all edited).
+
+Phase 3 also ran an A/B on one task class of 24 test cases, N=2 per arm. The pairs below are one order (the other arm, then the local-helper arm; the local-helper arm is the slower one): billable tokens 57.9k vs 47.3k, cost $0.0079 vs $0.0077 (about −1.6%), wall time 98.6 s vs 180.3 s (about +83%). Run-to-run noise was larger than the A/B gap.
+
+On this hardware (8 GB GPU) and this task class, local AI did not produce reliable cloud-token savings, and it made the runs much slower. This must not be presented as a proven token-cost reduction. The sample is N=2 per arm and is indicative only.
+
 ## Running it yourself
 
 - Full run (8 h, unattended, resumable; logs to `logs/night_*.log`):

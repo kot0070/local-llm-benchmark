@@ -2,16 +2,16 @@
 
 Goal: an **unattended, time-boxed (default 8 h), resumable** benchmark of the **24 Ollama models** on this Windows PC
 (RTX 3070 8 GB, ~6.9 GiB free VRAM idle, 32 GB RAM, Ollama 0.34.2 at 127.0.0.1:11434).
-Full methodology: `D:\LOCAL_AI\V5_DESIGN\V5_PHASE1_DESIGN_UK.md` (Ukrainian; sections D–I) and
-`D:\LOCAL_AI\V5_DESIGN\V5_APPENDIX_TABLES_UK.md` §C2 (HOME test cards). NIGHT-1 is a reduced ("lite") version:
+Full methodology: `<LOCAL_AI_ROOT>/V5_DESIGN/V5_PHASE1_DESIGN_UK.md` (Ukrainian; sections D–I) and
+`<LOCAL_AI_ROOT>/V5_DESIGN/V5_APPENDIX_TABLES_UK.md` §C2 (HOME test cards). NIGHT-1 is a reduced ("lite") version:
 same test ideas, fewer cases, Ollama only. LM Studio and Specialists are **not run** tonight (reported as DEFERRED).
 
 ## HARD RULES FOR CODING AGENTS
 1. **Never contact Ollama** (no HTTP to port 11434, no `ollama` CLI). All tests use mocks. The harness reads the base
    URL from env `BENCH_OLLAMA_URL` (default `http://127.0.0.1:11434`); during development it points to a dead port.
-2. Write only inside `D:\LOCAL_AI\BENCH_V5_NIGHT\`. Never modify `bench/types.py`, `config/profiles.json`, `SPEC_NIGHT.md`.
+2. Write only inside `<LOCAL_AI_ROOT>/BENCH_V5_NIGHT/`. Never modify `bench/types.py`, `config/profiles.json`, `SPEC_NIGHT.md`.
    Touch only the files your task owns (listed in your task prompt).
-3. Python interpreter: `D:\LOCAL_AI\homefield-bench\.venv\Scripts\python.exe` (Python 3.13, has Pillow 12.3, jsonschema,
+3. Python interpreter: `<LOCAL_AI_ROOT>/homefield-bench/.venv/Scripts/python.exe` (Python 3.13, has Pillow 12.3, jsonschema,
    pytest). **Do not pip install anything.** Stdlib + Pillow only. No network access at runtime.
 4. Deterministic: every generator uses a fixed seed; re-running a generator must reproduce byte-identical files.
 5. Every ground truth must be **machine-verified by the generator** (oracle execution, solver, recomputation) and every

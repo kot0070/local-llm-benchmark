@@ -132,7 +132,7 @@
   "python": "3.13.15 (tags/v3.13.15:4061bc4, Aug  5 2026, 13:05:39) [MSC v.1944 64 bit (AMD64)]",
   "platform": "Windows-11-10.0.26200-SP0",
   "warnings": [],
-  "gpu": "NVIDIA GeForce RTX 3070, GPU-897afb79-eeae-e49b-f373-0b5b356225b1, 616.92, 8192 MiB, 220.00 W",
+  "gpu": "NVIDIA GeForce RTX 3070, redacted, 616.92, 8192 MiB, 220.00 W",
   "cpu": "Intel(R) Core(TM) i9-10900KF CPU @ 3.70GHz",
   "ram": "31.9 GB",
   "power_scheme": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Збалансований)",
@@ -152,13 +152,8 @@
     "gpu_util_median": 0.0,
     "vram_used_mb": 759.0,
     "vram_baseline_mb": 759.0,
-    "foreign": [
-     "8644, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-     "18340, D:\\Steam\\bin\\cef\\cef.win64\\steamwebhelper.exe",
-     "20508, C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftOfficeHub_19.2609.44031.0_x64__8wekyb3d8bbwe\\M365Copilot.exe",
-     "6164, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-     "6272, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-    ]
+    "foreign": "redacted",
+    "foreign_count": 5
    }
   }
  },

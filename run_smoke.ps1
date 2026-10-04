@@ -6,7 +6,14 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Py = "D:\LOCAL_AI\homefield-bench\.venv\Scripts\python.exe"
+# Interpreter: $env:BENCH_PYTHON, else $env:LOCAL_AI_ROOT\homefield-bench\.venv\Scripts\python.exe, else python on PATH.
+if ($env:BENCH_PYTHON) {
+  $Py = $env:BENCH_PYTHON
+} elseif ($env:LOCAL_AI_ROOT) {
+  $Py = Join-Path $env:LOCAL_AI_ROOT "homefield-bench\.venv\Scripts\python.exe"
+} else {
+  $Py = "python"
+}
 $Stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $LogDir = Join-Path $Root "logs"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
