@@ -61,5 +61,5 @@ def test_mockenv_mutation():
     assert r["ok"] and env.snapshot()["orders"]["ORD-1005"] == "cancelled"
     r = env.call("cancel_order", {"order_id": "ORD-1004"})
     assert not r["ok"]  # delivered cannot cancel
-    r = env.call("send_email", {"to": "a@b.com", "subject": "s", "body": "b"})
+    r = env.call("send_email", {"to": "a@example.com", "subject": "s", "body": "b"})
     assert r["ok"] and len(env.sent_emails) == 1

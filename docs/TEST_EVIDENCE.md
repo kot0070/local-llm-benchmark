@@ -55,15 +55,28 @@ Static count at the same commit, not a pytest result: 30 `test_*.py` files under
 
 ## Failed node ids
 
-From the `pytest -q` short summary and assertion lines:
+Before the repo-relative config change (the run above, and again on `8a7a8c0909541288fdea76ae28d81e9bfad6bf3b`): **7 failed, 375 passed, 3 skipped**.
 
 - `tests/test_analysis_report.py::test_real_smoke3_exit_zero_readonly` — `AssertionError: results/SMOKE3 missing`
 - `tests/test_build_excel_report.py::test_failure_quotes_verified_real_run` — `AssertionError: ('aya-expanse:8b', 'H03-007')` / `assert None is not None`
 - `tests/test_build_excel_report_en.py::test_failure_quotes_verified_real_run` — same assertion as the Ukrainian workbook test above
 - `tests/test_build_excel_report_en.py::test_no_ranked_with_zero_scored` — `assert 0 == 215`
-- `tests/test_core_fix_a.py::test_langs_reach_profile` — `FileNotFoundError` for `<LOCAL_AI_ROOT>\BENCH_V5_NIGHT\config\profiles.json` (the recorded exception used a machine-local prefix; it is written here as `<LOCAL_AI_ROOT>`)
-- `tests/test_core_report.py::test_eligibility_file_structure` — `os.path.exists` was false for `<LOCAL_AI_ROOT>\BENCH_V5_NIGHT\config\eligibility_night.json` (same placeholder for the machine-local prefix)
+- `tests/test_core_fix_a.py::test_langs_reach_profile` — `FileNotFoundError` for a machine-local `config/profiles.json` path (prefix written here as `<LOCAL_AI_ROOT>`)
+- `tests/test_core_report.py::test_eligibility_file_structure` — `os.path.exists` was false for a machine-local `config/eligibility_night.json` path (same `<LOCAL_AI_ROOT>` placeholder)
 - `tests/test_owner_summary.py::test_language_note_above_english_bullets` — `assert (-1 != -1)` on `first_bullet`
+
+After those two tests load `config/profiles.json` and `config/eligibility_night.json` via `Path(__file__).resolve().parents[1]`, `python -m pytest -q tests` reported **5 failed, 377 passed, 3 skipped** (exit code 1, about 25s, CPython 3.12.3). The two node ids that left the failure set:
+
+- `tests/test_core_fix_a.py::test_langs_reach_profile`
+- `tests/test_core_report.py::test_eligibility_file_structure`
+
+The five that still fail:
+
+- `tests/test_analysis_report.py::test_real_smoke3_exit_zero_readonly`
+- `tests/test_build_excel_report.py::test_failure_quotes_verified_real_run`
+- `tests/test_build_excel_report_en.py::test_failure_quotes_verified_real_run`
+- `tests/test_build_excel_report_en.py::test_no_ranked_with_zero_scored`
+- `tests/test_owner_summary.py::test_language_note_above_english_bullets`
 
 ## Worktree side effect
 
