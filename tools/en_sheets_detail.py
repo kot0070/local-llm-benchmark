@@ -171,3 +171,143 @@ def build_failures_sheet(wb, analysis: list[dict]):
             if isinstance(cell.value, str) and cell.value != NOT_AVAILABLE:
                 cell.font = quote_font  # verbatim model output: monospace
     return ws
+
+
+# --- 28-model extension (NIGHT-1 base + NIGHT-2 band) ----------------------
+# Same two sheets with a trailing "Run" column so every per-model and
+# per-model/per-test row carries its run id. The trailing position keeps
+# every existing column index (Q_sem col D, quote col G) stable, so the
+# shared helpers (_q_scale, quote-column scans) behave identically.
+# Evidence quotes stay verbatim passthrough: no second quote helper lives
+# here; normalization happens upstream through
+# tools/build_excel_report_en.py::normalize_failure_quotes.
+
+DETAIL_HEADER_28 = DETAIL_HEADER + ["Run"]
+FAILURE_HEADER_28 = FAILURE_HEADER + ["Run"]
+
+
+def _detail_row_28(model: dict, entry: dict, run_id: str) -> list:
+    """One Per-Model Test Detail data row with trailing run id."""
+    tag = str(model.get("model", "") or "").strip() or NOT_AVAILABLE
+    outcome_raw = str(entry.get("outcome", "") or "").strip().lower()
+    not_attempted = outcome_raw == "not attempted"
+    q_raw = entry.get("q_sem")
+    if not_attempted:
+        q_cell: object = None  # genuinely empty: no score exists
+        n_cell: object = None  # genuinely empty: no attempt count exists
+    elif isinstance(q_raw, bool) or q_raw is None or (
+            isinstance(q_raw, str) and not q_raw.strip()):
+        q_cell = NOT_AVAILABLE
+        n_cell = _text(entry.get("n"))
+    else:
+        try:
+            q_cell = round(float(q_raw), 3)
+        except (TypeError, ValueError):
+            q_cell = NOT_AVAILABLE
+        n_cell = _text(entry.get("n"))
+    return [tag,
+            _text(entry.get("test_id")),
+            _text(entry.get("title")),
+            q_cell,
+            n_cell,
+            _outcome_label(entry.get("outcome")),
+            _text(entry.get("note")),
+            run_id]
+
+
+def build_detail_sheet_28(wb, base: list[dict], n2: list[dict],
+                          base_run_id: str, n2_run_id: str):
+    """Append the 28-model 'Per-Model Test Detail' sheet (672 data rows)."""
+    from openpyxl.styles import Alignment, Border, Side
+    from tools.build_excel_report_en import _q_scale, _style_table
+
+    ws = wb.create_sheet(SHEET_NAMES_DETAIL[0])
+    ws.append(DETAIL_HEADER_28)
+    first_rows: set[int] = set()
+    for model, run_id in (
+            [(m, base_run_id) for m in
+             sorted(base, key=lambda x: str(x.get("model")))]
+            + [(m, n2_run_id) for m in
+               sorted(n2, key=lambda x: str(x.get("model")))]):
+        entries = sorted(model.get("per_test") or [],
+                         key=lambda e: str(e.get("test_id", "")))
+        first_rows.add(ws.max_row + 1)
+        for entry in entries:
+            ws.append(_detail_row_28(model, entry, run_id))
+    _style_table(ws, [22, 10, 40, 10, 18, 14, 72, 22], {3: "0.000"})
+    ws.freeze_panes = "B2"  # keep the header row and the Model column visible
+    ws.auto_filter.ref = ws.dimensions
+    _q_scale(ws, "D", ws.max_row)
+    wrap_top = Alignment(wrap_text=True, vertical="top")
+    block_top = Border(top=Side(style="thin", color="BFBFBF"))
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row,
+                            max_col=len(DETAIL_HEADER_28)):
+        for cell in row:
+            cell.alignment = wrap_top
+            if cell.row in first_rows:
+                cell.border = block_top
+        ws.row_dimensions[row[0].row].height = 30
+    return ws
+
+
+def _failure_row_28(tag: str, entry: dict, run_id: str) -> list:
+    """One Failure Analysis data row with trailing run id."""
+    count = entry.get("count")
+    count_cell: object = (count if isinstance(count, int)
+                          and not isinstance(count, bool)
+                          else NOT_AVAILABLE)
+    return [tag,
+            _text(entry.get("pattern")),
+            count_cell,
+            _text(entry.get("english_meaning")),
+            _text(entry.get("what_the_model_did")),
+            _text(entry.get("example_case_id")),
+            entry.get("example_quote")
+            if isinstance(entry.get("example_quote"), str)
+            and entry.get("example_quote", "").strip()
+            else NOT_AVAILABLE,
+            _text(entry.get("why_it_matters")),
+            run_id]
+
+
+def build_failures_sheet_28(wb, base: list[dict], n2: list[dict],
+                            base_run_id: str, n2_run_id: str):
+    """Append the 28-model 'Failure Analysis' sheet (quote col stays G)."""
+    from openpyxl.styles import Alignment, Font
+    from tools.build_excel_report_en import _style_table
+
+    ws = wb.create_sheet(SHEET_NAMES_DETAIL[1])
+    ws.append(FAILURE_HEADER_28)
+    quote_font = Font(name="Consolas")
+    for model, run_id in (
+            [(m, base_run_id) for m in
+             sorted(base, key=lambda x: str(x.get("model")))]
+            + [(m, n2_run_id) for m in
+               sorted(n2, key=lambda x: str(x.get("model")))]):
+        tag = str(model.get("model", "") or "").strip() or NOT_AVAILABLE
+        patterns = sorted(model.get("failure_analysis") or [],
+                          key=lambda e: (-(e.get("count")
+                                           if isinstance(e.get("count"), int)
+                                           and not isinstance(e.get("count"), bool)
+                                           else -1),
+                                         str(e.get("pattern", ""))))
+        if not patterns:
+            ws.append([tag, NO_PATTERN_ROW, None, None, None, None, None,
+                       None, run_id])
+            continue
+        for entry in patterns:
+            ws.append(_failure_row_28(tag, entry, run_id))
+    _style_table(ws, [22, 30, 8, 42, 52, 14, 52, 42, 22])
+    ws.auto_filter.ref = ws.dimensions
+    wrap_top = Alignment(wrap_text=True, vertical="top")
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row,
+                            max_col=len(FAILURE_HEADER_28)):
+        for cell in row:
+            cell.alignment = wrap_top
+        ws.row_dimensions[row[0].row].height = 60
+    for row in ws.iter_rows(min_row=2, min_col=7, max_col=7,
+                            max_row=ws.max_row):
+        for cell in row:
+            if isinstance(cell.value, str) and cell.value != NOT_AVAILABLE:
+                cell.font = quote_font  # verbatim model output: monospace
+    return ws

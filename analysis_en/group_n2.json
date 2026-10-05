@@ -1,0 +1,1124 @@
+[
+  {
+    "model": "night2-ministral-3-8b:q4km",
+    "profile": {
+      "documented": "A chat model documented for text, tools, and vision use with no thinking mode, a claimed 262144-token working context, and broad multilingual coverage that is not enumerated per language. The claimed context was obtained by stretching rotary position settings from a native 16384, the only such order-of-magnitude gap among all 28 documented profiles. Sampling follows plain greedy harness defaults, no packaged stop sequences are declared, and tool use is marked as documented from runtime capabilities. It was imported from a quantized GGUF build into Ollama 0.34.3, which is the runtime recorded for every record in this run.",
+      "role_in_run": "No HOME test was designed around this model, so it ran the whole program as a guest. Its 351 records span 22 scored tests, though 96 cases across thirteen tests never ran for budget reasons and dilute its coverage."
+    },
+    "overall": {
+      "scored_records": 245,
+      "ok_records": 73,
+      "ok_rate_pct": 29.8,
+      "tests_scored": 22,
+      "mean_q_sem": 0.785,
+      "rating_10": 6.4,
+      "rating_basis": "Rating 6.4 = 10 * (0.7 * 0.785 mean quality over 22 scored tests + 0.3 * 0.298 OK rate over 245 scored records); no home-test term exists because the model has no home test, so the freed weight sits on mean quality."
+    },
+    "home_test": {
+      "test_id": null,
+      "title": "no dedicated test",
+      "q_sem": null,
+      "q_strict": null,
+      "n": "-",
+      "analysis": "No HOME test was designed around this model, so there is no home result to report. Every score below was earned as a guest on tasks built for other models, which means the numbers measure transfer to foreign contracts rather than mastery of its own. Read strengths as genuine versatility and failures as partly unfamiliar-format effects, not as a verdict on its intended use. Its semantic content is excellent almost everywhere, so the report below is mostly a format story: what the model knew was right, but the way it packaged that knowledge broke machine-readable contracts."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.941,
+        "n": "24/24",
+        "outcome": "strong",
+        "note": "Semantically near-perfect at 0.941, but every one of the 24 answers sits inside code fences the contract forbids, so strict quality is zero throughout."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: the profile documents no embedding capability, so the cross-lingual retrieval placeholder was never run."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 1.0,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Semantically perfect RAG answers at 1.000, all 16 wrapped in forbidden code fences, so strict quality is zero throughout."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.667,
+        "n": "6/12",
+        "outcome": "adequate",
+        "note": "Adequate at 0.667 over the 6 scored math cases, with four solved; six further cases never ran for budget reasons."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.417,
+        "n": "12/12",
+        "outcome": "weak",
+        "note": "Weak chart reading at 0.417: all 12 answers carry a format defect, and only about half the content is right."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.917,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Strong bug repair at 0.917, with ten clean fixes, one wrong bug-line pointer, and one patch that failed hidden tests."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 1.0,
+        "n": "10/16",
+        "outcome": "strong",
+        "note": "Semantically perfect document answers at 1.000 over the 10 scored cases, but none respects the bare-answer contract; six further cases never ran."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 1.0,
+        "n": "32/32",
+        "outcome": "strong",
+        "note": "Semantically perfect safety classification at 1.000 across all 32 cases, every answer fenced, so strict quality is zero throughout."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 1.0,
+        "n": "4/8",
+        "outcome": "strong",
+        "note": "Semantically perfect wiki answers at 1.000 over the 4 scored cases, all breaking the answer contract; four further cases never ran."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "1/3",
+        "outcome": "failed",
+        "note": "Failed at 0.000: two cases exceeded the context window and the single attempted one was cut off mid-answer."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: English retrieval needs an embedding capability this profile does not document."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 1.0,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Semantically perfect template extraction at 1.000 across all 12 texts, every answer fenced, so strict quality is zero throughout."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 1.0,
+        "n": "10/20",
+        "outcome": "strong",
+        "note": "Perfect word-problem solving at 1.000 over the 10 scored cases; ten further cases never ran for budget reasons."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.917,
+        "n": "8/16",
+        "outcome": "strong",
+        "note": "Strong code generation at 0.917 over the 8 scored cases, with two solutions failing hidden tests; half the test never ran."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.083,
+        "n": "12/12",
+        "outcome": "failed",
+        "note": "Failed grounding at 0.083: all 12 answers carry a format defect and essentially none of the boxes is right."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.8,
+        "n": "20/40",
+        "outcome": "strong",
+        "note": "Strong routing content at 0.800 over the 20 scored requests, every answer fenced; twenty further requests never ran."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.25,
+        "n": "4/6",
+        "outcome": "weak",
+        "note": "Weak optimization at 0.250 over 4 scored cases, with two constraint violations and one suboptimal solution; two cases never ran."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 1.0,
+        "n": "6/10",
+        "outcome": "strong",
+        "note": "Perfect loop content at 1.000 over the 6 scored cases, half of it breaking the final-answer contract; four cases never ran."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.96,
+        "n": "4/8",
+        "outcome": "strong",
+        "note": "Near-perfect conversion content at 0.960 over the 4 scored cases, all of it fenced; four cases never ran."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.873,
+        "n": "12/20",
+        "outcome": "strong",
+        "note": "Strong text-to-SQL at 0.873 over the 12 scored queries, with three returning wrong rows; eight queries never ran."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.9,
+        "n": "5/8",
+        "outcome": "strong",
+        "note": "Strong chain content at 0.900 over the 5 scored cases, most of it breaking the answer contract; three cases never ran."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.7,
+        "n": "10/10",
+        "outcome": "adequate",
+        "note": "Adequate vision tool calling at 0.700, with two wrong tool choices out of ten fully attempted calls."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.981,
+        "n": "10/16",
+        "outcome": "strong",
+        "note": "Strong OCR transcription at 0.981 over the 10 scored images, with one partial transcription; six images never ran."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.867,
+        "n": "15/30",
+        "outcome": "strong",
+        "note": "Strong function calling at 0.867 over the 15 scored calls, with two wrong calls; half the test never ran."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "FORMAT_ERROR[code_fence]",
+        "count": 108,
+        "english_meaning": "a correct payload wrapped in code fences that the output contract forbids",
+        "what_the_model_did": "All 108 cases carry valid JSON with the right fields and values inside triple-backtick fences; the validator keeps the semantic score, for example 0.941 on the classification test, and zeroes only the strict score.",
+        "example_case_id": "H01-021",
+        "example_quote": "```json\n{\n  \"intent\": \"order_status\",\n  \"urgency\": \"medium\",\n  \"entity_ids\": [\"ORD-61045\"],\n  \"amount\": null,\n  \"date\": \"2026-09-05\",\n  \"language\": \"zh\"\n}\n```",
+        "why_it_matters": "Every fenced answer fails strict validation, so the model is unusable in pipelines that parse output directly, however correct the content."
+      },
+      {
+        "pattern": "FORMAT_ERROR",
+        "count": 35,
+        "english_meaning": "a format defect recorded without a machine-readable sub-reason",
+        "what_the_model_did": "Thirty-four of the 35 are fenced JSON payloads like the code-fence pattern above; the remaining one is free prose answering a vision tool call instead of emitting the call.",
+        "example_case_id": "HOME-05-01",
+        "example_quote": "```json\n{\n  \"answer\": 247\n}\n```",
+        "why_it_matters": "The practical effect matches the fence pattern: content the validator scores highly cannot be consumed without a postprocessing step."
+      },
+      {
+        "pattern": "FORMAT_ERROR[CONTRACT_BROKEN]",
+        "count": 10,
+        "english_meaning": "the final answer broke the output contract with extra text or fenced JSON",
+        "what_the_model_did": "Nine of the ten answers score a full 1.000 semantic quality with one at 0.5, but all ten present fenced JSON or surrounding prose where the contract demands a bare answer.",
+        "example_case_id": "HOME-09-01",
+        "example_quote": "```json\n{\n  \"answer\": \"Harbor House\",\n  \"evidence\": [\"S097\"]\n}\n```",
+        "why_it_matters": "Contract breaks are the cheapest failures to fix from outside: a fence-stripping parser recovers all of this quality with no model change."
+      },
+      {
+        "pattern": "WRONG_ANSWER[TESTS_FAILED]",
+        "count": 3,
+        "english_meaning": "emitted code that failed the hidden functional tests",
+        "what_the_model_did": "Two repaired programs and one generated function look plausible, including a deduplication routine with its bug line marked, but fail execution against the hidden suite.",
+        "example_case_id": "HOME-06-08",
+        "example_quote": "```python\ndef deduplicate(xs):\n    seen = set()\n    out = []\n    for x in xs:\n        if x not in seen:\n            seen.add(x)\n            out.append(x)\nBUG_LINE: 5\n```",
+        "why_it_matters": "Plausible-looking code that fails tests is the dangerous kind of wrong, since it invites trust it has not earned."
+      },
+      {
+        "pattern": "WRONG_ANSWER[WRONG_ROWS]",
+        "count": 3,
+        "english_meaning": "the SQL query ran but returned the wrong rows",
+        "what_the_model_did": "Three retail queries join the right tables yet filter or nest incorrectly, returning a partial or incorrect customer set at partial credit around 0.33.",
+        "example_case_id": "HOME-20-01",
+        "example_quote": "```sql\nSELECT DISTINCT c.name\nFROM customers c\nJOIN order_items oi ON c.id = (\n    SELECT o.customer_id\n    FROM orders o\n    JOIN order_items oi2 ON o.id = oi2.order_id\n    WHERE oi2.product_id = (\n [truncated]",
+        "why_it_matters": "Wrong-row queries are silent data errors: they execute cleanly and return confident-looking incorrect results."
+      },
+      {
+        "pattern": "WRONG_ANSWER",
+        "count": 3,
+        "english_meaning": "a wrong answer recorded without a machine-readable sub-reason",
+        "what_the_model_did": "Two cases chose the wrong vision tool with an empty text channel, and one OCR case produced a partial Chinese transcription at 0.806 that the validator still rejects.",
+        "example_case_id": "HOME-23-10",
+        "example_quote": "港口仓库于周二上午收到了四十二箱铜线。夜间警卫签署了第48个",
+        "why_it_matters": "Bare wrong answers give no diagnostic hook, so they must be read case by case rather than mitigated as a class."
+      }
+    ],
+    "strengths": [
+      "Its semantic content is outstanding: mean quality 0.785 over 22 scored tests, with seven tests at a perfect 1.000 including safety, RAG, wiki questions, and template extraction.",
+      "Its code repair is solid at 0.917, with ten of twelve patches clean against hidden tests.",
+      "Its OCR transcription reached 0.981 over ten scored images, the best transcription figure among the guest models.",
+      "It attempted every vision tool-calling case and scored 0.700, showing its documented vision capability is operational rather than nominal."
+    ],
+    "weaknesses": [
+      "It wraps essentially every structured answer in code fences the contracts forbid: 108 fence defects plus 34 more fenced payloads logged without a detailed sub-reason, driving strict quality to zero on eleven tests.",
+      "It failed visual grounding at 0.083, with essentially no correct bounding box across twelve cases.",
+      "Chart reading is weak at 0.417, so its vision capability covers documents and OCR far better than charts and coordinates.",
+      "Ninety-six cases across thirteen tests never ran for budget reasons, so its strong means rest on thinner evidence than the runner planned."
+    ],
+    "use_when": [
+      "Bug repair and code review workflows where a human or a fence-stripping postprocessor reads the patch, since the code inside the fences is usually right.",
+      "Safety classification and RAG answering behind a lenient parser that strips markdown fences before validation.",
+      "OCR transcription of mixed-language images where plain-text answers are accepted.",
+      "Document understanding tasks where answer content matters more than the exact output envelope."
+    ],
+    "avoid_when": [
+      "Strict machine-readable pipelines that reject fenced JSON, where every answer would fail validation despite correct content.",
+      "Visual grounding that needs accurate bounding-box coordinates, where it scored near zero.",
+      "Chart-value extraction presented as exact numbers, where fewer than half its answers were right."
+    ],
+    "hardware_fit": "Cold load takes about 52 seconds, the cost of bringing roughly 6 GB onto the card, and the first token needs a further 44 seconds, so interactive restarts feel slow. Steady generation near 57 tok/s is respectable once it starts, and no partial-offload slowdown is recorded for this run. The practical consequence is batch-friendly but restart-hostile behavior: keep it loaded and it serves well, reload it often and the clock dominates.",
+    "bottom_line": "A model that knows the answers but cannot package them: top-tier semantic content dragged to a 6.4 rating by a universal code-fence habit that zeroes strict quality test after test. Put a fence-stripping parser in front of it and it is excellent; validate strictly and it scores nothing."
+  },
+  {
+    "model": "night2-nomic-embed-code:q4km",
+    "profile": {
+      "documented": "An embedding-only model with a single documented capability, a 32768-token working context, and broad multilingual coverage that is not enumerated per language. It returns 3584-dimensional vectors, verified with a live request at import time, uses empty query and document prefixes modeled on the other embedder in the run, and declares no sampling settings, exactly like its fellow embedder. It was imported from a quantized GGUF build into Ollama 0.34.3, which is the runtime recorded for every record in this run.",
+      "role_in_run": "No HOME test was designed around this model, so it ran the whole program as a guest. Only the two retrieval tests accept an embedding-only profile, so its 70 scored records all sit on HOME-02 and HOME-11 while the other 22 tests hold single placeholders."
+    },
+    "overall": {
+      "scored_records": 70,
+      "ok_records": 41,
+      "ok_rate_pct": 58.6,
+      "tests_scored": 2,
+      "mean_q_sem": 0.841,
+      "rating_10": 7.6,
+      "rating_basis": "Rating 7.6 = 10 * (0.7 * 0.841 mean quality over 2 scored tests + 0.3 * 0.586 OK rate over 70 scored records); no home-test term exists because the model has no home test, so the freed weight sits on mean quality."
+    },
+    "home_test": {
+      "test_id": null,
+      "title": "no dedicated test",
+      "q_sem": null,
+      "q_strict": null,
+      "n": "-",
+      "analysis": "No HOME test was designed around this model, so there is no home result to report. Every score below was earned as a guest on tasks built for other models, which means the numbers measure transfer to foreign contracts rather than mastery of its own. Read strengths as genuine versatility and failures as partly unfamiliar-format effects, not as a verdict on its intended use. With exactly two scored tests, no cross-task conclusion is possible beyond retrieval; the rating below describes a retrieval specialist, not a generalist."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: an embedding-only profile documents no text generation capability, so the classification placeholder was never run."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": 0.781,
+        "n": "40/40",
+        "outcome": "adequate",
+        "note": "Adequate cross-lingual retrieval at 0.781 across all 40 queries, with 21 fully correct rankings and 19 partial ones."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: grounded answering needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: math reasoning needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: chart reading needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: bug repair needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: document understanding needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: safety classification needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: long-context question answering needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: log state tracking needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": 0.902,
+        "n": "30/30",
+        "outcome": "strong",
+        "note": "Strong English retrieval at 0.902 across all 30 queries, with 20 fully correct rankings and 10 partial ones."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: template extraction needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: word problems need text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: code generation needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: visual grounding needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: request routing needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: optimization needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: tool loops need text and tools capability, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: document conversion needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: text-to-SQL needs text generation, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: tool chains need text and tools capability, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: vision tool calling needs tools and vision capability, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: OCR transcription needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: function calling needs text and tools capability, which this profile does not document."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "WRONG_ANSWER[RANKING]",
+        "count": 29,
+        "english_meaning": "the correct document was not ranked first",
+        "what_the_model_did": "As an embedding model it emits no text at all, so there is no sentence to quote; the failure is purely ordinal, with the reference document landing lower in the similarity ranking at partial credit.",
+        "example_case_id": "HOME-02-02",
+        "example_quote": "",
+        "why_it_matters": "Misranked queries need a reranking stage or a larger candidate list, since the signal is present but not top-1."
+      }
+    ],
+    "strengths": [
+      "It is a capable English retriever at 0.902, with 20 of 30 queries fully correct.",
+      "Its cross-lingual retrieval at 0.781 across all 40 queries shows usable transfer beyond English, with 21 fully correct rankings.",
+      "Its 3584-dimensional vectors give downstream rerankers a rich representation, verified live at import time.",
+      "It completed both eligible tests in full with zero unrun cases, so its two means are the best-evidenced in this group per test."
+    ],
+    "weaknesses": [
+      "It is a single-capability model: 22 of 24 tests hold placeholders only, so nothing can be said about generation, reasoning, tools, or vision.",
+      "Nineteen of forty cross-lingual rankings are only partial, so top-1 precision drops when queries leave English.",
+      "Ten of thirty English rankings are partial as well, meaning roughly a third of queries would need a reranking stage.",
+      "Its 7.6 rating rests on just two retrieval tests and must not be compared with generalist ratings earned across seventeen or more tests."
+    ],
+    "use_when": [
+      "English document and code retrieval as a first-stage candidate generator feeding a reranker.",
+      "Cross-lingual retrieval shortlists where approximate ranking is acceptable and a later stage picks the winner.",
+      "Embedding sidecar duty next to a generative model, supplying vectors while the other model writes answers."
+    ],
+    "avoid_when": [
+      "Any task that needs text out: classification labels, answers, code, or tool calls are all outside its single capability.",
+      "Top-1-critical retrieval without a reranker, where its partial rankings would surface the wrong document.",
+      "Vision or audio workloads, which need capabilities this profile does not document."
+    ],
+    "hardware_fit": "Cold load takes about 64 seconds for its 4.38 GB, the smallest footprint of the four, and as an embedding-only model it has no generation speed or first-token latency to report. Throughput is measured in queries rather than tokens, and both retrieval tests completed in full. The practical consequence is a cheap retrieval sidecar: slow to first readiness, then quiet and compact next to a generative model.",
+    "bottom_line": "A retrieval specialist that does exactly one job well: 0.902 English and 0.781 cross-lingual retrieval with fully completed tests. Its 7.6 rating describes two retrieval tests only and must never be read as a generalist score."
+  },
+  {
+    "model": "night2-qwen3-vl-8b:q4km",
+    "profile": {
+      "documented": "A chat model documented for text, tools, and vision use with no thinking mode, a 262144-token working context, and broad multilingual coverage that is not enumerated per language. Sampling follows plain greedy harness defaults rather than any maker preset, no packaged stop sequences are declared, and tool use is marked as documented from runtime capabilities rather than a model card. It was imported from a quantized GGUF build into Ollama 0.34.3, which is the runtime recorded for every record in this run.",
+      "role_in_run": "No HOME test was designed around this model, so it ran the whole program as a guest. Its 351 records span 22 scored tests, though 142 cases across nineteen tests never ran for budget reasons, the thinnest completed coverage of the four models in this group."
+    },
+    "overall": {
+      "scored_records": 199,
+      "ok_records": 155,
+      "ok_rate_pct": 77.9,
+      "tests_scored": 22,
+      "mean_q_sem": 0.79,
+      "rating_10": 7.9,
+      "rating_basis": "Rating 7.9 = 10 * (0.7 * 0.790 mean quality over 22 scored tests + 0.3 * 0.779 OK rate over 199 scored records); no home-test term exists because the model has no home test, so the freed weight sits on mean quality."
+    },
+    "home_test": {
+      "test_id": null,
+      "title": "no dedicated test",
+      "q_sem": null,
+      "q_strict": null,
+      "n": "-",
+      "analysis": "No HOME test was designed around this model, so there is no home result to report. Every score below was earned as a guest on tasks built for other models, which means the numbers measure transfer to foreign contracts rather than mastery of its own. Read strengths as genuine versatility and failures as partly unfamiliar-format effects, not as a verdict on its intended use. Only six of its records touch vision-adjacent failures, and its chart, document, grounding, OCR, and vision-tool tests all genuinely executed, so its vision scores below are earned rather than extrapolated."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.986,
+        "n": "12/24",
+        "outcome": "strong",
+        "note": "Strong multilingual classification at 0.986 over the 12 scored messages, with two field-level misses; twelve messages never ran."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: the profile documents no embedding capability, so the cross-lingual retrieval placeholder was never run."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.9,
+        "n": "10/16",
+        "outcome": "strong",
+        "note": "Strong grounded answering at 0.900 over the 10 scored cases, with one wrong answer; six cases never ran."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 1.0,
+        "n": "6/12",
+        "outcome": "strong",
+        "note": "Perfect math at 1.000 over the 6 scored cases; six further cases never ran for budget reasons."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": 0.5,
+        "n": "8/12",
+        "outcome": "adequate",
+        "note": "Adequate chart reading at 0.500 over the 8 scored charts, with four wrong values; four charts never ran."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 1.0,
+        "n": "8/12",
+        "outcome": "strong",
+        "note": "Strong bug repair at 1.000 semantic quality over the 8 scored cases, with one wrong bug-line pointer; four cases never ran."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": 1.0,
+        "n": "10/16",
+        "outcome": "strong",
+        "note": "Perfect document understanding at 1.000 over the 10 scored documents; six further documents never ran."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 1.0,
+        "n": "16/32",
+        "outcome": "strong",
+        "note": "Perfect safety classification at 1.000 over the 16 scored cases; sixteen further cases never ran."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 1.0,
+        "n": "4/8",
+        "outcome": "strong",
+        "note": "Perfect wiki question answering at 1.000 over the 4 scored cases; four further cases never ran."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "2/3",
+        "outcome": "failed",
+        "note": "Failed at 0.000: both attempted log-tracking cases were cut off mid-answer and the third exceeded the context window."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: English retrieval needs an embedding capability this profile does not document."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 1.0,
+        "n": "8/12",
+        "outcome": "strong",
+        "note": "Perfect template extraction at 1.000 over the 8 scored texts; four further texts never ran."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 0.9,
+        "n": "10/20",
+        "outcome": "strong",
+        "note": "Strong word-problem solving at 0.900 over the 10 scored cases, with one wrong value; half the test never ran."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.832,
+        "n": "8/16",
+        "outcome": "strong",
+        "note": "Strong code generation at 0.832 over the 8 scored cases, with three solutions failing hidden tests; half the test never ran."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": 0.0,
+        "n": "12/12",
+        "outcome": "failed",
+        "note": "Failed visual grounding at 0.000 across all 12 fully attempted cases: eleven wrong boxes and one format defect."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.9,
+        "n": "20/40",
+        "outcome": "strong",
+        "note": "Strong policy routing at 0.900 over the 20 scored requests, with two wrong routes; twenty requests never ran."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "4/6",
+        "outcome": "failed",
+        "note": "Failed optimization at 0.000 over the 4 scored cases, with two constraint violations and two suboptimal solutions; two cases never ran."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 1.0,
+        "n": "6/10",
+        "outcome": "strong",
+        "note": "Perfect short tool loops at 1.000 over the 6 scored cases; four cases never ran."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.962,
+        "n": "4/8",
+        "outcome": "strong",
+        "note": "Strong conversion at 0.962 over the 4 scored documents, all with minor detail deviations; four documents never ran."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.896,
+        "n": "12/20",
+        "outcome": "strong",
+        "note": "Strong text-to-SQL at 0.896 over the 12 scored queries, with three returning wrong rows; eight queries never ran."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.8,
+        "n": "5/8",
+        "outcome": "strong",
+        "note": "Strong long tool chains at 0.800 over the 5 scored cases, with one wrong end state; three cases never ran."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": 0.8,
+        "n": "10/10",
+        "outcome": "strong",
+        "note": "Strong vision tool calling at 0.800 across all 10 fully attempted calls, with two wrong tool choices."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": 0.98,
+        "n": "10/16",
+        "outcome": "strong",
+        "note": "Strong OCR transcription at 0.980 over the 10 scored images, with one partial transcription; six images never ran."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 0.929,
+        "n": "14/30",
+        "outcome": "strong",
+        "note": "Strong function calling at 0.929 over the 14 scored calls, with one wrong call and one timeout; half the test never ran."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "WRONG_ANSWER",
+        "count": 18,
+        "english_meaning": "a wrong answer recorded without a machine-readable sub-reason",
+        "what_the_model_did": "Eighteen cases carry no detailed sub-reason: eleven wrong grounding boxes, four wrong chart values, two wrong vision-tool choices, and one partial OCR word.",
+        "example_case_id": "HOME-05-02",
+        "example_quote": "{\"answer\": \"250\"}",
+        "why_it_matters": "Bare wrong answers cluster on vision-coordinate tasks, marking spatial precision as the weak frontier of an otherwise strong model."
+      },
+      {
+        "pattern": "WRONG_ANSWER[content_mismatch]",
+        "count": 4,
+        "english_meaning": "the produced document deviates from the reference in details while staying close overall",
+        "what_the_model_did": "All 4 conversion cases score near 0.96 on average: readable markdown with small structural deviations the validator penalizes.",
+        "example_case_id": "H19-001",
+        "example_quote": "New Engineer Onboarding\n\nThis guide explains `make setup` with a **first Friday demo** setup and an *open questions*. See the [handbook](https://docs.example.com/hr/handbook) for background.\n\n## Week [truncated]",
+        "why_it_matters": "Near-miss conversions pass human review but fail exact validators, so pipelines must decide whether detail-level fidelity matters."
+      },
+      {
+        "pattern": "WRONG_ANSWER[TESTS_FAILED]",
+        "count": 3,
+        "english_meaning": "emitted code that failed the hidden functional tests",
+        "what_the_model_did": "Three generated functions, including a CSV-line parser with quoted-field handling, read as competent code yet fail execution against the hidden suite.",
+        "example_case_id": "HOME-14-02",
+        "example_quote": "```python\ndef parse_csv_line(line):\n    result = []\n    i = 0\n    while i < len(line):\n        if line[i] == '\"':\n            # Start of a quoted field\n            i += 1\n            j = i\n           [truncated]",
+        "why_it_matters": "Plausible-looking code that fails tests invites misplaced trust, so generated code needs execution checks before use."
+      },
+      {
+        "pattern": "WRONG_ANSWER[WRONG_ROWS]",
+        "count": 3,
+        "english_meaning": "the SQL query ran but returned the wrong rows",
+        "what_the_model_did": "Three retail queries use correct joins but miss the intended filter, for example returning coffee-maker buyers through a slightly wrong join path at partial credit near 0.89.",
+        "example_case_id": "HOME-20-01",
+        "example_quote": "SELECT DISTINCT c.name\nFROM customers c\nJOIN orders o ON c.id = o.customer_id\nJOIN order_items oi ON o.id = oi.order_id\nJOIN products p ON oi.product_id = p.id\nWHERE p.name = 'Coffee Maker';",
+        "why_it_matters": "Wrong-row queries are silent data errors: they execute cleanly and return confident-looking incorrect results."
+      }
+    ],
+    "strengths": [
+      "Its format discipline is the cleanest of the four: only two format defects across 199 scored records, so its semantic scores survive strict parsing almost everywhere.",
+      "It reached perfect 1.000 semantic quality on seven tests spanning math, code repair, documents, safety, wiki questions, extraction, and tool loops.",
+      "Its documented vision capability is genuinely exercised: chart, document, grounding, OCR, and vision-tool tests all executed with real scores rather than placeholders.",
+      "It earned the highest rating in this group at 7.9, combining mean quality 0.790 with a 77.9 percent clean-answer rate."
+    ],
+    "weaknesses": [
+      "It failed visual grounding completely at 0.000 across all twelve cases, with eleven wrong boxes and one format defect, so coordinates are not usable output from this model.",
+      "It failed constrained optimization at 0.000 with two constraint violations and two suboptimal solutions over four scored cases.",
+      "It failed multilingual log state tracking at 0.000, with both attempted cases cut off mid-answer and the third exceeding the context window.",
+      "One hundred forty-two cases across nineteen tests never ran for budget reasons, the largest unrun share in this group, so several of its perfect means rest on half the planned evidence."
+    ],
+    "use_when": [
+      "Document understanding and OCR transcription behind strict output contracts, where it pairs perfect content with clean formatting.",
+      "Safety classification and template extraction pipelines that validate JSON strictly, since its answers need no postprocessing.",
+      "Short tool loops and vision tool calling with fully attempted coverage and strong scores.",
+      "Word-problem and code-repair assistance where concise correct answers are required without reasoning traces."
+    ],
+    "avoid_when": [
+      "Visual grounding or any task needing bounding-box coordinates, where all twelve attempts failed.",
+      "Constrained optimization with feasibility requirements, where it violated constraints or settled for suboptimal solutions.",
+      "Log state tracking over long evidence lists, where its answers were cut off before completion."
+    ],
+    "hardware_fit": "Cold load takes about 64 seconds, and the vision projector of about 1.08 GB loads alongside the weights, so the resident footprint of about 6.2 GB exceeds the 4.68 GB weight file alone; the recorded offload ratio is 0.89 rather than 1.00, the only model here that costs more than its file size suggests. Steady generation near 52 tok/s with a 9.8-second first token is workable once loaded. The practical consequence is to budget a full minute per restart and to remember that vision capability has a real memory surcharge on an 8 GB card.",
+    "bottom_line": "The highest-rated model in this group at 7.9 and the cleanest formatter, with genuinely exercised vision capability across charts, documents, grounding, OCR, and tool calls. Grounding coordinates and optimization constraints are its blind spots, and budget left 142 of its cases unrun."
+  },
+  {
+    "model": "night2-qwen3.5-9b:q4km",
+    "profile": {
+      "documented": "A chat model documented for text and tools use with a switchable thinking mode, a 262144-token working context, and broad multilingual coverage that is not enumerated per language. Sampling follows plain greedy harness defaults rather than any maker preset, no packaged stop sequences are declared, and tool use is marked as documented from runtime capabilities rather than a model card. It was imported from a quantized GGUF build into Ollama 0.34.3, which is the runtime recorded for every record in this run.",
+      "role_in_run": "No HOME test was designed around this model, so it ran the whole program as a guest. Its 284 records span 17 scored tests, the widest scored coverage of the four models in this group."
+    },
+    "overall": {
+      "scored_records": 274,
+      "ok_records": 221,
+      "ok_rate_pct": 80.7,
+      "tests_scored": 17,
+      "mean_q_sem": 0.748,
+      "rating_10": 7.7,
+      "rating_basis": "Rating 7.7 = 10 * (0.7 * 0.748 mean quality over 17 scored tests + 0.3 * 0.807 OK rate over 274 scored records); no home-test term exists because the model has no home test, so the freed weight sits on mean quality."
+    },
+    "home_test": {
+      "test_id": null,
+      "title": "no dedicated test",
+      "q_sem": null,
+      "q_strict": null,
+      "n": "-",
+      "analysis": "No HOME test was designed around this model, so there is no home result to report. Every score below was earned as a guest on tasks built for other models, which means the numbers measure transfer to foreign contracts rather than mastery of its own. Read strengths as genuine versatility and failures as partly unfamiliar-format effects, not as a verdict on its intended use. It is the only model of the four with zero unrun cases: every one of its 284 non-PERF records is a completed attempt, so its failures split cleanly into reasoning-budget overflows on math-style tasks versus genuine misses on routing and log tracking."
+    },
+    "per_test": [
+      {
+        "test_id": "HOME-01",
+        "title": "Multilingual customer message understanding",
+        "q_sem": 0.993,
+        "n": "24/24",
+        "outcome": "strong",
+        "note": "Near-perfect multilingual classification at 0.993 across all 24 messages, with a single field-level miss."
+      },
+      {
+        "test_id": "HOME-02",
+        "title": "Cross-lingual retrieval",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: the profile documents text and tools capability but no embedding capability, so the harness recorded a placeholder instead of running the 40 retrieval cases."
+      },
+      {
+        "test_id": "HOME-03",
+        "title": "RAG with citations and abstention",
+        "q_sem": 0.875,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Strong grounded answering at 0.875, with both misses being wrong answers rather than citation or abstention failures."
+      },
+      {
+        "test_id": "HOME-04",
+        "title": "Competition math, integer answer in \\boxed{}",
+        "q_sem": 0.333,
+        "n": "12/12",
+        "outcome": "weak",
+        "note": "Weak at 0.333: eight of twelve math cases never produced an answer because the reasoning trace filled the token budget first."
+      },
+      {
+        "test_id": "HOME-05",
+        "title": "Chart reading",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: no documented vision capability, so the single chart-reading placeholder was never run."
+      },
+      {
+        "test_id": "HOME-06",
+        "title": "Bug repair with hidden tests and bug-line localisation",
+        "q_sem": 0.333,
+        "n": "12/12",
+        "outcome": "weak",
+        "note": "Weak at 0.333 for the same reason as the math test: eight of twelve repairs drowned in overlong reasoning with no final patch emitted."
+      },
+      {
+        "test_id": "HOME-07",
+        "title": "Document understanding",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: document understanding needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-08",
+        "title": "Safety classification",
+        "q_sem": 0.969,
+        "n": "32/32",
+        "outcome": "strong",
+        "note": "Excellent safety behavior at 0.969 over 32 cases, with one long refusal cut off by the token limit."
+      },
+      {
+        "test_id": "HOME-09",
+        "title": "Long-context wiki QA",
+        "q_sem": 1.0,
+        "n": "8/8",
+        "outcome": "strong",
+        "note": "Perfect long-context wiki question answering at 1.000 across all 8 cases."
+      },
+      {
+        "test_id": "HOME-10",
+        "title": "Multilingual log state tracking",
+        "q_sem": 0.0,
+        "n": "2/3",
+        "outcome": "failed",
+        "note": "Failed at 0.000: both attempted log-tracking cases were cut off mid-answer and the third exceeded the context window."
+      },
+      {
+        "test_id": "HOME-11",
+        "title": "English retrieval",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: English retrieval needs an embedding capability this profile does not document."
+      },
+      {
+        "test_id": "HOME-12",
+        "title": "Template extraction from long texts",
+        "q_sem": 0.993,
+        "n": "12/12",
+        "outcome": "strong",
+        "note": "Near-perfect template extraction at 0.993, missing only one field across 12 long texts."
+      },
+      {
+        "test_id": "HOME-13",
+        "title": "Multi-step word problems, numeric answer in \\boxed{}",
+        "q_sem": 1.0,
+        "n": "20/20",
+        "outcome": "strong",
+        "note": "Perfect multi-step word-problem solving at 1.000 across all 20 cases."
+      },
+      {
+        "test_id": "HOME-14",
+        "title": "Code generation from spec, hidden tests",
+        "q_sem": 0.867,
+        "n": "16/16",
+        "outcome": "strong",
+        "note": "Strong code generation at 0.867, with two reasoning overflows and one solution that failed hidden tests."
+      },
+      {
+        "test_id": "HOME-15",
+        "title": "Visual grounding",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: visual grounding needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-16",
+        "title": "Support request routing with policy",
+        "q_sem": 0.868,
+        "n": "38/40",
+        "outcome": "strong",
+        "note": "Strong policy routing at 0.868 over 38 requests, with five wrong routes and two requests lost to timeouts."
+      },
+      {
+        "test_id": "HOME-17",
+        "title": "Constrained optimisation, JSON solution",
+        "q_sem": 0.0,
+        "n": "6/6",
+        "outcome": "failed",
+        "note": "Failed at 0.000: all six optimization cases ended as reasoning-trace overflows with no solution emitted."
+      },
+      {
+        "test_id": "HOME-18",
+        "title": "Short tool loops",
+        "q_sem": 0.75,
+        "n": "10/10",
+        "outcome": "adequate",
+        "note": "Adequate short tool loops at 0.750, with two wrong end states and one answer missing the required JSON shape."
+      },
+      {
+        "test_id": "HOME-19",
+        "title": "HTML to Markdown conversion",
+        "q_sem": 0.98,
+        "n": "8/8",
+        "outcome": "strong",
+        "note": "Technically all 8 conversions mismatch at least one detail, yet quality averages 0.980, so these are near-miss formatting deviations rather than broken documents."
+      },
+      {
+        "test_id": "HOME-20",
+        "title": "Text-to-SQL on retail/hr SQLite databases",
+        "q_sem": 0.943,
+        "n": "20/20",
+        "outcome": "strong",
+        "note": "Strong text-to-SQL at 0.943, with only two of twenty queries returning wrong rows."
+      },
+      {
+        "test_id": "HOME-21",
+        "title": "Long tool chains",
+        "q_sem": 0.812,
+        "n": "8/8",
+        "outcome": "strong",
+        "note": "Strong long tool chains at 0.812, with one wrong end state and one wrong final answer."
+      },
+      {
+        "test_id": "HOME-22",
+        "title": "Vision tool calling",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: vision tool calling needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-23",
+        "title": "OCR transcription",
+        "q_sem": null,
+        "n": "0/1",
+        "outcome": "not attempted",
+        "note": "Not eligible: OCR transcription needs vision, which this profile does not document."
+      },
+      {
+        "test_id": "HOME-24",
+        "title": "Single-turn function calling",
+        "q_sem": 1.0,
+        "n": "30/30",
+        "outcome": "strong",
+        "note": "Perfect single-turn function calling at 1.000 across 29 clean calls plus one answer cut off at the very end."
+      }
+    ],
+    "failure_analysis": [
+      {
+        "pattern": "OUTPUT_TRUNCATED[IN_THINKING]",
+        "count": 24,
+        "english_meaning": "the reasoning trace filled the token budget before any final answer was produced",
+        "what_the_model_did": "On all 24 cases the model emitted a 9,000-to-20,000-character thinking trace with an empty final answer and a length stop; every one of these records ran with thinking enabled.",
+        "example_case_id": "HOME-04-01",
+        "example_quote": "",
+        "why_it_matters": "Under a fixed token budget, thinking verbosity becomes a total failure: the user receives reasoning effort but no usable answer."
+      },
+      {
+        "pattern": "WRONG_ANSWER[content_mismatch]",
+        "count": 8,
+        "english_meaning": "the produced document deviates from the reference in details while staying close overall",
+        "what_the_model_did": "All 8 conversion cases score near 0.98 on average: the markdown documents read correctly but diverge on small structural details the validator counts.",
+        "example_case_id": "H19-001",
+        "example_quote": "# New Engineer Onboarding\n\nThis guide explains `make setup` with a **first Friday demo** setup and an *open questions*. See the [handbook](https://docs.example.com/hr/handbook) for background.\n\n## Wee[truncated]",
+        "why_it_matters": "Near-miss conversions pass human review but fail exact validators, so pipelines must decide whether detail-level fidelity matters."
+      },
+      {
+        "pattern": "WRONG_ANSWER[route_mismatch]",
+        "count": 5,
+        "english_meaning": "the request was routed to the wrong queue",
+        "what_the_model_did": "Five support requests got a valid-looking route object pointing at the wrong team, for example a TECH route with a technical keyword where policy demanded otherwise.",
+        "example_case_id": "H16-006",
+        "example_quote": "{\"route\": \"TECH\", \"reason_code\": \"KEYWORD_TECH\"}",
+        "why_it_matters": "A confident wrong route sends the customer to the wrong team, which is worse operationally than an abstention."
+      },
+      {
+        "pattern": "OUTPUT_TRUNCATED[IN_ANSWER]",
+        "count": 4,
+        "english_meaning": "the final answer was cut short by the token limit",
+        "what_the_model_did": "Four answers exceed 600 characters of correct content and stop mid-structure with a length stop, two on the log-tracking test and one each on safety and function calling.",
+        "example_case_id": "HOME-10-01",
+        "example_quote": "[{\"entity\": \"PKG-A\", \"state\": \"delivered\", \"evidence_ids\": [\"E083\", \"E206\", \"E210\"]}, {\"entity\": \"PKG-B\", \"state\": \"delivered\", \"evidence_ids\": [\"E023\", \"E056\", \"E092\", \"E094\", \"E163\"]}, {\"entity\": \"P[truncated]",
+        "why_it_matters": "Truncated structured answers are unparseable, so the correct prefix is wasted whenever the budget clips the closing brackets."
+      },
+      {
+        "pattern": "WRONG_ANSWER[BAD_STATE]",
+        "count": 3,
+        "english_meaning": "the tool calls were right but a duplicated side effect corrupted the end state",
+        "what_the_model_did": "On three loop cases the model performed the correct action and then performed it again, for example sending the same refund email twice, which the state check rejects.",
+        "example_case_id": "HOME-18-04",
+        "example_quote": "",
+        "why_it_matters": "Duplicate tool calls turn correct behavior into real-world harm whenever the action is not idempotent, as with sent emails."
+      }
+    ],
+    "strengths": [
+      "It earned the highest clean-answer rate of the four at 80.7 percent over 274 scored records, combining strong language transfer with disciplined output contracts.",
+      "It solved every case on three whole tests: long-context wiki questions, multi-step word problems, and single-turn function calls, all at 1.000.",
+      "Its tool behavior is reliable in the common case, with 29 of 30 single-turn calls and 13 of 16 code generations fully correct.",
+      "It kept strict-format quality equal to semantic quality on most tests, so its answers can be parsed as well as read, unlike the fence-prone models in this group."
+    ],
+    "weaknesses": [
+      "Its thinking mode is a liability under fixed token budgets: 24 reasoning-trace overflows produced no answer at all on math, code repair, and optimization tasks.",
+      "It failed multilingual log state tracking completely at 0.000, with both attempted cases cut off mid-answer and the third exceeding the context window.",
+      "It misrouted five of forty support requests and lost two more to timeouts, so policy routing degrades at volume."
+    ],
+    "use_when": [
+      "Multilingual support-message classification where strict JSON output is parsed by downstream code.",
+      "Long-context wiki question answering and multi-step word problems with generous per-case token budgets.",
+      "Single-turn function calling and short tool loops where each call is validated before execution.",
+      "Grounded RAG answering with citations over provided passages."
+    ],
+    "avoid_when": [
+      "Competition math and constrained optimization with thinking enabled under tight token budgets, where reasoning overflows erase the whole answer.",
+      "Multilingual log state tracking over long evidence lists, where its answers were cut off before completion.",
+      "Tool loops where a duplicated side effect is expensive: it sent the same refund email twice on one loop case."
+    ],
+    "hardware_fit": "Cold load takes about 3 seconds with the full 5.33 GB resident on the GPU at offload ratio 1.00, so restarts are nearly free on this 8 GB card. Steady generation runs near 67 tok/s, the fastest of the four, while the 36.5-second first-token latency reflects thinking mode rather than slow hardware. The practical result is a model that starts instantly and streams quickly once its reasoning trace resolves.",
+    "bottom_line": "The strongest generalist guest in this group: broadest coverage at 17 scored tests, highest clean-answer rate at 80 percent, and strict-parseable output almost everywhere. Its thinking mode is the one real caveat, erasing answers on math-style tasks whenever the token budget runs out first."
+  }
+]

@@ -474,9 +474,54 @@ ELIGIBILITY_RELPATH = os.path.join("config", "eligibility_night.json")
 # Reuse the English builder's record-grounded quote helper: it derives
 # truth from the records rather than trusting the stored marker. One
 # implementation, so the two workbooks can never normalize differently.
+# Import-only reuse (never copy): the remaining names are used by the
+# 28-model path below through the same module, never reimplemented here.
 from tools.build_excel_report_en import (  # noqa: E402
+    ACCENT as _EN_ACCENT,
+    _q_scale as _en_q_scale,
+    _style_table as _en_style_table,
     normalize_evidence_quote,
+    strip_trailing_marker as _en_strip_trailing_marker,
 )
+
+# 28-model extension identifiers (mirrors the English 28-model stack).
+XLSX_NAME_28 = "NIGHT28_REPORT.xlsx"
+NIGHT2_TAG_PREFIX = "night2-"
+ELIGIBILITY_N2_RELPATH = os.path.join("config", "eligibility_night2.json")
+
+
+def _load_eligibility_at(relpath: str) -> dict:
+    try:
+        with open(os.path.join(ROOT, relpath), encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _load_records_scoped_uk(run_dir: str,
+                             prefix: str | None = None
+                             ) -> tuple[list[dict], int]:
+    """Load records, keeping only model tags with prefix (excluded count).
+
+    Thin delegation to the English builder's scoped loader so both
+    workbooks filter the immutable night2_b file identically at read time.
+    """
+    from tools.build_excel_report_en import (
+        _load_records_scoped as _en_scoped,
+    )
+
+    return _en_scoped(run_dir, prefix)
+
+
+def _load_perf_scoped_uk(run_dir: str,
+                         prefix: str | None = None) -> list[dict]:
+    """Load perf.csv rows, keeping only tags with prefix (None keeps all)."""
+    from tools.build_excel_report_en import (
+        _load_perf_scoped as _en_perf_scoped,
+    )
+
+    return _en_perf_scoped(run_dir, prefix)
 
 
 def _load_eligibility() -> dict:
@@ -848,7 +893,10 @@ def normalize_failure_quotes_uk(analysis: list[dict],
             "unverifiable": counts.get("unverifiable", 0)}
 
 
-def build_workbook(run_dir: str, out_path: str) -> str:
+def build_workbook(run_dir: str, out_path: str,
+                    extra_run_dir: str | None = None) -> str:
+    if extra_run_dir is not None:
+        return _build_workbook_28(run_dir, extra_run_dir, out_path)
     import openpyxl
     manifest = _load_manifest(run_dir)
     records = _report.load_records(run_dir)
@@ -884,14 +932,470 @@ def build_workbook(run_dir: str, out_path: str) -> str:
     return out_path
 
 
+# ------------------------------------------------------- 28-model sheets
+# Combined Ukrainian workbook: same 12 SHEET_NAMES in the same order, fed
+# by two runs (NIGHT-1 base + NIGHT-2 extra filtered at read time). Every
+# per-model and per-model/per-test row carries its run id in a trailing
+# "Прогін" column, so existing column positions (Q_sem, quote column)
+# never shift.
+
+
+def _hw_sentence_28_uk(perf_csv_rows: list[dict], run_label: str) -> str:
+    """One hardware-fit sentence for a single run's perf rows."""
+    partial = sorted(str(r.get("tag", "")) for r in perf_csv_rows
+                     if _num_or_none(r.get("offload_ratio")) is not None
+                     and _num_or_none(r.get("offload_ratio")) < 1.0)
+    if partial:
+        n = len(partial)
+        m = n % 100
+        if 11 <= m <= 14:
+            noun = "моделей"
+        elif m % 10 == 1:
+            noun = "модель"
+        elif 2 <= m % 10 <= 4:
+            noun = "моделі"
+        else:
+            noun = "моделей"
+        return ("У %s %d %s не вмістилися повністю на GPU і працювали "
+                "з частковим CPU-offload (%s), що різко знижує швидкість "
+                "генерації. Деталі — на аркуші «Швидкість»."
+                % (run_label, n, noun, ", ".join(partial)))
+    return ("У %s кожна модель із виміряним offload ratio працювала "
+            "повністю на GPU (offload ratio 1.0). Деталі — на аркуші "
+            "«Швидкість»." % run_label)
+
+
+def _uk_executive_28(base_run_id: str, base_manifest: dict,
+                     base_records: list[dict], base_per_test: dict,
+                     base_perf: list[dict],
+                     n2_run_id: str, n2_manifest: dict,
+                     n2_records: list[dict], n2_per_test: dict,
+                     n2_perf: list[dict], n2_excluded: int,
+                     gv_records: list[dict]) -> list[tuple[str, str]]:
+    """Data-grounded summary for the combined 28-model workbook."""
+    from tools.uk_sheets_deep import FORMULA_N1_UK, FORMULA_N2_UK
+    bov = _report.run_overview(base_records)
+    nov = _report.run_overview(n2_records)
+    base_total = len(base_records)
+    n2_total = len(n2_records)
+    base_nbr = bov.get("not_run_budget", 0)
+    n2_nbr = nov.get("not_run_budget", 0)
+    base_pct = (100.0 * base_nbr / base_total) if base_total else 0.0
+    n2_pct = (100.0 * n2_nbr / n2_total) if n2_total else 0.0
+    hv = _report.home_verdicts(base_per_test, base_records)
+    wins = sum(1 for v in hv.values() if v.get("verdict") == "HOME_WIN")
+    ties = sum(1 for v in hv.values() if v.get("verdict") == "HOME_TIE")
+    losses = sum(1 for v in hv.values() if v.get("verdict") == "HOME_LOSS")
+    fmt_err = (bov["counts"].get("FORMAT_ERROR", 0)
+               + nov["counts"].get("FORMAT_ERROR", 0))
+    ok_n = bov["counts"].get("OK", 0) + nov["counts"].get("OK", 0)
+    _, home_of_test = _test_meta()
+    home_best: list[tuple[str, str, float, str]] = []
+    for tid, rows in base_per_test.items():
+        if tid == "PERF":
+            continue
+        home_tag = home_of_test.get(tid, "")
+        home_row = next((r for r in rows if r["model"] == home_tag), None)
+        if home_row is not None and (home_row.get("n_scored") or 0) > 0:
+            home_best.append((tid, home_tag, float(home_row["q_sem"]),
+                              "%d/%d" % (home_row["n_scored"],
+                                         home_row["n_total"])))
+    home_best.sort(key=lambda t: (-t[2], t[0]))
+    if home_best:
+        top3 = "; ".join("%s на %s (Q_sem %s, n=%s)" % (tag, tid, _fmt_q3(q),
+                                                       n)
+                         for tid, tag, q, n in home_best[:3])
+        top3_txt = ("Найсильніші власні результати NIGHT-1: %s. "
+                    "Повні числа по тестах — на аркуші "
+                    "«HOME-вердикти»." % top3)
+    else:
+        top3_txt = ("Жоден власний тест не дав оціненого результату "
+                    "в цьому прогоні. Розбивку по тестах дивіться на аркуші "
+                    "«HOME-вердикти».")
+    if gv_records:
+        gv_home = _report.summarize_group(
+            [r for r in gv_records if _report.test_of(r) == "HOME-07"
+             and _report.model_of(r) == "granite3.2-vision:2b"])
+        main_recs = [r for r in base_records
+                     if _report.test_of(r) == "HOME-07"
+                     and _report.model_of(r) == "granite3.2-vision:2b"]
+        main_s = _report.summarize_group(main_recs)
+        gv_txt = ("Випадок витягу з документів granite3.2-vision перевірено "
+                  "двічі: Q_sem %s за уніфікованим JSON-контрактом і Q_sem "
+                  "%s з plain-answer адаптером. Обидва кола дали нуль, що "
+                  "вказує на справжнє обмеження здатності моделі, а не на "
+                  "артефакт формату запиту. Повне порівняння — на аркуші "
+                  "«HOME-07 (окремий прогін)»."
+                  % (_fmt_q3(main_s["q_sem"]) if main_s["n_scored"] else "н/д",
+                     _fmt_q3(gv_home["q_sem"]) if gv_home["n_scored"]
+                     else "н/д"))
+    else:
+        gv_txt = ("Випадок витягу з документів granite3.2-vision дав Q_sem "
+                  "0.000 за уніфікованим JSON-контрактом. Подальше "
+                  "порівняння — на аркуші «HOME-07 (окремий прогін)».")
+    return [
+        ("Що це",
+         "Ця книга — звіт про бенчмарк локальних великих мовних моделей "
+         "для 28 протестованих моделей з двох прогонів: NIGHT-1 "
+         "(24 моделі, Ollama 0.34.2) та NIGHT-2 (4 моделі, Ollama 0.34.3). "
+         "Проєкт показує проєктування бенчмарків та системну інженерію: "
+         "прогін із жорстким лімітом часу й можливістю продовження, "
+         "суворий контракт оцінювання, пер-модельні виміри швидкості та "
+         "повністю відтворюваний конвеєр звітності."),
+        ("Масштаб прогонів",
+         "Книгу живлять два прогони. NIGHT-1 (%s) охопив %d моделі та %d "
+         "груп тестів із %d записами у 8-годинній сесії на споживчому "
+         "залізі (NVIDIA GeForce RTX 3070, 8 ГБ VRAM). NIGHT-2 (%s) охопив "
+         "%d моделі та %d груп тестів із %d записами у межах обсягу "
+         "(Ollama %s). Ще %d рядків у файлі результатів NIGHT-2 належать "
+         "іншим тегам моделей і були виключені під час читання; сам файл "
+         "не змінювався. Аркуш «Огляд» перелічує кожну модель, групу "
+         "тестів і кількість за статусами для кожного прогону."
+         % (base_manifest.get("run_id", base_run_id), bov["n_models"],
+            bov["n_tests"], base_total,
+            n2_manifest.get("run_id", n2_run_id), nov["n_models"],
+            nov["n_tests"], n2_total,
+            n2_manifest.get("ollama_version", ""), n2_excluded)),
+        ("Найкращі власні результати", top3_txt),
+        ("Вердикти власних моделей",
+         "У %d очних порівняннях власних моделей NIGHT-1 домашня модель "
+         "записала %d перемог, %d нічиїх і %d поразок проти найкращого "
+         "конкурента на спільному наборі кейсів. Моделі NIGHT-2 не мають "
+         "власного тесту, тож вердиктів для них немає. Кожен вердикт "
+         "наведено на аркуші «HOME-вердикти»."
+         % (wins + ties + losses, wins, ties, losses)),
+        ("Покриття часу",
+         "NIGHT-1 лишив %d з %s записів (%0.1f%%) незапущеними, а NIGHT-2 — "
+         "%d з %s записів (%0.1f%%), бо вони не вмістилися в ліміти часу "
+         "(статус NOT_RUN_BUDGET); пропущену роботу виключено з оцінок "
+         "якості, а не пораховано нулями. Середні оцінки якості описують "
+         "лише виконану роботу. Аркуш «Рейтинг по тестах» позначає кожен "
+         "такий рядок явно." % (base_nbr,
+                                "{:,}".format(base_total), base_pct,
+                                n2_nbr, "{:,}".format(n2_total), n2_pct)),
+        ("Форма проти змісту",
+         "Моделі дали %s чистих проходжень (статус OK) і %d помилок формату "
+         "за два прогони: виводи, що порушили контракт відповіді, але все "
+         "ж отримали частковий семантичний бал. Шкала окремо оцінює зміст "
+         "і формат, тож проблеми оформлення ніколи не плутаються з "
+         "неправильними відповідями. Кількість статусів для кожного "
+         "прогону — на аркуші «Огляд»."
+         % ("{:,}".format(ok_n), fmt_err)),
+        ("Відповідність залізу",
+         _hw_sentence_28_uk(base_perf, "NIGHT-1") + " "
+         + _hw_sentence_28_uk(n2_perf, "NIGHT-2")),
+        ("Формули оцінок",
+         "Оцінки моделей NIGHT-1 використовують %s (середня якість, якість "
+         "домашнього тесту, частка OK); оцінки NIGHT-2 використовують %s "
+         "без home-доданка (середня якість, частка OK, бо жодна модель "
+         "NIGHT-2 не має власного тесту). Ці два числа отримано за різних "
+         "формул, тож вони не порівнюються між прогонами: аркуш «Оцінка "
+         "моделей» тримає моделі NIGHT-2 в окремій групі й сортує за "
+         "оцінкою лише в межах однієї групи."
+         % (FORMULA_N1_UK, FORMULA_N2_UK)),
+        ("Інженерна знахідка", gv_txt),
+        ("Глибина по моделях",
+         "Оцінки по моделях, рекомендації щодо застосування, сильні та "
+         "слабкі сторони, деталі по тестах і шаблони помилок — на аркушах "
+         "«Оцінка моделей», «Рекомендації», «Сильні та слабкі сторони», "
+         "«Деталі по тестах» та «Аналіз помилок». Кожен рядок несе "
+         "ідентифікатор прогону."),
+    ]
+
+
+def _sheet_summary_28(wb, pairs: list[tuple[str, str]]) -> None:
+    from openpyxl.styles import Alignment
+    ws = wb.active
+    ws.title = SHEET_NAMES[0]
+    ws.append(["Розділ", "Текст"])
+    for section, text in pairs:
+        ws.append([section, text])
+    _style_table(ws, [22, 130])
+    wrap = Alignment(wrap_text=True, vertical="top")
+    for row in ws.iter_rows(min_row=2, max_col=2):
+        row[1].alignment = wrap
+        ws.row_dimensions[row[0].row].height = 60
+
+
+def _sheet_overview_28(wb, base_manifest: dict, base_records: list[dict],
+                       n2_manifest: dict, n2_records: list[dict],
+                       n2_excluded: int, gv_records: list[dict]) -> None:
+    ws = wb.create_sheet(SHEET_NAMES[1])
+    bov = _report.run_overview(base_records)
+    nov = _report.run_overview(n2_records)
+    base_id = base_manifest.get("run_id", "")
+    n2_id = n2_manifest.get("run_id", "")
+    ws.append(["Поле", "Значення"])
+    for run_id, manifest, records, ov, tag in (
+            (base_id, base_manifest, base_records, bov, "NIGHT-1"),
+            (n2_id, n2_manifest, n2_records, nov, "NIGHT-2")):
+        start, end = _run_times(manifest, records)
+        total = len(records)
+        nbr = ov.get("not_run_budget", 0)
+        pct = (100.0 * nbr / total) if total else 0.0
+        ws.append(["run_id (%s)" % tag, run_id])
+        ws.append(["початок (local) (%s)" % tag,
+                   manifest.get("start_local", "") or ""])
+        ws.append(["кінець (local) (%s)" % tag,
+                   end.isoformat() if end is not None else ""])
+        ws.append(["тривалість, хв (%s)" % tag,
+                   round((end - start).total_seconds() / 60.0, 1)
+                   if (start is not None and end is not None
+                       and end >= start) else ""])
+        ws.append(["бюджет, год (%s)" % tag,
+                   manifest.get("budget_hours", "")])
+        ws.append(["Ollama (%s)" % tag, manifest.get("ollama_version", "")])
+        ws.append(["GPU (%s)" % tag,
+                   "NVIDIA GeForce RTX 3070 (8 \u0413\u0411 VRAM)"])
+        ws.append(["моделей запущено (%s)" % tag, ov["n_models"]])
+        ws.append(["моделі (%s)" % tag, ", ".join(ov["models"])])
+        ws.append(["тестів запущено (%s)" % tag, ov["n_tests"]])
+        ws.append(["тести (%s)" % tag, ", ".join(ov["tests"])])
+        ws.append(["записів (%s)" % tag, total])
+        ws.append(["NOT_RUN_BUDGET (%s)" % tag, nbr])
+        ws.append(["NOT_RUN_BUDGET, %% (%s)" % tag, round(pct, 1)])
+        if tag == "NIGHT-2":
+            ws.append(["виключених позаобсягових рядків", n2_excluded])
+        ws.append(["", ""])
+        ws.append(["Статус (%s)" % run_id, "Кількість"])
+        for st in sorted(ov["counts"]):
+            ws.append([st, ov["counts"][st]])
+        ws.append(["", ""])
+    gv_n = len(gv_records)
+    ws.append(["Примітка _gv",
+               "Існує додатковий прогін %s_gv: HOME-07 / granite3.2-vision:2b "
+               "за документованим plain-answer адаптером. Його числа не "
+               "змішуються з таблицями нижче; деталі — на аркуші "
+               "\"HOME-07 (окремий прогін)\"." % base_manifest.get("run_id", "")])
+    ws.append(["", ""])
+    ws.append(["Блок _gv (окремо, не порівнюється)", ""])
+    ws.append(["_gv run_id", "%s_gv" % base_manifest.get("run_id", "")])
+    ws.append(["_gv записів", gv_n])
+    if gv_records:
+        gv_home = _report.summarize_group(
+            [r for r in gv_records if _report.test_of(r) == "HOME-07"
+             and _report.model_of(r) == "granite3.2-vision:2b"])
+        ws.append(["_gv HOME-07 Q_sem",
+                   round(gv_home["q_sem"], 3) if gv_home["n_scored"] else ""])
+        ws.append(["_gv HOME-07 n",
+                   "%d/%d" % (gv_home["n_scored"], gv_home["n_total"])])
+    else:
+        ws.append(["_gv HOME-07 Q_sem", ""])
+        ws.append(["_gv HOME-07 n", ""])
+    _style_table(ws, [28, 90])
+
+
+def _sheet_verdicts_28(wb, base_records: list[dict], base_per_test: dict,
+                       base_run_id: str, n2_run_id: str) -> None:
+    ws = wb.create_sheet(SHEET_NAMES[7])
+    ws.append(["Тест", "Назва", "HOME-модель", "HOME Q_sem", "HOME n",
+               "Конкурент", "Конкурент Q_sem", "Конкурент n",
+               "common_n", "Вердикт", "Прогін"])
+    titles, home_of_test = _test_meta()
+    hv = _report.home_verdicts(base_per_test, base_records)
+    for tid in sorted(_report.HOME_SET):
+        rows = base_per_test.get(tid, [])
+        title = titles.get(tid, "")
+        home_tag = home_of_test.get(tid, "")
+        home_row = next((r for r in rows if r["model"] == home_tag), None)
+        if home_row is None or (home_row.get("n_scored") or 0) == 0:
+            home_q: object = ""
+            home_n = ("" if home_row is None
+                      else "%d/%d" % (home_row["n_scored"],
+                                     home_row["n_total"]))
+            comp_tag: object = ""
+            comp_q: object = ""
+            comp_n = ""
+            common: object = ""
+            verdict = NO_DATA
+            v = hv.get(tid)
+            if v is not None and v.get("second"):
+                comp_tag = v["second"]
+                comp_r = next((r for r in rows if r["model"] == comp_tag),
+                              None)
+                if comp_r is not None and (comp_r.get("n_scored") or 0) > 0:
+                    comp_q = round(comp_r["q_sem"], 3)
+                    comp_n = "%d/%d" % (comp_r["n_scored"],
+                                       comp_r["n_total"])
+                common = v.get("common_n", "")
+            ws.append([tid, title, home_tag or NO_DATA, home_q, home_n,
+                       comp_tag, comp_q, comp_n, common, verdict,
+                       base_run_id])
+            continue
+        home_q = round(home_row["q_sem"], 3)
+        home_n = "%d/%d" % (home_row["n_scored"], home_row["n_total"])
+        ranked = sorted((r for r in rows if not _is_not_ranked(r)),
+                        key=lambda r: (-r["q_sem"], -r["n_scored"],
+                                       r["model"]))
+        comp_row = next((r for r in ranked if r["model"] != home_tag), None)
+        v = hv.get(tid)
+        if v is not None and v.get("second"):
+            comp_tag = v["second"]
+            comp_r = next((r for r in rows if r["model"] == comp_tag),
+                          comp_row)
+            if comp_r is not None and (comp_r.get("n_scored") or 0) > 0:
+                comp_q = round(comp_r["q_sem"], 3)
+                comp_n = "%d/%d" % (comp_r["n_scored"], comp_r["n_total"])
+            else:
+                comp_q, comp_n = "", ""
+            verdict = VERDICT_UA.get(v.get("verdict", ""), NO_DATA)
+            common = v.get("common_n", "")
+        elif comp_row is not None:
+            comp_tag = comp_row["model"]
+            comp_q = round(comp_row["q_sem"], 3)
+            comp_n = "%d/%d" % (comp_row["n_scored"], comp_row["n_total"])
+            common, verdict = "", NO_DATA
+        else:
+            comp_tag, comp_q, comp_n, common, verdict = (
+                NO_DATA, "", "", "", NO_DATA)
+        ws.append([tid, title, home_tag, home_q, home_n,
+                   comp_tag, comp_q, comp_n, common, verdict, base_run_id])
+    ws.append(["ПРИМІТКА",
+               "NIGHT-2 (%s): вердиктів HOME немає, бо жодна його модель не "
+               "має власного тесту (прогон записав home=None); кожен рядок "
+               "вердикту вище походить лише з %s."
+               % (n2_run_id, base_run_id),
+               "", "", "", "", "", "", "", "", n2_run_id])
+    _style_table(ws, [10, 30, 24, 12, 12, 24, 14, 12, 10, 14, 22],
+                 {3: "0.000", 6: "0.000"})
+
+
+def _sheet_rating_28(wb, base_per_test: dict, n2_per_test: dict,
+                     base_run_id: str, n2_run_id: str) -> None:
+    ws = wb.create_sheet(SHEET_NAMES[8])
+    ws.append(["Тест", "Модель", "Q_sem", "Q_strict", "n_scored", "n_total",
+               "coverage", "CI low", "CI high", "Покриття < 0.9",
+               "Статус рейтингу", "Прогін"])
+    for per_test, run_id in ((base_per_test, base_run_id),
+                             (n2_per_test, n2_run_id)):
+        for tid in sorted(t for t in per_test if t != "PERF"):
+            rows = per_test[tid]
+            ranked = sorted((r for r in rows if not _is_not_ranked(r)),
+                            key=lambda r: (-r["q_sem"], -r["n_scored"],
+                                           r["model"]))
+            rest = sorted((r for r in rows if _is_not_ranked(r)),
+                          key=lambda r: r["model"])
+            for r in ranked + rest:
+                low_cov = "так" if r.get("coverage", 1.0) < 0.9 else "ні"
+                status = NOT_RANKED if r in rest else RANKED
+                ws.append([tid, r["model"], round(r["q_sem"], 3),
+                           round(r["q_strict"], 3), r["n_scored"],
+                           r["n_total"],
+                           round(r.get("coverage", 0.0), 3),
+                           round(r["ci_lo"], 3), round(r["ci_hi"], 3),
+                           low_cov, status, run_id])
+    _style_table(ws, [10, 24, 10, 10, 10, 10, 10, 10, 10, 13, 15, 22],
+                 {2: "0.000", 3: "0.000", 6: "0.0%", 7: "0.000",
+                  8: "0.000"})
+
+
+def _sheet_speed_28(wb, base_perf: list[dict], n2_perf: list[dict],
+                    base_run_id: str, n2_run_id: str) -> None:
+    ws = wb.create_sheet(SHEET_NAMES[9])
+    ws.append(["Модель", "cold load, s", "TTFT, s", "prompt tok/s",
+               "gen tok/s", "offload ratio", "Прогін"])
+    for perf_rows, run_id in ((base_perf, base_run_id),
+                              (n2_perf, n2_run_id)):
+        rows = sorted(perf_rows,
+                      key=lambda r: (_num_or_none(r.get("gen_tok_s")) is None,
+                                     -(_num_or_none(r.get("gen_tok_s")) or 0.0),
+                                     str(r.get("tag", ""))))
+        for r in rows:
+            ws.append([r.get("tag", ""),
+                       _num_or_none(r.get("cold_load_s")) or "",
+                       _num_or_none(r.get("ttft_s")) or "",
+                       _num_or_none(r.get("prompt_tok_s")) or "",
+                       _num_or_none(r.get("gen_tok_s"))
+                       if _num_or_none(r.get("gen_tok_s")) is not None
+                       else NO_GEN_DATA,
+                       _num_or_none(r.get("offload_ratio")) or "",
+                       run_id])
+    ws.append([])
+    for perf_rows, run_id in ((base_perf, base_run_id),
+                              (n2_perf, n2_run_id)):
+        partial = sorted(str(r.get("tag", "")) for r in perf_rows
+                         if _num_or_none(r.get("offload_ratio")) is not None
+                         and _num_or_none(r.get("offload_ratio")) < 1.0)
+        if partial:
+            ws.append(["Примітка (%s): offload_ratio < 1.0 (частковий CPU "
+                       "offload, модель не вмістилась у 8 GB VRAM): "
+                       % run_id + ", ".join(partial)])
+        else:
+            ws.append(["Примітка (%s): жодна модель з виміряним offload ratio "
+                       "не має значення < 1.0 (частковий CPU offload "
+                       "відсутній)." % run_id])
+    _style_table(ws, [24, 13, 11, 13, 11, 13, 22],
+                 {1: "0.00", 2: "0.000", 3: "0.0", 4: "0.0", 5: "0.000"})
+
+
+def _build_workbook_28(base_dir: str, n2_dir: str, out_path: str) -> str:
+    """Build the combined 28-model Ukrainian workbook; writes only out_path."""
+    import openpyxl
+    from tools import uk_sheets_deep as _uk_deep
+    base_manifest = _load_manifest(base_dir)
+    n2_manifest = _load_manifest(n2_dir)
+    base_records = _report.load_records(base_dir)
+    n2_records, n2_excluded = _load_records_scoped_uk(
+        n2_dir, NIGHT2_TAG_PREFIX)
+    base_perf = _load_perf(base_dir)
+    n2_perf = _load_perf_scoped_uk(n2_dir, NIGHT2_TAG_PREFIX)
+    gv_records: list[dict] = []
+    gv_dir = base_dir.rstrip(os.sep) + "_gv"
+    if os.path.isdir(gv_dir):
+        try:
+            gv_records = _report.load_records(gv_dir)
+        except OSError:
+            gv_records = []
+    base_run_id = base_manifest.get("run_id", os.path.basename(base_dir))
+    n2_run_id = n2_manifest.get("run_id", os.path.basename(n2_dir))
+    base_per_test, base_per_model, _ = _report.compute_tables(base_records)
+    n2_per_test, n2_per_model, _ = _report.compute_tables(n2_records)
+    base, n2 = _uk_deep.load_analysis_28_uk(
+        os.path.join(ROOT, ANALYSIS_DIRNAME_UK))
+    eligibility = _load_eligibility()
+    eligibility_n2 = _load_eligibility_at(ELIGIBILITY_N2_RELPATH)
+    normalize_analysis_notes_uk(base, eligibility)
+    normalize_analysis_notes_uk(n2, eligibility_n2)
+    normalize_failure_quotes_uk(base, base_records)
+    normalize_failure_quotes_uk(n2, n2_records)
+    wb = openpyxl.Workbook()
+    _sheet_summary_28(wb, _uk_executive_28(
+        base_run_id, base_manifest, base_records, base_per_test, base_perf,
+        n2_run_id, n2_manifest, n2_records, n2_per_test, n2_perf,
+        n2_excluded, gv_records))
+    _sheet_overview_28(wb, base_manifest, base_records, n2_manifest,
+                       n2_records, n2_excluded, gv_records)
+    _uk_deep.build_all_28_uk(wb, base, n2, base_run_id, n2_run_id)
+    _sheet_verdicts_28(wb, base_records, base_per_test, base_run_id,
+                       n2_run_id)
+    _sheet_rating_28(wb, base_per_test, n2_per_test, base_run_id, n2_run_id)
+    _sheet_speed_28(wb, base_perf, n2_perf, base_run_id, n2_run_id)
+    _sheet_behaviours(wb)
+    _sheet_home07(wb, base_dir, base_records, gv_records)
+    _save_deterministic(wb, out_path)
+    return out_path
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Build consolidated NIGHT-1 xlsx")
     p.add_argument("run_id", help="run id or path to run dir")
     p.add_argument("--results-root", default=None)
+    p.add_argument("--extra-run", default=None,
+                   help="second run id or path (NIGHT-2); when given, "
+                        "builds the combined 28-model workbook")
+    p.add_argument("--out", default=None,
+                   help="explicit output path (default: run dir + "
+                        "NIGHT1_REPORT.xlsx, or the extra run dir + "
+                        "NIGHT28_REPORT.xlsx in 28-model mode)")
     a = p.parse_args(argv)
     run_dir = _resolve_run_dir(a.run_id, a.results_root)
-    out_path = os.path.join(run_dir, XLSX_NAME)
-    build_workbook(run_dir, out_path)
+    if a.extra_run is None:
+        out_path = a.out or os.path.join(run_dir, XLSX_NAME)
+        build_workbook(run_dir, out_path)
+    else:
+        extra_dir = _resolve_run_dir(a.extra_run, a.results_root)
+        out_path = a.out or os.path.join(extra_dir, XLSX_NAME_28)
+        build_workbook(run_dir, out_path, extra_dir)
     print("excel report written to %s" % out_path)
     return 0
 

@@ -1,0 +1,434 @@
+{
+ "HOME-01": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-02": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  }
+ },
+ "HOME-03": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-04": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-05": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-06": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-07": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-08": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-09": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-10": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-11": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає embed"
+  }
+ },
+ "HOME-12": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-13": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-14": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-15": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-16": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-17": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-18": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-19": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-20": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-21": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ },
+ "HOME-22": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає tools,vision"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-23": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "U",
+   "reason": "CAP: немає vision"
+  }
+ },
+ "HOME-24": {
+  "night2-ministral-3-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-nomic-embed-code:q4km": {
+   "code": "U",
+   "reason": "CAP: немає text,tools"
+  },
+  "night2-qwen3-vl-8b:q4km": {
+   "code": "E",
+   "reason": ""
+  },
+  "night2-qwen3.5-9b:q4km": {
+   "code": "E",
+   "reason": ""
+  }
+ }
+}

@@ -1,4 +1,4 @@
-# NIGHT-1 local-LLM benchmark (Ollama, 24 models, one 8-hour run)
+# Local-LLM benchmark (Ollama, 28 models across two runs)
 
 ## Portfolio snapshot
 
@@ -23,9 +23,15 @@ Start with the completed run: [`results/night_20260921-155146/README.md`](result
 An independent benchmark harness for local language models, built from scratch:
 deterministic fixture generation, one validator module per test, a time-boxed
 unattended runner with GPU handling, paired-bootstrap scoring, and generated
-reports. The one completed run covered 24 Ollama models in a single 8-hour
-evening session, producing 4190 result records across 24 HOME tests plus a PERF
-timing probe group.
+reports. Two runs are complete: NIGHT-1 covered 24 Ollama models in a single
+8-hour evening session (4190 result records across 24 HOME tests plus a PERF
+timing probe group, Ollama 0.34.2), and NIGHT-2 added 4 models imported from
+GGUF into Ollama (1090 new records, Ollama 0.34.3). The headline deliverable is
+the consolidated 28-model workbook pair in `results/night2_b/`:
+`NIGHT28_REPORT_EN.xlsx` (English, primary) and `NIGHT28_REPORT.xlsx`
+(Ukrainian); each has 12 sheets and 672 per-model test rows, and the two
+editions agree on every number. The NIGHT-1 workbooks remain as the frozen
+24-model snapshot of the first run.
 
 ## Why this exists
 
@@ -34,8 +40,8 @@ design and harness engineering: how to define tasks with machine-checkable
 ground truth, run models fairly under a hard time budget on modest hardware,
 and report numbers with their uncertainty stated. It is not a definitive model
 leaderboard. Every timing-sensitive figure is hardware-specific, the away-test
-matrix is incomplete by construction (see Limits), and there was exactly one
-run with no repeats.
+matrix is incomplete by construction (see Limits), and each run was a single
+pass with no repeats.
 
 ## Architecture
 
@@ -49,9 +55,13 @@ run with no repeats.
   retryable infra failures only, and append-only JSONL recording with resume
   keys. Module docstring: `python -m bench.runner --budget-hours 8
   [--run-id X | --resume X] [--models tag,...] [--tests HOME-..,...] [--smoke]`.
+  A later fix corrected `--resume` handling in `refresh_done_keys` (mid-run
+  `done_keys` refreshes had discarded the resume filter, so a resume did not
+  re-run the 238 still-unrun NIGHT-2 cases), covered by a regression test that
+  fails on the old code.
 - `bench/env.py` — host fingerprinting (GPU identity, CPU/RAM description,
   active power scheme, Python and Ollama versions), a 2-second GPU monitor
-  thread (utilisation, VRAM, temperature, throttle flags) feeding per-record
+  thread (utilization, VRAM, temperature, throttle flags) feeding per-record
   resource summaries, the pre-block contention check (median GPU util, VRAM
   headroom, foreign GPU-process names), the thermal gate, and unload
   verification. Never terminates foreign processes.
@@ -79,7 +89,7 @@ run with no repeats.
 - `bench/validate/` — shared validators: `jsonx.py` (strict vs lenient JSON
   extraction, per-field comparison), `textmetrics.py` (edit-distance and
   token-F1 text measures), `toolsx.py` (native vs textual tool-call
-  normalisation, argument comparison), `imagemetrics.py` (box IoU and box
+  normalization, argument comparison), `imagemetrics.py` (box IoU and box
   parsing), plus `sqlx.py`, `mdparse.py`, `pysandbox.py`, `retrieval.py`.
 - `bench/types.py` — the interface contract (Case / Request / Response /
   Verdict dataclasses and status constants). Frozen by project rule.
@@ -106,7 +116,7 @@ run with no repeats.
   project interpreter: `python -m pytest -q tests`.
 - `tools/` — reporting and export scripts (stdlib, plus openpyxl in the Excel builders):
   `owner_summary.py` (owner-facing summary plus score tables),
-  `analysis_report.py` (per-model/per-test behaviour analysis with verbatim
+  `analysis_report.py` (per-model/per-test behavior analysis with verbatim
   failure examples), `build_excel_report.py` (consolidated `NIGHT1_REPORT.xlsx`
   workbook), `build_excel_report_en.py` (consolidated `NIGHT1_REPORT_EN.xlsx`
   workbook, the same analysis in English), `en_sheets_narrative.py` (per-model
@@ -117,8 +127,12 @@ run with no repeats.
   English ones), `gen_all.py` (run all fixture generators, `--missing-only`
   supported), `make_eligibility.py` (build the eligibility matrix from design
   sources).
-- `results/` — run outputs. The deliverable run is
-  `results/night_20260921-155146/` (see its README for the file index);
+- `results/` — run outputs. The headline deliverable is the consolidated
+  28-model pair `results/night2_b/NIGHT28_REPORT_EN.xlsx` (English, primary)
+  and `results/night2_b/NIGHT28_REPORT.xlsx` (Ukrainian), 12 sheets each (see
+  `results/night2_b/README.md` for the run index).
+  `results/night_20260921-155146/` holds the frozen NIGHT-1 24-model snapshot
+  (see its README for the file index);
   `results/night_20260921-155146_gv/` holds the small follow-up condition for
   one vision model. `results/SMOKE*/` are intermediate development runs and
   are excluded from tracking.
@@ -146,7 +160,7 @@ exception-guarded so one crash cannot end the run, and each record carries its
 model identity (tag, digest, template/parameter hashes), invocation (endpoint,
 options, prompt hash), response (content, thinking, tool calls, token counts),
 timing (load, time to first token, throughput, wall), resources (VRAM peak,
-utilisation, temperature), and the validator verdict with evidence.
+utilization, temperature), and the validator verdict with evidence.
 
 Outcome taxonomy:
 
@@ -200,16 +214,50 @@ investigates, and corrects its own findings is the point, not an embarrassment.
 
 ## Results
 
-Start at [`results/night_20260921-155146/README.md`](results/night_20260921-155146/README.md),
-the index of the deliverable run folder. Headline numbers for run
-`night_20260921-155146`: 24 models, 24 HOME tests plus the PERF probe group,
-4190 records. Status mix: OK 1755, WRONG_ANSWER 576, FORMAT_ERROR 459,
-OUTPUT_TRUNCATED 191, CONTEXT_OVERFLOW 4, UNSUPPORTED_CAPABILITY 406,
-NOT_RUN_BUDGET 799 (about 19% of the planned matrix did not fit the 8-hour
-box). A small follow-up run (`night_20260921-155146_gv`, 23 records) re-tested
-one vision model on its HOME document test under a plain-answer variant; the
-folder README states the numbers and why the two conditions must not be
-compared as one series.
+The headline deliverable is the consolidated 28-model workbook pair in
+`results/night2_b/`: `NIGHT28_REPORT_EN.xlsx` (English, primary) and
+`NIGHT28_REPORT.xlsx` (Ukrainian). Each workbook has 12 sheets and 672
+per-model test rows covering all 28 measured models (24 from NIGHT-1 plus 4
+from NIGHT-2); the English and Ukrainian editions agree on every number.
+NIGHT-2 model ratings use round(10*(0.7*mean_q_sem+0.3*ok_rate),1) with no HOME
+term, so they form a separate scorecard band and are not comparable with
+NIGHT-1 ratings (0.5/0.3/0.2 formula with a home term): 7.9
+(night2-qwen3-vl-8b:q4km), 7.7 (night2-qwen3.5-9b:q4km), 7.6
+(night2-nomic-embed-code:q4km), 6.4 (night2-ministral-3-8b:q4km).
+
+Start at [`results/night2_b/README.md`](results/night2_b/README.md) for the
+consolidated run index, or at
+[`results/night_20260921-155146/README.md`](results/night_20260921-155146/README.md),
+the index of the NIGHT-1 run folder (the frozen 24-model snapshot). Headline
+numbers for run `night_20260921-155146`: 24 models, 24 HOME tests plus the PERF
+probe group, 4190 records, Ollama 0.34.2. Status mix: OK 1755, WRONG_ANSWER 576,
+FORMAT_ERROR 459, OUTPUT_TRUNCATED 191, CONTEXT_OVERFLOW 4,
+UNSUPPORTED_CAPABILITY 406, NOT_RUN_BUDGET 799 (about 19% of the planned matrix
+did not fit the 8-hour box). Run `night2_b`: 4 models imported from GGUF into
+Ollama, Ollama 0.34.3, 1810 raw records, of which 1090 belong to the 4 NIGHT-2
+models and 720 are out-of-scope rows for the 24 NIGHT-1 tags (mostly PERF
+probes) written by a mistaken resume command without a model filter; raw
+records are never edited and the workbooks exclude those rows by model tag.
+238 NIGHT-2 cases are NOT_RUN_BUDGET (time box) and have not been re-run since
+the `--resume` fix noted above. A small follow-up run
+(`night_20260921-155146_gv`, 23 records) re-tested one vision model on its HOME
+document test under a plain-answer variant; the folder README states the
+numbers and why the two conditions must not be compared as one series.
+
+## Model scope
+
+36 models were planned: 24 Ollama models, 6 LM Studio GGUF files, and 6
+specialists. 28 are measured (24 from NIGHT-1 plus 4 NIGHT-2 imports); the rest
+are excluded or pending for the reasons below.
+
+| Group | Models | Status |
+|---|---|---|
+| NIGHT-1 Ollama set | 24 models in `night_20260921-155146` | Measured, 4190 records |
+| NIGHT-2 imports (Q4_K_M) | night2-qwen3-vl-8b, night2-qwen3.5-9b, night2-nomic-embed-code, night2-ministral-3-8b | Measured, 1090 records |
+| Too large for the 8 GB card, already quantized | Qwen3.5-35B-A3B (16 GB), Devstral-Small-2-24B (14 GB), gpt-oss-20b (12 GB) | Excluded |
+| Phi-4-Multimodal | phi4mm support never merged into llama.cpp | Excluded |
+| Nomic-Embed-Code | 28 GB FP32 build replaced by the official 4.08 GB Q4_K_M | Measured as night2-nomic-embed-code |
+| Pending (need audio / reranking scoring paths the harness does not have) | DeepSeek-OCR, Qwen3-ASR-1.7B, BGE-Reranker-v2-m3, Kokoro-TTS | Not measured |
 
 ## Downstream use: local vs cloud routing test
 
@@ -248,12 +296,12 @@ On this hardware (8 GB GPU) and this task class, local AI did not produce reliab
 
 ## Limits
 
-One machine, one run, no repeats. About one fifth of the away matrix is
+One machine, two runs, no repeats within a run. About one fifth of the away matrix is
 `NOT_RUN_BUDGET`, so cross-model away comparisons are uneven by construction;
 prefer the HOME-vs-best-competitor verdicts on shared case sets. Validators
 are deliberately strict about format, so capable models can show low
 `Q_strict` next to high `Q_sem` — that split is information, not noise. Some
-behaviours are hardware artefacts (partial GPU offload on larger models at
+behaviors are hardware artifacts (partial GPU offload on larger models at
 8 GB VRAM, slower generation at long contexts) and are reported as such, not
 as model rankings.
 

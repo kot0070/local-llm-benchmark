@@ -34,3 +34,10 @@ results/*/owner_summary.xlsx
 # (No broad *.xlsx ignore exists above; this negation documents the intent
 # and protects the file if one is ever added.)
 !results/night_20260921-155146/NIGHT1_REPORT.xlsx
+
+# Director/Manager control plane: task contracts, agent ledger, gates, run logs, and a staged copy of the
+# shared AGENT_OPS_KB that contains OTHER projects' data. Private, never published.
+ops/
+# First NIGHT-2 launch, killed with its parent shell (0 records). Kept locally as evidence only.
+results/night2_20260925-235838/
+prepare_night2_models.ps1

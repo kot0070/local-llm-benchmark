@@ -206,6 +206,21 @@ def sort_by_actual_size(tags: list[str], size_by_tag: dict | None) -> list[str]:
     return sorted(tags, key=key)
 
 
+def refresh_done_keys(store: storemod.Store, resume: bool) -> set[str]:
+    """Return the set of keys that count as done, honouring --resume filtering.
+
+    Without resume every stored key counts as done. With resume only keys
+    whose latest record has a final status (storemod.is_final_status) count;
+    ours (HARNESS_ERROR, ...) and NOT_RUN_BUDGET are excluded so they re-run.
+    Always re-reads the store, so keys appended during the run are picked up.
+    """
+    if not resume:
+        return store.existing_keys()
+    by_key = store.records_by_key()
+    return {k for k, r in by_key.items()
+            if storemod.is_final_status((r.get("verdict") or {}).get("status"))}
+
+
 # ---------------------------------------------------------------- runner ctx
 
 class Ctx:
@@ -1408,16 +1423,7 @@ def main(argv: list[str] | None = None) -> int:
                                    getattr(ctx, "size_by_tag", None))
         if args.phase == "all" or args.phase == "1":
             pass  # order stays size-ascending
-        done_keys = store.existing_keys()
-        if args.resume:
-            # drop keys that must be re-run (ours / NOT_RUN_BUDGET / non-final)
-            keep = set()
-            by_key = store.records_by_key()
-            for k, r in by_key.items():
-                st = ((r.get("verdict") or {}).get("status"))
-                if storemod.is_final_status(st):
-                    keep.add(k)
-            done_keys = keep
+        done_keys = refresh_done_keys(store, bool(args.resume))
         write_run_manifest(ctx, args, project_root, model_tags, fp,
                            {"baseline": baseline,
                             "contention": {"ok": cont_ok, "info": cont_info}})
@@ -1478,7 +1484,7 @@ def main(argv: list[str] | None = None) -> int:
                 except Exception as _e:  # noqa: BLE001 - one block must not end the night run
                     record_block_crash(ctx, tag, prof, home_map.get(tag) or "PERF", _e)
                 # refresh done keys
-                done_keys = store.existing_keys()
+                done_keys = refresh_done_keys(store, bool(args.resume))
         # ---- Phase 2: away runs on core subsets, fast models first ----
         if args.phase in ("all", "2"):
             order2 = sorted(model_tags,
@@ -1534,7 +1540,7 @@ def main(argv: list[str] | None = None) -> int:
                             continue
                         run_test_block(ctx, prof, tid, todo, fixtures_root,
                                        smoke=args.smoke)
-                        done_keys = store.existing_keys()
+                        done_keys = refresh_done_keys(store, bool(args.resume))
                     except Exception as _e:  # noqa: BLE001 - one block must not end the night run
                         record_block_crash(ctx, tag, prof, tid, _e)
         # ---- Phase 3: remaining away cases ----
@@ -1571,7 +1577,7 @@ def main(argv: list[str] | None = None) -> int:
                                 store.append(storemod.manifest_entry(run_dir, rec))
                             continue
                         run_test_block(ctx, prof, tid, todo, fixtures_root)
-                        done_keys = store.existing_keys()
+                        done_keys = refresh_done_keys(store, bool(args.resume))
                     except Exception as _e:  # noqa: BLE001 - one block must not end the night run
                         record_block_crash(ctx, tag, prof, tid, _e)
     except KeyboardInterrupt:

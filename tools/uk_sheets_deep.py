@@ -33,6 +33,17 @@ SHEET_NAMES_UK = [
 GROUP_FILES = ("group_a.json", "group_b.json", "group_c.json", "group_d.json")
 EXPECTED_MODELS = 24
 
+GROUP_N2_FILENAME = "group_n2.json"
+GROUP_FILES_ALL = GROUP_FILES + (GROUP_N2_FILENAME,)
+
+N2_BAND_LABEL_UK = ("Моделі NIGHT-2 (окрема формула оцінки "
+                    "— не порівнюється з групами вище)")
+
+FORMULA_N1_UK = "round(10*(0.5*mean_q_sem+0.3*home_q_sem+0.2*ok_rate),1)"
+FORMULA_N2_UK = "round(10*(0.7*mean_q_sem+0.3*ok_rate),1)"
+
+RUN_HEADER_UK = "Прогін"
+
 NOT_AVAILABLE_UK = "Немає даних"
 BULLET = "\u2022"
 
@@ -89,6 +100,22 @@ NO_PATTERN_ROW_UK = ("Жоден шаблон помилок не досяг п�
 # Fixed outcome vocabulary from the translation (no synonyms).
 OUTCOME_UK = ("сильно", "задовільно", "слабко", "провал", "не виконувався")
 NOT_ATTEMPTED_UK = "не виконувався"
+
+SCORE_NOTE_28_UK = (
+    SCORE_NOTE_UK
+    + " Моделі NIGHT-2 нижче утворюють власну групу: вони оцінені за "
+    + FORMULA_N2_UK
+    + " без home-доданка, бо жодна модель NIGHT-2 не має власного тесту, "
+      "тоді як моделі NIGHT-1 вище використовують "
+    + FORMULA_N1_UK
+    + ". Оцінки порівнюються лише в межах однієї групи, ніколи між формулами."
+)
+
+SCORECARD_HEADERS_28_UK = SCORECARD_HEADERS_UK + [RUN_HEADER_UK]
+RECOMMENDATION_HEADERS_28_UK = RECOMMENDATION_HEADERS_UK + [RUN_HEADER_UK]
+STRENGTH_HEADERS_28_UK = STRENGTH_HEADERS_UK + [RUN_HEADER_UK]
+DETAIL_HEADER_28_UK = DETAIL_HEADER_UK + [RUN_HEADER_UK]
+FAILURE_HEADER_28_UK = FAILURE_HEADER_UK + [RUN_HEADER_UK]
 
 # English aliases accepted on input only (the JSON already carries the
 # Ukrainian vocabulary); output is always one of OUTCOME_UK.
@@ -566,3 +593,386 @@ def build_all_uk(wb, analysis: list[dict]) -> None:
     build_all_narrative_uk(wb, analysis)
     build_detail_sheet(wb, analysis)
     build_failures_sheet(wb, analysis)
+
+
+# --- 28-model extension (NIGHT-1 base + NIGHT-2 band) ----------------------
+# NIGHT-2 analysis lives in analysis_uk/group_n2.json next to the four base
+# group files. Every per-model row carries its run id in a trailing
+# "Прогін" column, so existing column positions (Q_sem, quote column)
+# never shift. Count checks use inclusion invariants (membership and
+# non-empty), never exact-count equality.
+
+
+def load_analysis_28_uk(analysis_dir: str) -> tuple[list[dict], list[dict]]:
+    """Read base groups plus group_n2.json; return (base, n2) sorted lists.
+
+    Raises ValueError when a base group file listed in GROUP_FILES is
+    missing, when any file contributes no model, or when a model tag
+    appears twice (inside or across files). Inclusion invariants only:
+    base holds at least one model per group file, n2 holds at least one
+    model, and the two sets are disjoint.
+    """
+    base: list[dict] = []
+    for name in GROUP_FILES:
+        path = os.path.join(analysis_dir, name)
+        if not os.path.isfile(path):
+            raise ValueError("missing group file: %s" % path)
+        with open(path, encoding="utf-8") as f:
+            group = json.load(f)
+        if not isinstance(group, list) or not group:
+            raise ValueError("group file is empty or not a list: %s" % path)
+        base.extend(group)
+    n2_path = os.path.join(analysis_dir, GROUP_N2_FILENAME)
+    if not os.path.isfile(n2_path):
+        raise ValueError("missing group file: %s" % n2_path)
+    with open(n2_path, encoding="utf-8") as f:
+        n2 = json.load(f)
+    if not isinstance(n2, list) or not n2:
+        raise ValueError("group file is empty or not a list: %s" % n2_path)
+    tags = [m.get("model") for m in base + n2]
+    if any(not isinstance(t, str) or not t for t in tags):
+        raise ValueError("every entry must carry a non-empty 'model' tag")
+    seen: set[str] = set()
+    dupes = sorted({t for t in tags if t in seen or seen.add(t)})
+    if dupes:
+        raise ValueError("duplicated model tag(s): %s" % ", ".join(dupes))
+    base_tags = {str(m.get("model")) for m in base}
+    n2_tags = {str(m.get("model")) for m in n2}
+    if base_tags & n2_tags:
+        raise ValueError("model tag(s) in both base and n2: %s"
+                         % ", ".join(sorted(base_tags & n2_tags)))
+    base.sort(key=lambda m: str(m.get("model")))
+    n2.sort(key=lambda m: str(m.get("model")))
+    return base, n2
+
+
+def _n2_coverage_label_uk(tests_scored: object) -> str:
+    """Coverage cell for a NIGHT-2 band row (band-scoped, never tier-named)."""
+    try:
+        n = int(tests_scored)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        return NOT_AVAILABLE_UK
+    return "%s (NIGHT-2)" % uk_count(n, "тест", "тести", "тестів")
+
+
+def _scorecard_tier_rows_uk(
+        analysis: list[dict]) -> list[tuple[str, list[dict]]]:
+    """Group base models into the three coverage tiers, sorted in-tier."""
+    tiers: list[tuple[str, list[dict]]] = [
+        (TIER_GENERALIST_UK, []),
+        (TIER_FOCUSED_UK, []),
+        (TIER_SINGLE_UK, []),
+    ]
+    band_of = {TIER_GENERALIST_UK: tiers[0],
+               TIER_FOCUSED_UK: tiers[1],
+               TIER_SINGLE_UK: tiers[2]}
+    for m in analysis:
+        overall = m.get("overall") if isinstance(m.get("overall"), dict) else {}
+        band, _ = _tier_of(overall.get("tests_scored"))
+        band_of[band][1].append(m)
+    for _, members in tiers:
+        members.sort(
+            key=lambda m: (
+                -_rating_of(m) if _rating_of(m) is not None else float("inf"),
+                str(m.get("model")),
+            )
+        )
+    return tiers
+
+
+def build_scorecard_sheet_28_uk(wb, base: list[dict], n2: list[dict],
+                                base_run_id: str, n2_run_id: str) -> None:
+    """Scorecard with NIGHT-1 tiers plus a separate NIGHT-2 band below."""
+    from openpyxl.styles import Alignment, Font, PatternFill
+
+    ws = wb.create_sheet(SHEET_NAMES_UK[0])
+    n_cols = len(SCORECARD_HEADERS_28_UK)
+    last_col = ws.cell(row=1, column=n_cols).column_letter
+
+    ws.merge_cells("A1:%s1" % last_col)
+    title = ws["A1"]
+    title.value = "Оцінка моделей"
+    title.font = Font(bold=True, size=14)
+    title.alignment = Alignment(vertical="center")
+
+    ws.merge_cells("A2:%s2" % last_col)
+    note = ws["A2"]
+    note.value = SCORE_NOTE_28_UK
+    note.font = Font(italic=True)
+    note.alignment = Alignment(wrap_text=True, vertical="top")
+    ws.row_dimensions[2].height = 90
+
+    for col, header in enumerate(SCORECARD_HEADERS_28_UK, 1):
+        ws.cell(row=3, column=col, value=header)
+    _paint_header_row(ws, 3, n_cols)
+
+    def _row(m: dict, row: int, run_id: str, coverage: str) -> None:
+        overall = m.get("overall") if isinstance(
+            m.get("overall"), dict) else {}
+        profile = m.get("profile") if isinstance(
+            m.get("profile"), dict) else {}
+        rating = _rating_of(m)
+        ws.cell(row=row, column=1, value=str(m.get("model")))
+        ws.cell(row=row, column=2,
+                value=rating if rating is not None else NOT_AVAILABLE_UK)
+        n_tests = overall.get("tests_scored")
+        ws.cell(row=row, column=3,
+                value=n_tests if isinstance(n_tests, int)
+                and not isinstance(n_tests, bool) else NOT_AVAILABLE_UK)
+        ws.cell(row=row, column=4, value=coverage)
+        ws.cell(row=row, column=5, value=_text(overall.get("rating_basis")))
+        ws.cell(row=row, column=6, value=_text(profile.get("documented")))
+        ws.cell(row=row, column=7, value=_text(profile.get("role_in_run")))
+        ws.cell(row=row, column=8, value=_text(m.get("bottom_line")))
+        ws.cell(row=row, column=9, value=run_id)
+        for col in range(5, 10):
+            ws.cell(row=row, column=col).alignment = Alignment(
+                wrap_text=True, vertical="top")
+        ws.row_dimensions[row].height = 90
+
+    band_fill = PatternFill(
+        start_color="D9D9D9", end_color="D9D9D9", fill_type="solid"
+    )
+    n2_fill = PatternFill(
+        start_color="C9D7F0", end_color="C9D7F0", fill_type="solid"
+    )
+    row = 4
+    for band_label, members in _scorecard_tier_rows_uk(base):
+        ws.merge_cells(start_row=row, start_column=1,
+                       end_row=row, end_column=n_cols)
+        band = ws.cell(row=row, column=1, value=band_label)
+        band.font = Font(bold=True)
+        band.fill = band_fill
+        band.alignment = Alignment(vertical="center")
+        row += 1
+        tier_first = row
+        for m in members:
+            overall = m.get("overall") if isinstance(
+                m.get("overall"), dict) else {}
+            _, coverage = _tier_of(overall.get("tests_scored"))
+            _row(m, row, base_run_id, coverage)
+            row += 1
+        _rating_scale(ws, "B", tier_first, row - 1)
+    ws.merge_cells(start_row=row, start_column=1,
+                   end_row=row, end_column=n_cols)
+    n2band = ws.cell(row=row, column=1, value=N2_BAND_LABEL_UK)
+    n2band.font = Font(bold=True)
+    n2band.fill = n2_fill
+    n2band.alignment = Alignment(vertical="center")
+    row += 1
+    n2_first = row
+    ordered_n2 = sorted(
+        n2,
+        key=lambda m: (
+            -_rating_of(m) if _rating_of(m) is not None else float("inf"),
+            str(m.get("model")),
+        ),
+    )
+    for m in ordered_n2:
+        overall = m.get("overall") if isinstance(
+            m.get("overall"), dict) else {}
+        _row(m, row, n2_run_id,
+             _n2_coverage_label_uk(overall.get("tests_scored")))
+        row += 1
+    _rating_scale(ws, "B", n2_first, row - 1)
+
+    ws.freeze_panes = "A4"
+    widths = [24, 12, 12, 18, 45, 55, 55, 60, 22]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[
+            ws.cell(row=3, column=i).column_letter].width = w
+    for r in ws.iter_rows(min_row=4):
+        if isinstance(r[1].value, (int, float)):
+            r[1].number_format = "0.0"
+        if isinstance(r[2].value, int):
+            r[2].number_format = "0"
+
+
+def build_recommendations_sheet_28_uk(wb, base: list[dict], n2: list[dict],
+                                      base_run_id: str,
+                                      n2_run_id: str) -> None:
+    """Use-when / avoid-when / hardware fit for base then NIGHT-2 models."""
+    rows = []
+    for m in sorted(base, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("use_when")),
+            _bullet_block(m.get("avoid_when")),
+            _text(m.get("hardware_fit")),
+            base_run_id,
+        ])
+    for m in sorted(n2, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("use_when")),
+            _bullet_block(m.get("avoid_when")),
+            _text(m.get("hardware_fit")),
+            n2_run_id,
+        ])
+    _bulleted_sheet(wb, SHEET_NAMES_UK[1], RECOMMENDATION_HEADERS_28_UK,
+                    [24, 60, 60, 65, 22], rows)
+
+
+def build_strengths_sheet_28_uk(wb, base: list[dict], n2: list[dict],
+                                base_run_id: str, n2_run_id: str) -> None:
+    """Strengths and weaknesses for base then NIGHT-2 models."""
+    rows = []
+    for m in sorted(base, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("strengths")),
+            _bullet_block(m.get("weaknesses")),
+            base_run_id,
+        ])
+    for m in sorted(n2, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("strengths")),
+            _bullet_block(m.get("weaknesses")),
+            n2_run_id,
+        ])
+    _bulleted_sheet(wb, SHEET_NAMES_UK[2], STRENGTH_HEADERS_28_UK,
+                    [24, 65, 65, 22], rows)
+
+
+def build_all_narrative_28_uk(wb, base: list[dict], n2: list[dict],
+                              base_run_id: str, n2_run_id: str) -> None:
+    """Build all three 28-model Ukrainian narrative sheets."""
+    build_scorecard_sheet_28_uk(wb, base, n2, base_run_id, n2_run_id)
+    build_recommendations_sheet_28_uk(wb, base, n2, base_run_id, n2_run_id)
+    build_strengths_sheet_28_uk(wb, base, n2, base_run_id, n2_run_id)
+
+
+def _detail_row_28_uk(model: dict, entry: dict, run_id: str) -> list:
+    """One Detail data row with trailing run id."""
+    tag = str(model.get("model", "") or "").strip() or NOT_AVAILABLE_UK
+    outcome_raw = str(entry.get("outcome", "") or "").strip().lower()
+    not_attempted = outcome_raw == NOT_ATTEMPTED_UK
+    q_raw = entry.get("q_sem")
+    if not_attempted:
+        q_cell: object = None
+        n_cell: object = None
+    elif isinstance(q_raw, bool) or q_raw is None or (
+            isinstance(q_raw, str) and not q_raw.strip()):
+        q_cell = NOT_AVAILABLE_UK
+        n_cell = _text(entry.get("n"))
+    else:
+        try:
+            q_cell = round(float(q_raw), 3)
+        except (TypeError, ValueError):
+            q_cell = NOT_AVAILABLE_UK
+        n_cell = _text(entry.get("n"))
+    return [tag,
+            _text(entry.get("test_id")),
+            _text(entry.get("title")),
+            q_cell,
+            n_cell,
+            _outcome_label(entry.get("outcome")),
+            _text(entry.get("note")),
+            run_id]
+
+
+def build_detail_sheet_28_uk(wb, base: list[dict], n2: list[dict],
+                             base_run_id: str, n2_run_id: str):
+    """Append the 28-model 'Деталі по тестах' sheet (unique pairs)."""
+    from openpyxl.styles import Alignment, Border, Side
+    from tools.build_excel_report_en import _q_scale, _style_table
+
+    ws = wb.create_sheet(SHEET_NAMES_UK[3])
+    ws.append(DETAIL_HEADER_28_UK)
+    first_rows: set[int] = set()
+    for model, run_id in (
+            [(m, base_run_id) for m in
+             sorted(base, key=lambda x: str(x.get("model")))]
+            + [(m, n2_run_id) for m in
+               sorted(n2, key=lambda x: str(x.get("model")))]):
+        entries = sorted(model.get("per_test") or [],
+                         key=lambda e: str(e.get("test_id", "")))
+        first_rows.add(ws.max_row + 1)
+        for entry in entries:
+            ws.append(_detail_row_28_uk(model, entry, run_id))
+    _style_table(ws, [22, 10, 40, 10, 18, 14, 72, 22], {3: "0.000"})
+    ws.freeze_panes = "B2"
+    ws.auto_filter.ref = ws.dimensions
+    _q_scale(ws, "D", ws.max_row)
+    wrap_top = Alignment(wrap_text=True, vertical="top")
+    block_top = Border(top=Side(style="thin", color="BFBFBF"))
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row,
+                            max_col=len(DETAIL_HEADER_28_UK)):
+        for cell in row:
+            cell.alignment = wrap_top
+            if cell.row in first_rows:
+                cell.border = block_top
+        ws.row_dimensions[row[0].row].height = 30
+    return ws
+
+
+def _failure_row_28_uk(tag: str, entry: dict, run_id: str) -> list:
+    """One Failure Analysis data row with trailing run id."""
+    count = entry.get("count")
+    count_cell: object = (count if isinstance(count, int)
+                          and not isinstance(count, bool)
+                          else NOT_AVAILABLE_UK)
+    return [tag,
+            _text(entry.get("pattern")),
+            count_cell,
+            _text(entry.get("english_meaning")),
+            _text(entry.get("what_the_model_did")),
+            _text(entry.get("example_case_id")),
+            entry.get("example_quote")
+            if isinstance(entry.get("example_quote"), str)
+            and entry.get("example_quote", "").strip()
+            else NOT_AVAILABLE_UK,
+            _text(entry.get("why_it_matters")),
+            run_id]
+
+
+def build_failures_sheet_28_uk(wb, base: list[dict], n2: list[dict],
+                               base_run_id: str, n2_run_id: str):
+    """Append the 28-model 'Аналіз помилок' sheet (quote col stays G)."""
+    from openpyxl.styles import Alignment, Font
+    from tools.build_excel_report_en import _style_table
+
+    ws = wb.create_sheet(SHEET_NAMES_UK[4])
+    ws.append(FAILURE_HEADER_28_UK)
+    quote_font = Font(name="Consolas")
+    for model, run_id in (
+            [(m, base_run_id) for m in
+             sorted(base, key=lambda x: str(x.get("model")))]
+            + [(m, n2_run_id) for m in
+               sorted(n2, key=lambda x: str(x.get("model")))]):
+        tag = str(model.get("model", "") or "").strip() or NOT_AVAILABLE_UK
+        patterns = sorted(model.get("failure_analysis") or [],
+                          key=lambda e: (-(e.get("count")
+                                           if isinstance(e.get("count"), int)
+                                           and not isinstance(e.get("count"), bool)
+                                           else -1),
+                                         str(e.get("pattern", ""))))
+        if not patterns:
+            ws.append([tag, NO_PATTERN_ROW_UK, None, None, None, None, None,
+                       None, run_id])
+            continue
+        for entry in patterns:
+            ws.append(_failure_row_28_uk(tag, entry, run_id))
+    _style_table(ws, [22, 30, 8, 42, 52, 14, 52, 42, 22])
+    ws.auto_filter.ref = ws.dimensions
+    wrap_top = Alignment(wrap_text=True, vertical="top")
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row,
+                            max_col=len(FAILURE_HEADER_28_UK)):
+        for cell in row:
+            cell.alignment = wrap_top
+        ws.row_dimensions[row[0].row].height = 60
+    for row in ws.iter_rows(min_row=2, min_col=7, max_col=7,
+                            max_row=ws.max_row):
+        for cell in row:
+            if isinstance(cell.value, str) and cell.value != NOT_AVAILABLE_UK:
+                cell.font = quote_font
+    return ws
+
+
+def build_all_28_uk(wb, base: list[dict], n2: list[dict],
+                    base_run_id: str, n2_run_id: str) -> None:
+    """Build all five 28-model Ukrainian deep sheets into an open workbook."""
+    build_all_narrative_28_uk(wb, base, n2, base_run_id, n2_run_id)
+    build_detail_sheet_28_uk(wb, base, n2, base_run_id, n2_run_id)
+    build_failures_sheet_28_uk(wb, base, n2, base_run_id, n2_run_id)

@@ -708,7 +708,9 @@ def test_prose_ratings_match_rating_column():
     import glob
     files = sorted(glob.glob(os.path.join(ROOT, "analysis_en",
                                           "group_*.json")))
-    assert len(files) == 4
+    # Run-count independent: new runs (e.g. group_n2.json) add files;
+    # require at least the original four so a missing glob is still caught.
+    assert len(files) >= 4, files
     checked = 0
     for path in files:
         with open(path, encoding="utf-8") as f:

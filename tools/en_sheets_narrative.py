@@ -352,3 +352,274 @@ def build_all_narrative(wb, analysis: list[dict]) -> None:
     build_scorecard_sheet(wb, analysis)
     build_recommendations_sheet(wb, analysis)
     build_strengths_sheet(wb, analysis)
+
+
+# --- 28-model extension (NIGHT-1 base + NIGHT-2 band) ----------------------
+# NIGHT-2 analysis lives in analysis_en/group_n2.json next to the four base
+# group files. Loaders and builders below keep every existing name and
+# signature above stable; the 28-model sheets append a trailing "Run"
+# column so every per-model row carries its run id. Count checks use
+# inclusion invariants (>= and membership), never exact-count equality.
+
+GROUP_N2_FILENAME = "group_n2.json"
+GROUP_FILES_ALL = GROUP_FILES + (GROUP_N2_FILENAME,)
+
+N2_BAND_LABEL = ("NIGHT-2 models (separate rating formula "
+                 "\u2014 not comparable with the tiers above)")
+
+FORMULA_N1 = "round(10*(0.5*mean_q_sem+0.3*home_q_sem+0.2*ok_rate),1)"
+FORMULA_N2 = "round(10*(0.7*mean_q_sem+0.3*ok_rate),1)"
+
+SCORE_NOTE_28 = (
+    SCORE_NOTE
+    + " NIGHT-2 models below form their own band: they were rated with "
+    + FORMULA_N2
+    + " (no home-test term exists because the runner recorded home=None "
+    "for models without a dedicated test), while NIGHT-1 models above use "
+    + FORMULA_N1
+    + ". Ratings compare only within one band, never across formulas."
+)
+
+SCORECARD_HEADERS_28 = SCORECARD_HEADERS + ["Run"]
+RECOMMENDATION_HEADERS_28 = RECOMMENDATION_HEADERS + ["Run"]
+STRENGTH_HEADERS_28 = STRENGTH_HEADERS + ["Run"]
+
+
+def _n2_coverage_label(tests_scored: object) -> str:
+    """Coverage cell for a NIGHT-2 band row (band-scoped, never tier-named)."""
+    try:
+        n = int(tests_scored)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        return NOT_AVAILABLE
+    return "%d tests (NIGHT-2)" % n
+
+
+def load_analysis_28(analysis_dir: str) -> tuple[list[dict], list[dict]]:
+    """Read base groups plus group_n2.json; return (base, n2) sorted lists.
+
+    Raises ValueError when a base group file listed in GROUP_FILES is
+    missing, when any file contributes no model, or when a model tag
+    appears twice (inside or across files). Inclusion invariants only:
+    base holds at least one model per group file, n2 holds at least one
+    model, and the two sets are disjoint.
+    """
+    base: list[dict] = []
+    for name in GROUP_FILES:
+        path = os.path.join(analysis_dir, name)
+        if not os.path.isfile(path):
+            raise ValueError("missing group file: %s" % path)
+        with open(path, encoding="utf-8") as f:
+            group = json.load(f)
+        if not isinstance(group, list) or not group:
+            raise ValueError("group file is empty or not a list: %s" % path)
+        base.extend(group)
+    n2_path = os.path.join(analysis_dir, GROUP_N2_FILENAME)
+    if not os.path.isfile(n2_path):
+        raise ValueError("missing group file: %s" % n2_path)
+    with open(n2_path, encoding="utf-8") as f:
+        n2 = json.load(f)
+    if not isinstance(n2, list) or not n2:
+        raise ValueError("group file is empty or not a list: %s" % n2_path)
+    tags = [m.get("model") for m in base + n2]
+    if any(not isinstance(t, str) or not t for t in tags):
+        raise ValueError("every entry must carry a non-empty 'model' tag")
+    seen: set[str] = set()
+    dupes = sorted({t for t in tags if t in seen or seen.add(t)})
+    if dupes:
+        raise ValueError("duplicated model tag(s): %s" % ", ".join(dupes))
+    base_tags = {str(m.get("model")) for m in base}
+    n2_tags = {str(m.get("model")) for m in n2}
+    if base_tags & n2_tags:
+        raise ValueError("model tag(s) in both base and n2: %s"
+                         % ", ".join(sorted(base_tags & n2_tags)))
+    base.sort(key=lambda m: str(m.get("model")))
+    n2.sort(key=lambda m: str(m.get("model")))
+    return base, n2
+
+
+def _scorecard_tier_rows(analysis: list[dict]) -> list[tuple[str, list[dict]]]:
+    """Group base models into the three coverage tiers, sorted in-tier."""
+    tiers: list[tuple[str, list[dict]]] = [
+        (TIER_GENERALIST, []),
+        (TIER_FOCUSED, []),
+        (TIER_SINGLE, []),
+    ]
+    band_of = {TIER_GENERALIST: tiers[0],
+               TIER_FOCUSED: tiers[1],
+               TIER_SINGLE: tiers[2]}
+    for m in analysis:
+        overall = m.get("overall") if isinstance(m.get("overall"), dict) else {}
+        band, _ = _tier_of(overall.get("tests_scored"))
+        band_of[band][1].append(m)
+    for _, members in tiers:
+        members.sort(
+            key=lambda m: (
+                -_rating_of(m) if _rating_of(m) is not None else float("inf"),
+                str(m.get("model")),
+            )
+        )
+    return tiers
+
+
+def build_scorecard_sheet_28(wb, base: list[dict], n2: list[dict],
+                             base_run_id: str, n2_run_id: str) -> None:
+    """Scorecard with NIGHT-1 tiers plus a separate NIGHT-2 band below."""
+    from openpyxl.styles import Alignment, Font, PatternFill
+
+    ws = wb.create_sheet(SHEET_NAMES_NARRATIVE[0])
+    n_cols = len(SCORECARD_HEADERS_28)
+    last_col = ws.cell(row=1, column=n_cols).column_letter
+
+    ws.merge_cells("A1:%s1" % last_col)
+    title = ws["A1"]
+    title.value = "Model scorecard"
+    title.font = Font(bold=True, size=14)
+    title.alignment = Alignment(vertical="center")
+
+    ws.merge_cells("A2:%s2" % last_col)
+    note = ws["A2"]
+    note.value = SCORE_NOTE_28
+    note.font = Font(italic=True)
+    note.alignment = Alignment(wrap_text=True, vertical="top")
+    ws.row_dimensions[2].height = 90
+
+    for col, header in enumerate(SCORECARD_HEADERS_28, 1):
+        ws.cell(row=3, column=col, value=header)
+    _paint_header_row(ws, 3, n_cols)
+
+    def _row(m: dict, row: int, run_id: str,
+             coverage: str) -> None:
+        overall = m.get("overall") if isinstance(
+            m.get("overall"), dict) else {}
+        profile = m.get("profile") if isinstance(
+            m.get("profile"), dict) else {}
+        rating = _rating_of(m)
+        ws.cell(row=row, column=1, value=str(m.get("model")))
+        ws.cell(row=row, column=2,
+                value=rating if rating is not None else NOT_AVAILABLE)
+        n_tests = overall.get("tests_scored")
+        ws.cell(row=row, column=3,
+                value=n_tests if isinstance(n_tests, int)
+                and not isinstance(n_tests, bool) else NOT_AVAILABLE)
+        ws.cell(row=row, column=4, value=coverage)
+        ws.cell(row=row, column=5, value=_text(overall.get("rating_basis")))
+        ws.cell(row=row, column=6, value=_text(profile.get("documented")))
+        ws.cell(row=row, column=7, value=_text(profile.get("role_in_run")))
+        ws.cell(row=row, column=8, value=_text(m.get("bottom_line")))
+        ws.cell(row=row, column=9, value=run_id)
+        for col in range(5, 10):
+            ws.cell(row=row, column=col).alignment = Alignment(
+                wrap_text=True, vertical="top")
+        ws.row_dimensions[row].height = 90
+
+    band_fill = PatternFill(
+        start_color="D9D9D9", end_color="D9D9D9", fill_type="solid"
+    )
+    n2_fill = PatternFill(
+        start_color="C9D7F0", end_color="C9D7F0", fill_type="solid"
+    )
+    row = 4
+    for band_label, members in _scorecard_tier_rows(base):
+        ws.merge_cells(start_row=row, start_column=1,
+                       end_row=row, end_column=n_cols)
+        band = ws.cell(row=row, column=1, value=band_label)
+        band.font = Font(bold=True)
+        band.fill = band_fill
+        band.alignment = Alignment(vertical="center")
+        row += 1
+        tier_first = row
+        for m in members:
+            overall = m.get("overall") if isinstance(
+                m.get("overall"), dict) else {}
+            _, coverage = _tier_of(overall.get("tests_scored"))
+            _row(m, row, base_run_id, coverage)
+            row += 1
+        _rating_scale(ws, "B", tier_first, row - 1)
+    ws.merge_cells(start_row=row, start_column=1,
+                   end_row=row, end_column=n_cols)
+    n2band = ws.cell(row=row, column=1, value=N2_BAND_LABEL)
+    n2band.font = Font(bold=True)
+    n2band.fill = n2_fill
+    n2band.alignment = Alignment(vertical="center")
+    row += 1
+    n2_first = row
+    ordered_n2 = sorted(
+        n2,
+        key=lambda m: (
+            -_rating_of(m) if _rating_of(m) is not None else float("inf"),
+            str(m.get("model")),
+        ),
+    )
+    for m in ordered_n2:
+        overall = m.get("overall") if isinstance(
+            m.get("overall"), dict) else {}
+        _row(m, row, n2_run_id,
+             _n2_coverage_label(overall.get("tests_scored")))
+        row += 1
+    _rating_scale(ws, "B", n2_first, row - 1)
+
+    ws.freeze_panes = "A4"
+    widths = [24, 12, 12, 18, 45, 55, 55, 60, 22]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[
+            ws.cell(row=3, column=i).column_letter].width = w
+    for r in ws.iter_rows(min_row=4):
+        if isinstance(r[1].value, (int, float)):
+            r[1].number_format = "0.0"
+        if isinstance(r[2].value, int):
+            r[2].number_format = "0"
+
+
+def build_recommendations_sheet_28(wb, base: list[dict], n2: list[dict],
+                                   base_run_id: str, n2_run_id: str) -> None:
+    """Use-when / avoid-when / hardware fit for base then NIGHT-2 models."""
+    rows = []
+    for m in sorted(base, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("use_when")),
+            _bullet_block(m.get("avoid_when")),
+            _text(m.get("hardware_fit")),
+            base_run_id,
+        ])
+    for m in sorted(n2, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("use_when")),
+            _bullet_block(m.get("avoid_when")),
+            _text(m.get("hardware_fit")),
+            n2_run_id,
+        ])
+    _bulleted_sheet(wb, SHEET_NAMES_NARRATIVE[1],
+                    RECOMMENDATION_HEADERS_28,
+                    [24, 60, 60, 65, 22], rows)
+
+
+def build_strengths_sheet_28(wb, base: list[dict], n2: list[dict],
+                             base_run_id: str, n2_run_id: str) -> None:
+    """Strengths and weaknesses for base then NIGHT-2 models."""
+    rows = []
+    for m in sorted(base, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("strengths")),
+            _bullet_block(m.get("weaknesses")),
+            base_run_id,
+        ])
+    for m in sorted(n2, key=lambda x: str(x.get("model"))):
+        rows.append([
+            str(m.get("model")),
+            _bullet_block(m.get("strengths")),
+            _bullet_block(m.get("weaknesses")),
+            n2_run_id,
+        ])
+    _bulleted_sheet(wb, SHEET_NAMES_NARRATIVE[2], STRENGTH_HEADERS_28,
+                    [24, 65, 65, 22], rows)
+
+
+def build_all_narrative_28(wb, base: list[dict], n2: list[dict],
+                           base_run_id: str, n2_run_id: str) -> None:
+    """Build all three 28-model narrative sheets into an open workbook."""
+    build_scorecard_sheet_28(wb, base, n2, base_run_id, n2_run_id)
+    build_recommendations_sheet_28(wb, base, n2, base_run_id, n2_run_id)
+    build_strengths_sheet_28(wb, base, n2, base_run_id, n2_run_id)

@@ -97,6 +97,21 @@
     "sqlcoder:7b": {"kind": "chat", "caps": ["text"], "think": "none", "ctx_max": 32768,
       "sampling": {"default": {"temperature": 0.0, "top_p": 1.0, "top_k": 0, "min_p": 0.0, "repeat_penalty": 1.0}},
       "stop": ["<|endoftext|>"], "adapters": {"sqlcoder_raw": true}, "langs": ["en"], "profile_id": "sqlcoder.defog_raw_greedy.v1",
-      "notes": "No template layer in Ollama -> raw completion with the defog prompt; beam search (card) unavailable -> greedy."}
+      "notes": "No template layer in Ollama -> raw completion with the defog prompt; beam search (card) unavailable -> greedy."},
+    "night2-qwen3.5-9b:q4km": {"kind": "chat", "caps": ["text", "tools"], "think": "toggle", "ctx_max": 262144,
+      "sampling": {"default": {"temperature": 0.0, "top_p": 1.0, "top_k": 0, "min_p": 0.0, "repeat_penalty": 1.0}},
+      "stop": [], "adapters": {"tools_documented": true}, "langs": ["multi"], "profile_id": "qwen35-9b.harness_greedy.v1",
+      "notes": "Імпортовано з GGUF в Ollama 0.34.3 (qwen35, 9.0B, Q4_K_M, context_length 262144, шаблон містить tools і think). json_format не заявлено: Ollama його не звітує, документації моделі немає — краще недозаявити. Семплінг harness-greedy за замовчуванням через відсутність документованих параметрів (не рекомендація виробника); діє і в режимі thinking, бо окремого thinking-пресета немає. stop порожній: пакованих Ollama-стопів під рукою немає, а явний stop замінює пакети. think toggle: capability thinking + think у шаблоні. adapters.tools_documented=true — з Ollama capabilities, не з картки моделі. langs multi = broad/not enumerated за _doc."},
+    "night2-ministral-3-8b:q4km": {"kind": "chat", "caps": ["text", "tools", "vision"], "think": "none", "ctx_max": 262144,
+      "sampling": {"default": {"temperature": 0.0, "top_p": 1.0, "top_k": 0, "min_p": 0.0, "repeat_penalty": 1.0}},
+      "stop": [], "adapters": {"tools_documented": true}, "langs": ["multi"], "profile_id": "ministral3-8b.harness_greedy.v1",
+      "notes": "Імпортовано з GGUF в Ollama 0.34.3 (mistral3, 8.5B, Q4_K_M, context_length 262144, шаблон містить tools, think немає). Заявлені 262144 отримано розтягуванням rope з нативних 16384 (rope.scaling.original_context_length) — єдиний випадок серед 28 моделей, де заявлений контекст на порядок більший за нативний. json_format не заявлено: Ollama його не звітує, документації моделі немає. Семплінг harness-greedy за замовчуванням (не рекомендація виробника). stop порожній: пакованих стопів під рукою немає. adapters.tools_documented=true — з Ollama capabilities, не з картки моделі. langs multi = broad/not enumerated за _doc."},
+    "night2-qwen3-vl-8b:q4km": {"kind": "chat", "caps": ["text", "tools", "vision"], "think": "none", "ctx_max": 262144,
+      "sampling": {"default": {"temperature": 0.0, "top_p": 1.0, "top_k": 0, "min_p": 0.0, "repeat_penalty": 1.0}},
+      "stop": [], "adapters": {"tools_documented": true}, "langs": ["multi"], "profile_id": "qwen3vl-8b.harness_greedy.v1",
+      "notes": "Імпортовано з GGUF в Ollama 0.34.3 (qwen3vl, 8.2B, Q4_K_M, context_length 262144, шаблон містить tools, think немає). json_format не заявлено: Ollama його не звітує, документації моделі немає. Семплінг harness-greedy за замовчуванням (не рекомендація виробника). stop порожній: пакованих стопів під рукою немає. think none: capability thinking немає, think у шаблоні немає. adapters.tools_documented=true — з Ollama capabilities, не з картки моделі. langs multi = broad/not enumerated за _doc."},
+    "night2-nomic-embed-code:q4km": {"kind": "embed", "caps": ["embed"], "think": "none", "ctx_max": 32768, "sampling": {},
+      "embed_prefix": {"query": "", "document": ""}, "langs": ["multi"], "profile_id": "nomiccode.dense.v1",
+      "notes": "Імпортовано з GGUF в Ollama 0.34.3 (qwen2, 7.1B, Q4_K_M, context_length 32768; шаблон 13 символів — фактично відсутній). Тільки embedding: capabilities=[embedding], розмірність вектора 3584 перевірено живим запитом. embed_prefix порожні за зразком bge-m3: префікси недокументовані. sampling порожній, як в обох ембедерів NIGHT-1. langs multi = broad/not enumerated за _doc."}
   }
 }

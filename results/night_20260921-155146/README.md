@@ -11,7 +11,7 @@ the workbook.
 - `OWNER_SUMMARY_UK.md` — owner-facing summary (Ukrainian): run overview, HOME
   verdicts per test, top-3 per test, per-model highlights.
 - `ANALYSIS_UK.md` — per-model / per-test analysis (Ukrainian): factual
-  behaviour notes grounded in the records, usage recommendations for this
+  behavior notes grounded in the records, usage recommendations for this
   hardware class, short verbatim failure examples with case ids.
 - `results.csv` — one row per scored (model, test) pair: counts, Q_sem,
   Q_strict, confidence bounds, coverage.
@@ -43,6 +43,10 @@ HOME document test under the uniform structured-answer contract in this run.
 A separate follow-up (`results/night_20260921-155146_gv/`, 16 cases under a
 plain-answer variant: 15 wrong answers + 1 truncated, format clean) also
 scored 0.000 — a genuine extraction limit of that model on this task, not a
-format artefact. The two conditions must not be compared as one series; see
+format artifact. The two conditions must not be compared as one series; see
 `../night_20260921-155146_gv/summary.md` and `manifest.json` for the
 follow-up run identity.
+
+Consolidated report: for the 28-model workbooks combining this run with the 4
+NIGHT-2 models, see `../night2_b/` — `NIGHT28_REPORT_EN.xlsx` (English,
+primary) and `NIGHT28_REPORT.xlsx` (Ukrainian), 12 sheets each.

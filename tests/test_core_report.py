@@ -64,24 +64,58 @@ def test_bootstrap_ci_deterministic():
 
 
 def test_eligibility_file_structure():
+    # NIGHT-1 run file: historic artifact, its counts stay rigid.
     path = _REPO / "config" / "eligibility_night.json"
     assert path.is_file()
     with open(path, encoding="utf-8") as f:
         elig = json.load(f)
+    # The run's own model set comes from the file itself (HOME-01),
+    # not from profiles.json (which now also holds NIGHT-2 imports).
+    run_models = set(elig["HOME-01"])
+    assert len(run_models) == 24
     for i in range(1, 25):
         tid = f"HOME-{i:02d}"
         assert tid in elig, f"missing {tid}"
+        assert set(elig[tid]) == run_models, f"{tid} model set drifted"
         assert len(elig[tid]) == 24, f"{tid} has {len(elig[tid])} models"
         for tag, info in elig[tid].items():
             assert info["code"] in ("E", "O", "U", "S")
             assert isinstance(info["reason"], str)
     assert len(elig["_deferred"]) == 12
-    # every profile tag present
+    # NIGHT-2 run file: 24 tests, exactly its own 4 models.
+    path2 = _REPO / "config" / "eligibility_night2.json"
+    assert path2.is_file()
+    with open(path2, encoding="utf-8") as f:
+        elig2 = json.load(f)
+    run_models2 = set(elig2["HOME-01"])
+    assert len(run_models2) == 4
+    for i in range(1, 25):
+        tid = f"HOME-{i:02d}"
+        assert tid in elig2, f"missing {tid} in night2"
+        assert set(elig2[tid]) == run_models2, f"{tid} model set drifted"
+        assert len(elig2[tid]) == 4, f"{tid} has {len(elig2[tid])} models"
+        for tag, info in elig2[tid].items():
+            assert info["code"] in ("E", "O", "U", "S")
+            assert isinstance(info["reason"], str)
+    # No home-model check for the NIGHT-2 file by design: all four models
+    # are guests (runner shows home=None), so no test has a home model
+    # that must be eligible on its own test.
+    # Inclusion invariant (replaces the old equality): every model named in
+    # either run file must exist in profiles.json. The reverse is not
+    # required -- a profile may exist without taking part in a given run
+    # (this is what broke the old `== tags` check when NIGHT-2 added 4).
     with open(_REPO / "config" / "profiles.json",
               encoding="utf-8") as f:
         tags = set(json.load(f)["profiles"])
-    assert set(elig["HOME-01"]) == tags
-    # home model of each test is eligible on its own test
+    for label, mapping in (("night", elig), ("night2", elig2)):
+        mentioned = set()
+        for tid, entry in mapping.items():
+            if tid.startswith("_"):
+                continue
+            mentioned |= set(entry)
+        missing = mentioned - tags
+        assert not missing, f"{label} mentions unknown profiles: {missing}"
+    # home model of each NIGHT-1 test is eligible on its own test
     home_of = {"HOME-01": "aya-expanse:8b", "HOME-02": "bge-m3:latest",
                "HOME-20": "sqlcoder:7b", "HOME-24": "functiongemma:270m",
                "HOME-11": "nomic-embed-text:latest"}

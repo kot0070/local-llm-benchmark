@@ -139,7 +139,7 @@ def fingerprint(client=None) -> dict:
                "python": sys.version, "platform": platform.platform(),
                "warnings": []}
     ok, out = _run(["nvidia-smi",
-                    "--query-gpu=name,uuid,driver_version,memory.total,power.limit",
+                    "--query-gpu=name,driver_version,memory.total,power.limit",
                     "--format=csv,noheader"], timeout=30.0)
     if ok and out.strip():
         fp["gpu"] = out.strip()
